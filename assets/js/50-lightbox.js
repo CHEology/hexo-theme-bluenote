@@ -2,7 +2,8 @@
 (function() {
   'use strict';
   var body = document.body;
-  if (!body.classList.contains('post-page') || !('HTMLDialogElement' in window)) return;
+  var labels = window.BlueNote.config.lightboxLabels;
+  if (!window.BlueNote.config.lightbox || !body.classList.contains('post-page') || !('HTMLDialogElement' in window)) return;
   var images = Array.prototype.slice.call(document.querySelectorAll('.post-content .markdown-body img')).filter(function(image) {
     return !image.closest('a') && !image.hasAttribute('data-gallery-thumbnail') && !image.closest('.no-lightbox');
   });
@@ -10,7 +11,7 @@
 
   var dialog = document.createElement('dialog');
   dialog.className = 'lightbox';
-  dialog.setAttribute('aria-label', 'Image viewer');
+  dialog.setAttribute('aria-label', labels.label);
   dialog.innerHTML = [
     '<div class="lightbox__toolbar">',
     '  <p class="lightbox__count" aria-live="polite" aria-atomic="true"></p>',
@@ -23,6 +24,9 @@
     '<div class="lightbox__stage"><img alt=""></div>',
     '<p class="lightbox__caption" hidden></p>'
   ].join('\n');
+  dialog.querySelector('[data-lightbox-prev]').setAttribute('aria-label', labels.prev);
+  dialog.querySelector('[data-lightbox-next]').setAttribute('aria-label', labels.next);
+  dialog.querySelector('[data-lightbox-close]').setAttribute('aria-label', labels.close);
   body.appendChild(dialog);
 
   var stageImage = dialog.querySelector('.lightbox__stage img');
@@ -71,6 +75,15 @@
 
   images.forEach(function(image, position) {
     image.style.cursor = 'zoom-in';
+    image.tabIndex = 0;
+    image.setAttribute('role', 'button');
+    image.setAttribute('aria-label', image.alt || labels.label);
+    image.addEventListener('keydown', function(event) {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        open(position, image);
+      }
+    });
     image.addEventListener('click', function(event) {
       if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
       event.preventDefault();

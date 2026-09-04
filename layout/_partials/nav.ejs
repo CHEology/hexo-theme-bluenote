@@ -18,6 +18,7 @@ const schemeToggle = theme.dark_mode && theme.dark_mode.enable && theme.nav && t
     <ul class="site-menu" id="site-menu">
 <% for (const item of menu) {
   if (!item || !item.link) continue;
+  if (/#site-search$/.test(item.link) && (!theme.search || !theme.search.enable)) continue;
   const label = item.name || (item.key ? __(item.key + '.menu') : item.link);
   const anchor = /^#/.test(item.link);
   const href = anchor ? item.link : url_for(item.link);

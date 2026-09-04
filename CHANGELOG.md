@@ -1,11 +1,17 @@
 # Changelog
 
-## 1.0.0 — 2026-09-04
+## 1.1.0
 
-First release, extracted from the Blue Note site after two years on hexo-theme-fluid.
+- Add an opt-in, configurable Gallery with authored sequences, paired images, random selections, responsive previews and keyboard/touch image viewing.
+- Add a standalone bilingual example, six desktop/mobile screenshots and local build/browser checks. No CI workflow.
+- Require explicit photography layout selection; ordinary multi-image articles retain captions, headings and their reading column.
+- Honour disabled search and image dialogs. Resolve search paths from the site configuration, and make private-archive requests opt-in.
+- Add translated search loading/empty/error states, retry, modal focus management and keyboard image opening.
+- Hide closed mobile navigation from keyboard and accessibility navigation.
+- Show the complete mobile slogan immediately by default and provide a no-script fallback.
+- Allow article language to differ from navigation language.
+- Keep an explicit default colour scheme when it differs from the operating system.
 
-- Layouts: home (fixed cover, typed slogan, square card grid), post (fixed reading column, optional table of contents, previous/next), page, archive, tag, tags index, category, categories index, about, 404.
-- Editorial masthead with a solid colour band; light and dark palettes as configurable tokens.
-- No framework, no icon font, no third-party requests: inline SVG icons, native lazy loading, a `<dialog>` lightbox, a search panel over hexo-generator-search.
-- Build-time features: body layout classes, heading anchors, figure captions (skipping file-name alt text), asset content versions, single-request CSS and JS bundles.
-- Bundled: typed.js 2.0.12, github-markdown-css 4.0.0, highlight.js 11.12 colour styles (see `THIRD-PARTY-LICENSES.md`).
+## 1.0.0
+
+Initial standalone release: editorial reading layout, image-led home page, dark mode, local search, native image dialog, configurable tokens and local vendored assets.

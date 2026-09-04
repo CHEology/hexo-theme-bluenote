@@ -1,0 +1,16 @@
+home:
+  cover: /images/cover.svg
+  typing:
+    enable: false
+nav:
+  menu:
+    - { name: Home, link: / }
+    - { name: Archives, link: /archives/ }
+    - { name: Gallery, link: /gallery/ }
+    - { name: About, link: /about/ }
+    - { name: Search, link: '#site-search' }
+gallery:
+  enable: true
+about:
+  name: Example author
+  intro: Notes in two languages, with room for pictures.

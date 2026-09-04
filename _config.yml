@@ -100,6 +100,8 @@ home:
   slogan:
   typing:
     enable: true
+    # Show the complete slogan immediately on phones.
+    mobile: false
     speed: 70
     cursor: "_"
   # Number of square cards on the second screen (desktop shows 4 x 3).
@@ -110,6 +112,8 @@ home:
   pagination: false
 
 post:
+  # Optional content language independent of navigation/interface language.
+  language:
   toc:
     enable: true
     min_depth: 1
@@ -122,10 +126,9 @@ post:
     # Do not turn file names such as DSC_0034.jpg into visible captions.
     skip_filename_alt: true
   lightbox: true
-  # Posts with at least `min_images` images use the wide photo layout.
+  # Wide layout requires photo_layout: true in an individual post.
   photo_layout:
     enable: true
-    min_images: 3
 
 archive:
   show_total: false
@@ -160,7 +163,10 @@ dark_mode:
 # Site search panel. Needs hexo-generator-search writing `path` (XML format).
 search:
   enable: true
-  path: /local-search.xml
+  # Empty follows the site search.path (hexo-generator-search defaults to search.xml).
+  path:
+  # Optional integration. Empty means no private-archive request.
+  private_manifest:
 
 open_graph:
   enable: true
@@ -168,6 +174,16 @@ open_graph:
 
 # Append a content hash (`?v=`) to the site's own CSS/JS references.
 asset_version: true
+
+# Optional photo collection, with no site data or images bundled into the theme.
+gallery:
+  enable: false
+  path: gallery
+  data: gallery
+  title: Gallery
+  # Empty follows the site's language. Built in: en, zh-CN.
+  language:
+  labels: {}
 # Show a warning bar when JavaScript is disabled.
 noscript_warning: false
 

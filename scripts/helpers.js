@@ -3,6 +3,23 @@
 
 const { escapeHTML } = require('hexo-util');
 
+hexo.extend.helper.register('browser_config', function() {
+  const search = this.theme.search || {};
+  const labels = (prefix, keys) => Object.fromEntries(keys.map(key => [key, this.__(prefix + '.' + key)]));
+  const data = {
+    navSolidAfter: this.theme.nav.solid_after,
+    lightbox: this.is_post() && this.theme.post.lightbox !== false && this.page.lightbox !== false,
+    lightboxLabels: labels('lightbox', ['label', 'close', 'prev', 'next']),
+    search: {
+      enable: Boolean(search.enable),
+      path: this.url_for(search.path || (this.config.search && this.config.search.path) || 'search.xml'),
+      privateManifest: search.private_manifest ? this.url_for(search.private_manifest) : '',
+      labels: labels('search', ['title', 'placeholder', 'close', 'loading', 'empty', 'error', 'retry', 'locked', 'unlocked'])
+    }
+  };
+  return JSON.stringify(data).replace(/</g, '\\u003c').replace(/>/g, '\\u003e').replace(/&/g, '\\u0026');
+});
+
 function isEmpty(value) {
   return value === undefined || value === null || value === '';
 }
@@ -25,8 +42,7 @@ hexo.extend.helper.register('body_classes', function(page) {
     classes.push('editorial-page', 'post-page');
     const photo = theme.post && theme.post.photo_layout;
     if (photo && photo.enable !== false) {
-      const count = (String(page.content || '').match(/<img\b/gi) || []).length;
-      if (count >= (Number(photo.min_images) || 3)) classes.push('photo-post');
+      if (page.photo_layout === true) classes.push('photo-post');
     }
     if (page.private_post) classes.push('private-post-page');
   } else if (this.is_archive() || this.is_tag() || this.is_category()) {

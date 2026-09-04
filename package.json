@@ -1,6 +1,6 @@
 {
   "name": "hexo-theme-bluenote",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A quiet editorial Hexo theme: paper tones, serif Latin and CJK typography, an image-led home page with square cards, dark mode, no framework and no third-party requests.",
   "keywords": [
     "hexo",
@@ -15,6 +15,7 @@
     "url": "https://github.com/CHEology/hexo-theme-bluenote.git"
   },
   "engines": {
+    "node": ">=20.19.0",
     "hexo": ">=7.0.0"
   },
   "files": [
@@ -27,10 +28,29 @@
     "README.md",
     "LICENSE",
     "CHANGELOG.md",
-    "THIRD-PARTY-LICENSES.md"
+    "THIRD-PARTY-LICENSES.md",
+    "modules"
   ],
   "homepage": "https://github.com/CHEology/hexo-theme-bluenote#readme",
   "bugs": {
     "url": "https://github.com/CHEology/hexo-theme-bluenote/issues"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.cjs",
+    "test:browser": "node test/browser.mjs",
+    "screenshots": "node test/screenshots.mjs"
+  },
+  "devDependencies": {
+    "hexo": "8.1.2",
+    "hexo-generator-archive": "2.0.0",
+    "hexo-generator-index": "4.0.0",
+    "hexo-generator-search": "2.4.3",
+    "hexo-generator-tag": "2.0.0",
+    "hexo-renderer-ejs": "2.0.0",
+    "hexo-renderer-marked": "7.0.1",
+    "hexo-server": "3.0.0",
+    "js-yaml": "4.3.2",
+    "playwright": "1.62.1",
+    "pngjs": "7.0.0"
   }
 }

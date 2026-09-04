@@ -1,103 +1,162 @@
 # bluenote
 
-A quiet editorial theme for [Hexo](https://hexo.io/): paper tones, serif Latin and CJK
-typography, a full-viewport cover with square cards on the home page, solid mastheads
-on content pages, light and dark schemes, and no framework, icon font or third-party
-request. Built for [Blue Note](https://cheology.github.io/bluenote/), whose source lives at [CHEology/bluenote](https://github.com/CHEology/bluenote).
+A quiet editorial theme for [Hexo](https://hexo.io/): paper tones, serif Latin and CJK typography, an image-led home page, and light and dark schemes. Plain CSS, JavaScript and EJS; no frontend framework, icon font or third-party requests.
 
-## Install
+Built for [Blue Note](https://cheology.github.io/bluenote/). The theme is independent of that site's articles, photographs and private archive.
 
-Copy or clone the theme into your site's `themes/` directory and point Hexo at it:
+![Desktop home page](docs/screenshots/home-desktop.png)
+
+| Reading on desktop | Reading on a phone |
+| --- | --- |
+| ![Desktop article](docs/screenshots/article-desktop.png) | ![Mobile article](docs/screenshots/article-mobile.png) |
+
+[Dark reading](docs/screenshots/article-dark.png) · [Gallery on desktop](docs/screenshots/gallery-desktop.png) · [Gallery on a phone](docs/screenshots/gallery-mobile.png)
+
+## Install in an existing Hexo site
+
+Requirements: Node 20.19+, Hexo 7+, an EJS renderer and a Markdown renderer. The example has been built with Hexo 7.3 and 8.1.
 
 ```bash
-# as an npm dependency (recommended; Hexo >= 5 resolves node_modules/hexo-theme-bluenote)
-npm install git+https://github.com/CHEology/hexo-theme-bluenote.git#v1.0.0
-
-# or as a checkout in themes/ (takes precedence over node_modules, handy for development)
-git clone https://github.com/CHEology/hexo-theme-bluenote.git themes/bluenote
+npm install git+https://github.com/CHEology/hexo-theme-bluenote.git#v1.1.0
+npm install hexo-renderer-ejs hexo-renderer-marked hexo-generator-index hexo-generator-archive hexo-generator-tag hexo-generator-search
 ```
+
+Set the site configuration:
 
 ```yaml
 # _config.yml
 theme: bluenote
+search:
+  path: search.xml
+  field: post
+  content: true
 ```
 
-Requirements: Hexo 7 or newer, `hexo-renderer-ejs` (templates) and any Markdown
-renderer. `hexo-generator-search` (XML format) enables the search panel;
-`hexo-generator-archive` and `hexo-generator-tag` provide the list pages. No Stylus,
-Sass or bundler is needed: the theme ships plain CSS and JavaScript and concatenates
-them at build time into `css/bluenote.css` and `js/bluenote.js`.
+Create `_config.bluenote.yml` to override the theme defaults. For example:
 
-Create `_config.bluenote.yml` in the site root to override any default from the
-theme's `_config.yml`. Hexo merges the two files (note that arrays such as `nav.menu`
-replace by index, which is why the theme leaves `menu` empty and falls back to Home,
-Archives, About and Search when you do not configure one).
+```yaml
+home:
+  cover: /images/cover.jpg
+  slogan: A place for words and photographs.
+  typing:
+    enable: true
+    mobile: false
+search:
+  enable: true
+```
 
-## Configuration
+Use your own image in `source/images/cover.jpg`. Leaving the cover empty gives a solid blue background. Search follows the site's `search.path`; disabling it removes the menu entry and the browser module.
+
+A checkout in `themes/bluenote` takes precedence over the npm dependency. Remove it after development so your local preview and deployed dependency agree.
+
+## Try the complete example
+
+The [example](example/) contains a small bilingual journal, an About page and an optional Gallery. Its text and geometric images are original demonstration content; none of the author's blog content is included.
+
+```bash
+git clone https://github.com/CHEology/hexo-theme-bluenote.git
+cd hexo-theme-bluenote/example
+npm install
+npm run server
+```
+
+Open http://localhost:4000/. To publish your own site, set `url` and `root` in `example/_config.yml`, replace the demonstration content, and install the versioned theme dependency instead of `file:..`.
+
+The example's `.npmrc` installs a packed copy of the parent theme instead of a recursive directory link. To refresh local theme edits, remove `example/node_modules/hexo-theme-bluenote` and run `npm install` from `example` again.
+
+## Optional Gallery
+
+Gallery is disabled by default. It adds no generated pages or assets while disabled.
+
+```yaml
+# _config.bluenote.yml
+gallery:
+  enable: true
+  path: gallery
+  data: gallery
+  title: Gallery
+  language: en
+```
+
+Add `source/_data/gallery.json` containing `{"version":1,"photos":[]}`, then supply your own image entries. The empty collection is valid. The two generated views are `/gallery/` (a random selection of 3–5 images) and `/gallery/all/` (the complete authored order). Smaller collections show what is available.
+
+[Gallery setup and manifest reference](modules/gallery/README.md) explains previews, paired images, sequences, custom paths, translation and accessibility. CSS and JavaScript load only on the Gallery pages.
+
+## Article layout
+
+Normal articles retain their reading column, headings and captions regardless of how many images they contain. Select a wide photography layout explicitly:
+
+```yaml
+---
+title: A visual sequence
+date: 2026-01-01
+photo_layout: true
+---
+```
+
+The title, date and prose stay under the author's control. A theme never needs to invent headings or rewrite an article to create a layout.
+
+Other front matter: `description` for cards and metadata; `toc: false`; `lightbox: false`; `content_language: zh-CN`; `cover` or `og_img` for social previews. `layout: about` selects the About header. Ordinary pages use `layout: page`.
+
+## Configuration reference
+
+The commented [_config.yml](_config.yml) is the full reference. Site overrides merge into it; arrays such as `nav.menu` merge by index, so the default menu is intentionally empty and the template provides fallback entries.
 
 | Key | Default | Meaning |
 | --- | --- | --- |
 | `brand` | site title | Navigation title |
-| `favicon`, `apple_touch_icon` | empty | Icon paths; empty omits the tags |
-| `force_https` | `true` | Emit `upgrade-insecure-requests` |
-| `fonts.ui` / `prose` / `math` / `mono` | serif stacks | Navigation and mastheads / article bodies / formula panels / code |
-| `fonts.letter_spacing` | `0.02em` | Global letter spacing |
-| `colors.light.*`, `colors.dark.*` | Blue Note palette | Every key becomes `--<key>` (`paper`, `text`, `prose`, `heading`, `muted`, `link`, `link-hover`, `link-hover-bg`, `line`, `masthead`, `masthead-text`, `masthead-line`, `nav-text`, `accent`, `panel`, `code-bg`, `inline-code-bg`, `scrollbar`, `scrollbar-hover`; dark adds `image-brightness`) |
-| `colors.home.*` | dark blue palette | Home page tokens `--home-<key>`; keys ending in `-dark` apply in dark mode |
-| `nav.menu` | Home, Archives, About, Search | `{ name, link, icon, target }` entries; `link: "#site-search"` opens the search panel |
-| `nav.scheme_toggle` | `true` | Light/dark toggle in the menu |
-| `home.cover` | empty | Full-viewport cover image; empty uses `home.bg` |
-| `home.preload_cover` | `true` | `<link rel="preload">` for the cover |
-| `home.slogan` | site subtitle | Slogan on the cover |
-| `home.typing.enable` / `speed` / `cursor` | `true` / `70` / `_` | Typing effect (typed.js) |
-| `home.cards` | `12` | Cards on the home page |
-| `home.excerpt`, `home.date` | `true` | Card contents |
-| `home.pagination` | `false` | Paginator below the cards |
-| `post.toc.*` | enabled, depth 1–6 | Table of contents next to the article (screens ≥ 992px) |
-| `post.prev_next` | `true` | Previous/next links |
-| `post.show_tags` | `false` | Tag list under the article |
-| `post.heading_anchors` | `true` | Hover anchors on headings |
-| `post.figure_captions.enable` / `skip_filename_alt` | `true` / `true` | Turn `alt`/`title` into captions, except file names |
-| `post.lightbox` | `true` | Click-to-enlarge for article images |
-| `post.photo_layout.enable` / `min_images` | `true` / `3` | Wide layout for posts with several images |
-| `archive.show_total` | `false` | "N posts in total" line |
-| `archive.extra_entries` | `[]` | Extra rows on the main archive page: `{ section, kind, title, summary, link }` |
-| `about.avatar` / `name` / `intro` / `links` | empty | About page header |
-| `tags.enable`, `categories.enable` | `true`, `false` | Generate `/tags/` and `/categories/` index pages |
-| `page404.enable` / `cover` | `true` / empty | Generate `404.html` with an optional cover |
-| `dark_mode.enable` / `default` | `true` / `auto` | `auto` follows the system; the reader's choice is stored under `dark_mode.storage_key` |
-| `dark_mode.legacy_storage_key` | `Fluid_Color_Scheme` | A key to migrate once |
-| `search.enable` / `path` | `true` / `/local-search.xml` | Search panel over the hexo-generator-search index |
-| `open_graph.enable` / `twitter_card` | `true` / `summary_large_image` | Open Graph tags |
-| `asset_version` | `true` | Append content hashes (`?v=`) to site CSS/JS |
-| `noscript_warning` | `false` | Bar shown without JavaScript |
-| `footer.content` | empty | Footer HTML; empty renders no footer |
-| `custom_css`, `custom_js` | `[]` | Site assets appended after the theme's |
+| `favicon`, `apple_touch_icon` | empty | Local icon paths; use a small favicon and a 180×180 touch icon |
+| `force_https` | true | Emit the HTTPS resource-upgrade policy |
+| `fonts.*`, `colors.light.*`, `colors.dark.*`, `colors.home.*` | paper/serif palette | CSS tokens |
+| `nav.menu` | Home, Archives, About, Search | Entries: `{ name, link, icon, target }` |
+| `nav.scheme_toggle`, `nav.solid_after` | true, 50 | Colour toggle and scroll threshold |
+| `home.cover`, `home.slogan` | empty, site subtitle | Cover and slogan |
+| `home.typing.enable/mobile/speed/cursor` | true / false / 70 / _ | Desktop typing; complete text immediately on phones by default |
+| `home.cards/excerpt/date/pagination` | 12 / true / true / false | Home cards; match the site's `index_generator.per_page` to the desired card count |
+| `post.language` | empty | Default article language, independent of interface language |
+| `post.toc` | enabled, depths 1–6 | Desktop table of contents |
+| `post.prev_next/show_tags/heading_anchors` | true / false / true | Article navigation and anchors |
+| `post.figure_captions.enable/skip_filename_alt` | true / true | Use author-supplied image alt/title as captions; skip filenames |
+| `post.lightbox` | true | Keyboard-accessible image dialog |
+| `post.photo_layout.enable` | true | Allow explicit `photo_layout: true` posts |
+| `archive.show_total/extra_entries` | false / [] | Counts and additional rows |
+| `about.avatar/name/intro/links` | empty | About header |
+| `tags.enable/categories.enable` | true / false | Tag/category index pages |
+| `page404.enable/cover` | true / empty | 404 page |
+| `dark_mode.enable/default/storage_key` | true / auto / bluenote.color-scheme | Colour preference |
+| `search.enable/path` | true / site search.path | Local XML search with loading, empty and retry states |
+| `search.private_manifest` | empty | Optional private archive integration; no request when empty |
+| `gallery.*` | disabled | Optional photo collection |
+| `open_graph.enable/twitter_card` | true / summary_large_image | Social metadata |
+| `asset_version` | true | Content hashes for local CSS/JS |
+| `footer.content`, `custom_css`, `custom_js` | empty | Site extensions |
 
-## Front matter
+## Local verification and maintenance
 
-- Posts: `title`, `date`, `description` (card excerpt and meta description), optional `toc: false`, `cover`/`og_img` for Open Graph.
-- Pages: `layout: about` renders the About page; any other page gets the 760px editorial column.
-- Generated pages can pass `body_class` in their data to add layout classes (Blue Note uses this for its Gallery and Design Doc pages).
+No CI workflow is included. Run the checks locally:
 
-## DOM contract
+```bash
+# From the theme repository root
+npm ci
+npm test
+npx playwright install chromium webkit
+npm run test:browser
+npm run screenshots
+```
 
-Site-level scripts may rely on these hooks:
+The tests build independent sites at a domain root and a subdirectory, check disabled features and Gallery paths, then exercise search, keyboard focus, captions, image dialogs and responsive widths in Chromium and WebKit. Test HTTP servers omit the production HTTPS-upgrade meta tag so WebKit can load loopback HTTP assets; generated production HTML retains it.
 
-- `html[data-root]` — site root; `html[data-scheme]` — `light`/`dark` when the reader chose one.
-- `body.home-page` (`html.home-root`), `body.editorial-page`, `.post-page`, `.listing-page`, `.about-page`, `.error-page`, `.photo-post`, `.private-post-page`, plus any `body_class` a page passes.
-- `.site-nav`, `.site-menu`, `.site-menu__item`, `.scheme-toggle`; `window.BlueNote.nav.close()` closes the mobile menu.
-- `.index-card`, `.index-header`, `.index-excerpt`, `.index-meta` on the home page.
-- `.listing__item`, `.listing__date`, `.listing__title` in lists; `.post-content > .markdown-body`, `.post-nav` in articles.
-- Events: `bluenote:scheme` (detail `{ scheme }`); the search panel listens for `bluenote:private-unlocked`.
+Screenshots come from the example, not the personal blog. Runtime assets live in `assets/`; the optional Gallery lives in `modules/gallery/`. Both ship as plain source. Keep the palette configurable and preserve article wording.
 
-## Development
+Stable extension hooks include `html[data-root]`, `html[data-scheme]`, `.markdown-body`, `.literary-panel`, `.index-card`, `.listing__item`, and `window.BlueNote.nav.close()`. Generated pages may supply `body_class`. Optional private search listens for `bluenote:private-unlocked`; encryption and authentication are not supplied by the theme.
 
-Theme CSS lives in `assets/css/*.css` and JavaScript in `assets/js/*.js`; files are
-concatenated in name order. Keep `!important` out of the theme (the only exceptions are `[hidden]`, the
-first/last-child margin resets of `.markdown-body`, and print styles). Tokens come from `_config.yml`; do not hard-code colours.
+## Upgrade from 1.0
+
+- Add `photo_layout: true` to actual photography posts; image count no longer selects the layout.
+- Sites using the Blue Note private archive must explicitly set `search.private_manifest: /private/posts.public.json`.
+- Gallery is opt-in and requires the site's own manifest.
+- Mobile slogans now appear immediately; set `home.typing.mobile: true` to retain mobile typing.
 
 ## License
 
-MIT. Bundled third-party components and their licenses are listed in
-`THIRD-PARTY-LICENSES.md`.
+MIT. Bundled components retain their own licenses; see [THIRD-PARTY-LICENSES.md](THIRD-PARTY-LICENSES.md).

@@ -1,0 +1,14 @@
+{
+  "en": {
+    "collection": "Photographs", "view": "Gallery view", "few": "A few", "all": "All photographs", "reshuffle": "Reshuffle",
+    "view_all": "View all photographs", "empty": "No photographs yet.", "viewer": "Image viewer", "prev": "Previous image", "next": "Next image", "close": "Close image",
+    "zoom": "Zoom to original size", "fit": "Fit complete image", "original": "Open original", "loading": "Loading photograph…", "error": "Original image could not load.",
+    "selection": "{count} photographs. New selection.", "reshuffle_error": "Unable to reshuffle. Please try again."
+  },
+  "zh-CN": {
+    "collection": "照片集", "view": "图集视图", "few": "小展", "all": "全部照片", "reshuffle": "换一组",
+    "view_all": "查看全部照片", "empty": "尚未收录照片。", "viewer": "照片浏览", "prev": "上一张", "next": "下一张", "close": "关闭照片",
+    "zoom": "放大到原始尺寸", "fit": "还原完整画面", "original": "打开原图", "loading": "正在加载照片…", "error": "原图加载失败。",
+    "selection": "已换一组，共 {count} 张照片。", "reshuffle_error": "更换照片失败，请重试。"
+  }
+}

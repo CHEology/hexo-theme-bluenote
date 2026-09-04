@@ -44,6 +44,12 @@ search:
   title: Search
   placeholder: Search
   close: Close search
+  loading: Loading…
+  empty: No matching posts.
+  error: Search could not load.
+  retry: Try again
+  locked: Locked
+  unlocked: Unlocked
 
 lightbox:
   label: Image viewer

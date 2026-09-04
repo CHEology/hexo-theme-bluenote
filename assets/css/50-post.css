@@ -213,7 +213,7 @@
 }
 
 .photo-post .markdown-body figcaption.image-caption {
-  display: none;
+  color: var(--muted);
 }
 
 /* Heading anchors, shown on hover. */

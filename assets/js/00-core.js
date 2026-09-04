@@ -2,6 +2,8 @@
   'use strict';
   var root = document.documentElement;
   var BlueNote = window.BlueNote || {};
+  var configElement = document.getElementById('bluenote-config');
+  BlueNote.config = configElement ? JSON.parse(configElement.textContent) : {};
   BlueNote.root = root.getAttribute('data-root') || '/';
   if (!BlueNote.root.endsWith('/')) BlueNote.root += '/';
   BlueNote.ready = function(callback) {

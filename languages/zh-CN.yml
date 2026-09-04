@@ -44,6 +44,12 @@ search:
   title: 搜索
   placeholder: 搜索
   close: 关闭搜索
+  loading: 正在加载…
+  empty: 没有找到相关文章。
+  error: 搜索加载失败。
+  retry: 重试
+  locked: 未解锁
+  unlocked: 已解锁
 
 lightbox:
   label: 图片浏览

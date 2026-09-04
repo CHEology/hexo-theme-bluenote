@@ -5,7 +5,8 @@
   if (!nav) return;
   var toggle = nav.querySelector('.site-nav__toggle');
   var menu = nav.querySelector('.site-menu');
-  var solidAfter = 50;
+  var solidAfter = Number(window.BlueNote.config.navSolidAfter);
+  if (!Number.isFinite(solidAfter)) solidAfter = 50;
   var open = false;
   var ticking = false;
 

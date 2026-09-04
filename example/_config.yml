@@ -1,0 +1,16 @@
+title: Field Notes
+subtitle: A place for words and photographs.
+description: A small bilingual journal built with Blue Note.
+author: Example author
+language: en
+timezone: UTC
+url: https://example.com
+root: /
+theme: bluenote
+permalink: :title/
+index_generator:
+  per_page: 12
+search:
+  path: search.xml
+  field: post
+  content: true

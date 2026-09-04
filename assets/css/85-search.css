@@ -104,6 +104,23 @@
   display: none;
 }
 
+.site-search-status {
+  margin: 0;
+  padding: 1rem 1.6rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.site-search-status button {
+  margin-left: 1rem;
+  padding: 0.25rem 0.5rem;
+  color: var(--link);
+  background: transparent;
+  border: 1px solid var(--line);
+  font: inherit;
+  cursor: pointer;
+}
+
 .site-search-result {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;

@@ -25,13 +25,12 @@
     return root.getAttribute('data-scheme') || systemScheme();
   }
   function apply(scheme, persist) {
-    if (scheme === systemScheme()) {
+    if (scheme === systemScheme() && preset === 'auto') {
       root.removeAttribute('data-scheme');
-      if (persist) write(null);
     } else {
       root.setAttribute('data-scheme', scheme);
-      if (persist) write(scheme);
     }
+    if (persist) write(scheme === systemScheme() ? null : scheme);
     render();
   }
   function iconFor(scheme) {
@@ -86,9 +85,8 @@
       var saved = read();
       if (saved && saved === systemScheme()) {
         write(null);
-        root.removeAttribute('data-scheme');
       }
-      render();
+      apply(saved || systemScheme(), false);
     };
     if (typeof media.addEventListener === 'function') media.addEventListener('change', onChange);
     else if (typeof media.addListener === 'function') media.addListener(onChange);
@@ -98,8 +96,7 @@
     var saved = read();
     if (saved === systemScheme()) {
       write(null);
-      root.removeAttribute('data-scheme');
     }
-    render();
+    apply(saved || systemScheme(), false);
   });
 })();

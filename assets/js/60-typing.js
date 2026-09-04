@@ -5,7 +5,7 @@
   if (!subtitle || !subtitle.hasAttribute('data-typed-text')) return;
   var text = subtitle.getAttribute('data-typed-text') || '';
   if (!text) return;
-  if (!('Typed' in window) || window.BlueNote.reduceMotion()) {
+  if ((subtitle.getAttribute('data-typed-mobile') === 'false' && window.matchMedia('(max-width: 767px)').matches) || !('Typed' in window) || window.BlueNote.reduceMotion()) {
     subtitle.textContent = text;
     return;
   }

@@ -2,12 +2,13 @@
 const cover = theme.home.cover ? url_for(theme.home.cover) : '';
 const slogan = theme.home.slogan || config.subtitle || '';
 const typing = Boolean(theme.home.typing && theme.home.typing.enable && slogan);
+const mobileStatic = typing && theme.home.typing.mobile === false;
 -%>
 <div id="banner" class="home-cover"<%- cover ? ` style="background-image: url('${cover}')"` : '' %>>
   <div class="home-cover__mask">
 <% if (slogan) { -%>
     <div class="home-cover__slogan">
-      <p class="home-cover__text"><span id="subtitle"<%- typing ? ` data-typed-text="${slogan.replace(/"/g, '&quot;')}" data-typed-speed="${Number(theme.home.typing.speed) || 70}" data-typed-cursor="${String(theme.home.typing.cursor || '_').replace(/"/g, '&quot;')}"` : '' %>><%= typing ? '' : slogan %></span></p>
+      <p class="home-cover__text<%= mobileStatic ? ' home-cover__text--mobile-static' : '' %>"><% if (mobileStatic) { %><span class="home-slogan-static"><%= slogan %></span><% } %><span id="subtitle"<% if (typing) { %> data-typed-text="<%= slogan %>" data-typed-speed="<%= Number(theme.home.typing.speed) || 70 %>" data-typed-cursor="<%= theme.home.typing.cursor || '_' %>" data-typed-mobile="<%= theme.home.typing.mobile !== false %>"<% } %>><%= typing ? '' : slogan %></span><% if (typing) { %><noscript><span class="home-slogan-nojs"><%= slogan %></span></noscript><% } %></p>
     </div>
 <% } -%>
   </div>

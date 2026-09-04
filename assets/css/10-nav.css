@@ -235,6 +235,7 @@
     text-align: left;
     opacity: 0;
     pointer-events: none;
+    visibility: hidden;
     transform: translateY(-12px);
     transition: opacity 0.18s ease, transform 0.18s ease;
     will-change: opacity, transform;
@@ -247,6 +248,7 @@
   .site-nav--open .site-menu {
     opacity: 1;
     pointer-events: auto;
+    visibility: visible;
     transform: translateY(0);
   }
 

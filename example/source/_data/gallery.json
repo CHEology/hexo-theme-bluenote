@@ -1,0 +1,133 @@
+{
+  "version": 1,
+  "photos": [
+    {
+      "id": "study-1",
+      "alt": "Geometric study 1",
+      "full": {
+        "src": "/images/study-1.png",
+        "width": 1200,
+        "height": 800
+      },
+      "previews": [
+        {
+          "src": "/images/study-1-600.png",
+          "width": 600,
+          "height": 400
+        },
+        {
+          "src": "/images/study-1-300.png",
+          "width": 300,
+          "height": 200
+        }
+      ]
+    },
+    {
+      "id": "study-2",
+      "alt": "Geometric study 2",
+      "full": {
+        "src": "/images/study-2.png",
+        "width": 1200,
+        "height": 1800
+      },
+      "previews": [
+        {
+          "src": "/images/study-2-600.png",
+          "width": 600,
+          "height": 900
+        },
+        {
+          "src": "/images/study-2-300.png",
+          "width": 300,
+          "height": 450
+        }
+      ]
+    },
+    {
+      "id": "study-3",
+      "alt": "Geometric study 3",
+      "full": {
+        "src": "/images/study-3.png",
+        "width": 1200,
+        "height": 800
+      },
+      "previews": [
+        {
+          "src": "/images/study-3-600.png",
+          "width": 600,
+          "height": 400
+        },
+        {
+          "src": "/images/study-3-300.png",
+          "width": 300,
+          "height": 200
+        }
+      ],
+      "spread": "pair"
+    },
+    {
+      "id": "study-4",
+      "alt": "Geometric study 4",
+      "full": {
+        "src": "/images/study-4.png",
+        "width": 1200,
+        "height": 800
+      },
+      "previews": [
+        {
+          "src": "/images/study-4-600.png",
+          "width": 600,
+          "height": 400
+        },
+        {
+          "src": "/images/study-4-300.png",
+          "width": 300,
+          "height": 200
+        }
+      ],
+      "spread": "pair"
+    },
+    {
+      "id": "study-5",
+      "alt": "Geometric study 5",
+      "full": {
+        "src": "/images/study-5.png",
+        "width": 1200,
+        "height": 1800
+      },
+      "previews": [
+        {
+          "src": "/images/study-5-600.png",
+          "width": 600,
+          "height": 900
+        },
+        {
+          "src": "/images/study-5-300.png",
+          "width": 300,
+          "height": 450
+        }
+      ]
+    },
+    {
+      "id": "study-6",
+      "alt": "Geometric study 6",
+      "full": {
+        "src": "/images/study-6.png",
+        "width": 1200,
+        "height": 800
+      },
+      "previews": [
+        {
+          "src": "/images/study-6-600.png",
+          "width": 600,
+          "height": 400
+        },
+        {
+          "src": "/images/study-6-300.png",
+          "width": 300,
+          "height": 200
+        }
+      ]
+    }
+  ]
+}
