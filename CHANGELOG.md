@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.0
+
+- Keep previous/next navigation centred on the ordinary reading column even on wide photography posts.
+- Add an optional `companion` link after article content, with a quiet rule, a 44px touch target, and native HTTPS navigation. The theme takes labels and destinations from post metadata, hides the link on private posts, and leaves unconfigured posts unchanged.
+
 ## 1.1.0
 
 - Add an opt-in, configurable Gallery with authored sequences, paired images, random selections, responsive previews and keyboard/touch image viewing.

@@ -1,0 +1,5 @@
+<% const companion = post_companion(page); if (companion) { -%>
+<div class="post-companion">
+  <a class="post-companion__link" href="<%= companion.url %>" aria-label="<%= companion.aria_label || companion.label %>"><%= companion.label %><span aria-hidden="true"> ↗</span></a>
+</div>
+<% } -%>

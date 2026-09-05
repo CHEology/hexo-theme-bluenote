@@ -12,6 +12,19 @@ Built for [Blue Note](https://cheology.github.io/bluenote/). The theme is indepe
 
 [Dark reading](docs/screenshots/article-dark.png) · [Gallery on desktop](docs/screenshots/gallery-desktop.png) · [Gallery on a phone](docs/screenshots/gallery-mobile.png)
 
+## Related text at the end of an article
+
+An optional related-text link can be placed at the end of an article with Front Matter:
+
+```yaml
+companion:
+  url: https://example.com/response/
+  label: Related reading
+  aria_label: Read the response to this article
+```
+
+The link appears once, outside the authored body and before previous/next navigation. Labels are escaped, URLs must use HTTPS without credentials, and private or unconfigured posts have no link. This feature requires 1.2.0 or newer.
+
 ## Install in an existing Hexo site
 
 Requirements: Node 20.19+, Hexo 7+, an EJS renderer and a Markdown renderer. The example has been built with Hexo 7.3 and 8.1.
