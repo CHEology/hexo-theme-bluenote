@@ -9,18 +9,17 @@ function prepare(companion, privatePost=false) {
     '---\ntitle: Companion fixture\ndate: 2026-01-01\npermalink: companion/\n'+
     'private_post: '+privatePost+'\ncompanion: '+JSON.stringify(companion)+'\n---\n\nOriginal fixture body.\n');
 }
-test('related text is a single escaped HTTPS link inside article-end navigation',async()=>{
+test('related text is a single escaped HTTPS strip before adjacent-post navigation',async()=>{
   const f=await fixture({defaults:true,prepare:prepare({url:'https://example.test/writing/修图/',label:'Response <one>',aria_label:'Read the response'})});
   try {
     const html=f.read('companion/index.html');
     assert.equal((html.match(/class="post-companion__link"/g)||[]).length,1);
     assert.match(html,/https:\/\/example.test\/writing\/%E4%BF%AE%E5%9B%BE\//);
     assert.match(html,/Response &lt;one&gt;/);
-    const nav=html.match(/<nav class="post-nav post-nav--companion"[\s\S]*?<\/nav>/)[0];
-    assert(html.indexOf('Original fixture body.</p>')<html.indexOf(nav));
-    assert(nav.indexOf('post-nav__cell--prev')<nav.indexOf('post-companion__link'));
-    assert(nav.indexOf('post-companion__link')<nav.indexOf('post-nav__cell--next'));
-    assert.doesNotMatch(nav,/↗/);
+    assert(html.indexOf('Original fixture body.</p>')<html.indexOf('class="post-companion"'));
+    assert(html.indexOf('class="post-companion"')<html.indexOf('class="post-nav"'));
+    assert.match(html,/<span>Response &lt;one&gt;<\/span><svg[^>]*icon--arrow-up-right/);
+    assert.match(html,/id="icon-arrow-up-right"/);
     assert.doesNotMatch(f.read('reading/index.html'),/post-companion__link|post-nav--companion/);
     assert.doesNotMatch(html,/role="tab"|target="_blank"/);
   } finally {f.cleanup();}

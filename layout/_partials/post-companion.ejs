@@ -1,5 +1,5 @@
 <% const companion = post_companion(page); if (companion) { -%>
-<div class="post-nav__cell post-companion">
-  <a class="post-companion__link" href="<%= companion.url %>" aria-label="<%= companion.aria_label || companion.label %>"><%= companion.label %></a>
+<div class="post-companion">
+  <a class="post-companion__link" href="<%= companion.url %>" aria-label="<%= companion.aria_label || companion.label %>"><span><%= companion.label %></span><%- icon('arrow-up-right') %></a>
 </div>
 <% } -%>

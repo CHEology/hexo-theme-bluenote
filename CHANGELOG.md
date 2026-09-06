@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.2
+
+- Present optional companion links in a slim reading-width strip before adjacent-post navigation, using shared panel colours and an up-right arrow. Keep the same type scale as adjacent links and preserve their original two-column layout.
+
 ## 1.2.1
 
 - Centre optional companion links between previous/next links in a balanced three-column footer. Share the navigation type scale and remove the separate rule and external-link icon. Preserve two-column navigation on unconfigured posts.

@@ -125,40 +125,45 @@
   color: var(--text);
 }
 
-/* Optional related text shares one row and one type scale with adjacent posts. */
-.post-nav--companion {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-  align-items: center;
-  column-gap: 0.75rem;
-  margin-top: 2.5rem;
-}
-
-.post-nav--companion .post-nav__cell {
-  min-width: 0;
-  max-width: none;
-}
-
-.post-nav--companion .post-nav__prev,
-.post-nav--companion .post-nav__next,
-.post-companion__link {
-  min-height: 44px;
-}
-
+/* A full-width, quiet reading link after the authored text. */
 .post-companion {
-  justify-content: center;
+  width: 100%;
+  max-width: var(--reading-width);
+  margin: 2.5rem auto 1.5rem;
+  font-size: 0.9rem;
 }
 
 .post-companion__link {
-  display: inline-flex;
+  display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 3.5rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  background: var(--panel);
   font: inherit;
-  color: var(--link);
-  white-space: nowrap;
+  color: var(--link-hover);
+}
+
+.post-companion__link > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.post-companion__link .icon {
+  flex-shrink: 0;
+  width: 1rem;
+  height: 1rem;
 }
 
 .post-companion__link:hover {
-  color: var(--link-hover);
+  color: var(--heading);
+  border-color: var(--link);
+}
+
+.post-companion__link:hover > span {
   text-decoration: underline;
   text-underline-offset: 0.2em;
 }

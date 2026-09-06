@@ -23,7 +23,7 @@ companion:
   aria_label: Read the response to this article
 ```
 
-The link appears once, outside the authored body, centred between previous/next links in one balanced navigation row. It shares their type size and has no separator rule or trailing icon. Labels are escaped, URLs must use HTTPS without credentials, and private or unconfigured posts have no link. The combined row requires 1.2.1 or newer.
+The link appears once, outside the authored body and before previous/next navigation, as a slim reading-width strip. It shares the navigation type size and the theme’s quiet panel colours, with a trailing up-right arrow. The entire strip is a native link with a minimum 56px height. Labels are escaped, URLs must use HTTPS without credentials, and private or unconfigured posts have no link. The reading strip requires 1.2.2 or newer.
 
 ## Install in an existing Hexo site
 

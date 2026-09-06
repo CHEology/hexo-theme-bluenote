@@ -7,6 +7,7 @@
 <% if (theme.post.show_tags && page.tags && page.tags.length) { -%>
     <div class="post-tags"><% page.tags.each((tag) => { %><a class="post-tags__item" href="<%- url_for(tag.path) %>">#<%= tag.name %></a><% }); %></div>
 <% } -%>
+<%- partial('_partials/post-companion') %>
 <%- partial('_partials/post-nav') %>
   </article>
 <%- partial('_partials/toc') %>
