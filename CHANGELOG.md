@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.1
+
+- Fill the six left homepage positions before using the six right positions in `split` mode. Keep column positions fixed as articles are added and preserve the empty central strip.
+
 ## 1.3.0
 
 - Add optional `home.layout: split`: balance up to twelve homepage cards into left and right wings, preserving an empty central strip of the cover on desktop. Scale square cards to the available width and retain the existing tablet/mobile reading order.

@@ -106,7 +106,7 @@ home:
     cursor: "_"
   # Number of square cards on the second screen (desktop shows 4 x 3).
   cards: 12
-  # split balances up to 12 cards around an empty central strip on desktop.
+  # split fills six positions on the left, then six on the right, around a clear centre.
   layout: grid
   excerpt: true
   date: true

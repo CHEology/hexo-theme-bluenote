@@ -159,7 +159,7 @@ body.home-page {
   width: 100%;
 }
 
-/* Two balanced wings leave the centre of the cover visible. */
+/* Fill six positions on the left, then six on the right, around a clear centre. */
 @media (min-width: 992px) {
   .home-main__inner:has(.home-grid--split) {
     width: min(100% - 2rem, 1180px, calc(4 * var(--home-card-size) + 4 * var(--home-card-gap) + clamp(8rem, 16vw, 16rem)));
@@ -180,14 +180,6 @@ body.home-page {
     width: 100%;
   }
 
-  .home-wing--single {
-    width: calc((100% - var(--home-card-gap)) / 2);
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .home-wing--right.home-wing--single {
-    justify-self: end;
-  }
 }
 
 @media (max-width: 991px) {

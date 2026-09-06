@@ -4,14 +4,13 @@ const posts = typeof page.posts.limit === 'function' ? page.posts.limit(limit) :
 const cards = [];
 posts.each(post => cards.push(post));
 const split = theme.home.layout === 'split';
-const midpoint = Math.ceil(cards.length / 2);
 -%>
 <h1 class="visually-hidden"><%= config.title %></h1>
 <div class="home-main__inner">
   <div class="home-grid<%= split ? ' home-grid--split' : '' %>">
 <% if (split) { -%>
-<% [cards.slice(0, midpoint), cards.slice(midpoint)].forEach((wing, side) => { -%>
-    <div class="home-wing home-wing--<%= side === 0 ? 'left' : 'right' %><%= wing.length <= 3 ? ' home-wing--single' : '' %>">
+<% [cards.slice(0, 6), cards.slice(6)].forEach((wing, side) => { -%>
+    <div class="home-wing home-wing--<%= side === 0 ? 'left' : 'right' %>">
 <% wing.forEach((post) => { -%>
 <%- partial('_partials/card', { post }) %>
 <% }); -%>
