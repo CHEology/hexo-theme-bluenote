@@ -4,7 +4,6 @@
     <div class="markdown-body">
 <%- page.content %>
     </div>
-<%- partial('_partials/post-companion') %>
 <% if (theme.post.show_tags && page.tags && page.tags.length) { -%>
     <div class="post-tags"><% page.tags.each((tag) => { %><a class="post-tags__item" href="<%- url_for(tag.path) %>">#<%= tag.name %></a><% }); %></div>
 <% } -%>

@@ -97,37 +97,6 @@
   font-weight: bold;
 }
 
-/* A quiet related-work link, outside the authored text and only at its end. */
-.post-companion {
-  margin: 2.5rem 0 1.5rem;
-  font-family: var(--prose);
-  font-size: 0.875rem;
-  line-height: 1.6;
-}
-
-.post-companion::before {
-  display: block;
-  width: 4rem;
-  height: 1px;
-  margin-bottom: 0.75rem;
-  background: var(--line);
-  content: "";
-}
-
-.post-companion__link {
-  display: inline-flex;
-  align-items: center;
-  min-height: 44px;
-  color: var(--link);
-  white-space: pre-wrap;
-}
-
-.post-companion__link:hover {
-  color: var(--link-hover);
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
-}
-
 /* Previous / next: use the reading column even when photographs widen the article.
    Preserve the existing 0.35rem arrow overhang on either side. */
 .post-nav {
@@ -154,6 +123,44 @@
   display: flex;
   align-items: center;
   color: var(--text);
+}
+
+/* Optional related text shares one row and one type scale with adjacent posts. */
+.post-nav--companion {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  column-gap: 0.75rem;
+  margin-top: 2.5rem;
+}
+
+.post-nav--companion .post-nav__cell {
+  min-width: 0;
+  max-width: none;
+}
+
+.post-nav--companion .post-nav__prev,
+.post-nav--companion .post-nav__next,
+.post-companion__link {
+  min-height: 44px;
+}
+
+.post-companion {
+  justify-content: center;
+}
+
+.post-companion__link {
+  display: inline-flex;
+  align-items: center;
+  font: inherit;
+  color: var(--link);
+  white-space: nowrap;
+}
+
+.post-companion__link:hover {
+  color: var(--link-hover);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
 }
 
 .post-nav .icon {
