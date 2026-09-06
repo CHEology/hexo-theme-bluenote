@@ -106,6 +106,8 @@ home:
     cursor: "_"
   # Number of square cards on the second screen (desktop shows 4 x 3).
   cards: 12
+  # split balances up to 12 cards around an empty central strip on desktop.
+  layout: grid
   excerpt: true
   date: true
   # Render a paginator below the cards when there are more posts.

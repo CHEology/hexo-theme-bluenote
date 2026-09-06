@@ -1,13 +1,27 @@
 <%
 const limit = Number(theme.home.cards) || 12;
 const posts = typeof page.posts.limit === 'function' ? page.posts.limit(limit) : page.posts;
+const cards = [];
+posts.each(post => cards.push(post));
+const split = theme.home.layout === 'split';
+const midpoint = Math.ceil(cards.length / 2);
 -%>
 <h1 class="visually-hidden"><%= config.title %></h1>
 <div class="home-main__inner">
-  <div class="home-grid">
-<% posts.each((post) => { -%>
+  <div class="home-grid<%= split ? ' home-grid--split' : '' %>">
+<% if (split) { -%>
+<% [cards.slice(0, midpoint), cards.slice(midpoint)].forEach((wing, side) => { -%>
+    <div class="home-wing home-wing--<%= side === 0 ? 'left' : 'right' %><%= wing.length <= 3 ? ' home-wing--single' : '' %>">
+<% wing.forEach((post) => { -%>
 <%- partial('_partials/card', { post }) %>
 <% }); -%>
+    </div>
+<% }); -%>
+<% } else { -%>
+<% cards.forEach((post) => { -%>
+<%- partial('_partials/card', { post }) %>
+<% }); -%>
+<% } -%>
   </div>
 <% if (theme.home.pagination) { -%>
 <%- partial('_partials/pagination') %>

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.0
+
+- Add optional `home.layout: split`: balance up to twelve homepage cards into left and right wings, preserving an empty central strip of the cover on desktop. Scale square cards to the available width and retain the existing tablet/mobile reading order.
+
 ## 1.2.2
 
 - Present optional companion links in a slim reading-width strip before adjacent-post navigation, using shared panel colours and an up-right arrow. Keep the same type scale as adjacent links and preserve their original two-column layout.

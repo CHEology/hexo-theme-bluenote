@@ -159,6 +159,43 @@ body.home-page {
   width: 100%;
 }
 
+/* Two balanced wings leave the centre of the cover visible. */
+@media (min-width: 992px) {
+  .home-main__inner:has(.home-grid--split) {
+    width: min(100% - 2rem, 1180px, calc(4 * var(--home-card-size) + 4 * var(--home-card-gap) + clamp(8rem, 16vw, 16rem)));
+  }
+
+  .home-grid--split {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto;
+    column-gap: calc(clamp(8rem, 16vw, 16rem) + 2 * var(--home-card-gap));
+  }
+
+  .home-wing {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(3, auto);
+    grid-auto-flow: column;
+    gap: var(--home-card-gap);
+    width: 100%;
+  }
+
+  .home-wing--single {
+    width: calc((100% - var(--home-card-gap)) / 2);
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .home-wing--right.home-wing--single {
+    justify-self: end;
+  }
+}
+
+@media (max-width: 991px) {
+  .home-wing {
+    display: contents;
+  }
+}
+
 .index-card {
   position: relative;
   display: flex;
