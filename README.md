@@ -130,7 +130,7 @@ The commented [_config.yml](_config.yml) is the full reference. Site overrides m
 | `home.cover`, `home.slogan` | empty, site subtitle | Cover and slogan |
 | `home.typing.enable/mobile/speed/cursor` | true / false / 70 / _ | Desktop typing; complete text immediately on phones by default |
 | `home.cards/excerpt/date/pagination` | 12 / true / true / false | Home cards; match the site's `index_generator.per_page` to the desired card count |
-| `home.layout` | `grid` | `split` reserves two desktop wings around an empty central strip. Fill the six left positions first, then the six right positions, top to bottom within each column. Below 992px, use the regular tablet/mobile grid in date order. |
+| `home.layout` | `grid` | `split` reserves two desktop wings around an empty central strip. Fill the six left positions first, then the six right positions, top to bottom within each column. Use equal 20–24px row/column gaps and symmetric 24–48px minimum vertical padding, with no reserved space for the scrolled-away navigation. Centre the full twelve-position stage even when its right wing is empty. Below 992px, use the regular tablet/mobile grid and spacing in date order. |
 | `post.language` | empty | Default article language, independent of interface language |
 | `post.toc` | enabled, depths 1–6 | Desktop table of contents |
 | `post.prev_next/show_tags/heading_anchors` | true / false / true | Article navigation and anchors |

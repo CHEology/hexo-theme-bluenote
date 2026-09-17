@@ -161,6 +161,13 @@ body.home-page {
 
 /* Fill six positions on the left, then six on the right, around a clear centre. */
 @media (min-width: 992px) {
+  .home-page:has(.home-grid--split) {
+    /* Navigation has scrolled away; give the card stage equal top/bottom space. */
+    --home-navbar-height: 0rem;
+    --home-edge-gap: clamp(1.5rem, 4vh, 3rem);
+    --home-card-gap: clamp(1.25rem, 2vw, 1.5rem);
+  }
+
   .home-main__inner:has(.home-grid--split) {
     width: min(100% - 2rem, 1180px, calc(4 * var(--home-card-size) + 4 * var(--home-card-gap) + clamp(8rem, 16vw, 16rem)));
   }

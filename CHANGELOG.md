@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.1
+
+- Give the desktop split home layout equal 20–24px card gaps and symmetric vertical breathing room. Preserve the centred twelve-position stage, left-first filling, square cards and existing tablet/mobile layout.
+
 ## 1.4.0
 
 - Let navigation scroll away with the header on every page, preserving the initial layout. Remove scroll-triggered colour and size changes and the obsolete `nav.solid_after` setting.
