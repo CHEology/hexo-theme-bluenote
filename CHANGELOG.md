@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.4.0
+
+- Let navigation scroll away with the header on every page, preserving the initial layout. Remove scroll-triggered colour and size changes and the obsolete `nav.solid_after` setting.
+- Keep the open mobile menu fixed and its brand and close button above the menu overlay.
+
 ## 1.3.1
 
 - Fill the six left homepage positions before using the six right positions in `split` mode. Keep column positions fixed as articles are added and preserve the empty central strip.

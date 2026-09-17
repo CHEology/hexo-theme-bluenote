@@ -1,11 +1,11 @@
-/* Site navigation: transparent over the masthead, solid once scrolled; a full-screen
-   text menu below 992px. */
+/* Site navigation stays at the top of the document and scrolls with the masthead.
+   Only the open mobile menu is fixed to the viewport. */
 .site-header {
   position: relative;
 }
 
 .site-nav {
-  position: fixed;
+  position: absolute;
   top: 0;
   right: 0;
   left: 0;
@@ -15,8 +15,6 @@
   font-size: 0.875rem;
   line-height: 1.5;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
-  transition: background 0.5s ease-in-out, padding 0.5s ease-in-out;
-  will-change: background, padding;
 }
 
 @media (min-width: 600px) {
@@ -26,14 +24,8 @@
   }
 }
 
-.site-nav--solid,
 .site-nav--open {
   background-color: var(--masthead);
-}
-
-.site-nav--solid {
-  padding-top: 5px;
-  padding-bottom: 5px;
 }
 
 .home-page .site-nav {
@@ -210,6 +202,16 @@
 }
 
 @media (max-width: 991.98px) {
+  .site-nav--open {
+    position: fixed;
+  }
+
+  .site-nav__brand,
+  .site-nav__toggle {
+    position: relative;
+    z-index: 1030;
+  }
+
   .site-nav__inner {
     max-width: 720px;
     padding: 0;

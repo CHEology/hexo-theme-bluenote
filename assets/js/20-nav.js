@@ -1,24 +1,11 @@
-/* Navigation: solid bar after scrolling, full-screen menu on narrow screens. */
+/* Navigation: full-screen menu on narrow screens; no scroll-driven bar. */
 (function() {
   'use strict';
   var nav = document.querySelector('.site-nav');
   if (!nav) return;
   var toggle = nav.querySelector('.site-nav__toggle');
   var menu = nav.querySelector('.site-menu');
-  var solidAfter = Number(window.BlueNote.config.navSolidAfter);
-  if (!Number.isFinite(solidAfter)) solidAfter = 50;
   var open = false;
-  var ticking = false;
-
-  function updateSolid() {
-    nav.classList.toggle('site-nav--solid', window.scrollY > solidAfter || open);
-    ticking = false;
-  }
-  function requestSolid() {
-    if (ticking) return;
-    ticking = true;
-    window.requestAnimationFrame(updateSolid);
-  }
 
   function setOpen(value) {
     open = Boolean(value);
@@ -30,7 +17,6 @@
         entry.style.animationDelay = (index * 20) + 'ms';
       });
     }
-    updateSolid();
   }
 
   if (toggle) {
@@ -48,8 +34,6 @@
   document.addEventListener('keydown', function(event) {
     if (event.key === 'Escape' && open) setOpen(false);
   });
-  window.addEventListener('scroll', requestSolid, { passive: true });
-  updateSolid();
 
   window.BlueNote = window.BlueNote || {};
   window.BlueNote.nav = {

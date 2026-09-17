@@ -89,8 +89,6 @@ nav:
   menu: []
   # Light/dark toggle in the menu.
   scheme_toggle: true
-  # Pixels scrolled before the transparent bar turns solid.
-  solid_after: 50
 
 home:
   # Full-viewport cover image behind the slogan; empty uses the solid `home.bg` colour.

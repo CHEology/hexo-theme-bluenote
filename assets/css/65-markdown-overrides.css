@@ -26,7 +26,7 @@
   transition: color 0.2s ease-in-out, border-bottom-color 0.2s ease-in-out;
 }
 
-/* Offset in-page anchors below the fixed navigation. */
+/* Leave breathing room above in-page heading targets. */
 .markdown-body > h1::before,
 .markdown-body > h2::before,
 .markdown-body > h3::before,

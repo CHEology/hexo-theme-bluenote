@@ -111,6 +111,10 @@ The title, date and prose stay under the author's control. A theme never needs t
 
 Other front matter: `description` for cards and metadata; `toc: false`; `lightbox: false`; `content_language: zh-CN`; `cover` or `og_img` for social previews. `layout: about` selects the About header. Ordinary pages use `layout: page`.
 
+## Navigation
+
+On the home page and content pages, navigation stays at the document top and scrolls away with the header. It does not stick, shrink, change colour on scroll, or reappear when scrolling upward. The initial header and cover layout are preserved. On narrow screens, only an explicitly opened full-screen menu is fixed; its close button remains available. The former `nav.solid_after` setting is no longer used.
+
 ## Configuration reference
 
 The commented [_config.yml](_config.yml) is the full reference. Site overrides merge into it; arrays such as `nav.menu` merge by index, so the default menu is intentionally empty and the template provides fallback entries.
@@ -122,7 +126,7 @@ The commented [_config.yml](_config.yml) is the full reference. Site overrides m
 | `force_https` | true | Emit the HTTPS resource-upgrade policy |
 | `fonts.*`, `colors.light.*`, `colors.dark.*`, `colors.home.*` | paper/serif palette | CSS tokens |
 | `nav.menu` | Home, Archives, About, Search | Entries: `{ name, link, icon, target }` |
-| `nav.scheme_toggle`, `nav.solid_after` | true, 50 | Colour toggle and scroll threshold |
+| `nav.scheme_toggle` | true | Colour toggle |
 | `home.cover`, `home.slogan` | empty, site subtitle | Cover and slogan |
 | `home.typing.enable/mobile/speed/cursor` | true / false / 70 / _ | Desktop typing; complete text immediately on phones by default |
 | `home.cards/excerpt/date/pagination` | 12 / true / true / false | Home cards; match the site's `index_generator.per_page` to the desired card count |

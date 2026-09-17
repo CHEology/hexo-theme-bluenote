@@ -7,7 +7,6 @@ hexo.extend.helper.register('browser_config', function() {
   const search = this.theme.search || {};
   const labels = (prefix, keys) => Object.fromEntries(keys.map(key => [key, this.__(prefix + '.' + key)]));
   const data = {
-    navSolidAfter: this.theme.nav.solid_after,
     lightbox: this.is_post() && this.theme.post.lightbox !== false && this.page.lightbox !== false,
     lightboxLabels: labels('lightbox', ['label', 'close', 'prev', 'next']),
     search: {
