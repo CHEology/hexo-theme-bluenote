@@ -27,9 +27,10 @@ page404:
 
 post:
   toc: 目录
-  nav: 相邻文章
+  nav: 文章导航
   prev_post: 上一篇
   next_post: 下一篇
+  back_to_top: 回到页首
 
 nav:
   label: 站点导航

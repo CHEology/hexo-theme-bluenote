@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.6.0
+
+- Centre a native Back to top chevron between adjacent-post links. All three arrows share the same 24px icon size, 2px stroke and rounded corners. Keep stationary colour/underline feedback, accessible labels, 44px targets and no-JavaScript navigation to the header.
+
 ## 1.5.3
 
 - Use colour and a fine text underline for adjacent-post hover and keyboard focus feedback; remove moving-arrow animations.

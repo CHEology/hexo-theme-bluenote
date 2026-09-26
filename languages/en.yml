@@ -27,9 +27,10 @@ page404:
 
 post:
   toc: Table of Contents
-  nav: Adjacent posts
+  nav: Post navigation
   prev_post: Previous
   next_post: Next
+  back_to_top: Back to top
 
 nav:
   label: Site

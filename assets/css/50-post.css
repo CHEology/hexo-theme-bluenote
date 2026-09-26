@@ -100,17 +100,17 @@
 /* Previous / next: use the reading column even when photographs widen the article.
    Preserve the existing 0.35rem arrow overhang on either side. */
 .post-nav {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 0.75rem;
   margin: 1rem max(-0.35rem, calc((100% - var(--reading-width)) / 2 - 0.35rem));
   font-size: 0.9rem;
 }
 
 .post-nav__cell {
   display: flex;
-  flex: 0 0 50%;
-  max-width: 50%;
+  min-width: 0;
   padding: 0;
 }
 
@@ -119,11 +119,38 @@
 }
 
 .post-nav__prev,
-.post-nav__next {
+.post-nav__next,
+.post-nav__top {
   display: flex;
   align-items: center;
+  min-width: 0;
+  min-height: 44px;
   color: var(--text);
 }
+
+.post-nav__top {
+  position: relative;
+  justify-content: center;
+  min-width: 44px;
+}
+
+.post-nav__top::after {
+  position: absolute;
+  left: calc(50% - 0.75rem);
+  bottom: 6px;
+  width: 1.5rem;
+  height: 1px;
+  background: currentColor;
+  content: "";
+  opacity: 0;
+  pointer-events: none;
+}
+
+.post-nav__top:hover::after,
+.post-nav__top:focus-visible::after { opacity: 1; }
+
+/* Native fragment navigation moves focus to the header without outlining it. */
+.site-header#page-top:focus { outline: none; }
 
 /* A full-width, quiet reading link after the authored text. */
 .post-companion {
