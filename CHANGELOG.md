@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.5.1
+
+- Remove the mobile reading list’s gradient and its fade above the upper edge. Use a uniform translucent dark blue background with a direct boundary against the cover.
+
 ## 1.5.0
 
 - Replace square cards at mobile widths (≤767px) with an unboxed reading list: date, full title, and a two-line excerpt separated by fine rules. Preserve the cover and serif typography, with a dark gradient into the list. Desktop and tablet layouts are unchanged.

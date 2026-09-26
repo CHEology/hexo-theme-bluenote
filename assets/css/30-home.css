@@ -319,15 +319,7 @@ body.home-page {
     justify-content: flex-start;
     min-height: 100svh;
     padding: 48px 0 64px;
-    background: linear-gradient(to bottom, rgba(6,21,33,.84), rgba(6,21,33,.96) 300px);
-  }
-  .home-main::before {
-    content: "";
-    position: absolute;
-    inset: -96px 0 auto;
-    height: 96px;
-    background: linear-gradient(to bottom, transparent, rgba(6,21,33,.84));
-    pointer-events: none;
+    background: rgba(6,21,33,.94);
   }
   .home-main__inner { width: min(calc(100% - 48px), 38rem); }
   .home-grid { display: flex; flex-direction: column; gap: 0; }
