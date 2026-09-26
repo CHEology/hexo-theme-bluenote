@@ -74,6 +74,20 @@ try {
         for(const path of ['', 'reading/', 'archives/']) {
           await page.goto(servers[0].url+path);
           assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),engine.name()+' overflow '+width+' '+path);
+          if(path==='' && width<=767) {
+            const list=await page.locator('.index-card').first().evaluate(card=>{
+              const title=card.querySelector('.index-header');
+              return {ratio:getComputedStyle(card).aspectRatio,shadow:getComputedStyle(card).boxShadow,
+                height:card.getBoundingClientRect().height,width:card.getBoundingClientRect().width,
+                fullTitle:title.scrollHeight<=title.clientHeight,
+                excerptLines:getComputedStyle(card.querySelector('.index-excerpt > div')).webkitLineClamp};
+            });
+            assert.equal(list.ratio,'auto');
+            assert.equal(list.shadow,'none');
+            assert.ok(list.height<list.width,'Mobile rows fit content instead of retaining square cards');
+            assert.ok(list.fullTitle,'Mobile titles are not clamped');
+            assert.equal(list.excerptLines,'2');
+          }
         }
       }
       await page.setViewportSize({width:390,height:844});

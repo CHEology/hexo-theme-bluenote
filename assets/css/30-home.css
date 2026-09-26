@@ -1,4 +1,4 @@
-/* Home: a fixed full-viewport cover with a typed slogan, then a grid of square cards. */
+/* Home: a fixed full-viewport cover with a typed slogan, then square desktop cards or a lightweight mobile reading list. */
 html.home-root,
 body.home-page {
   background: var(--home-bg);
@@ -316,29 +316,45 @@ body.home-page {
 
 @media (max-width: 767px) {
   .home-main {
-    padding-top: 3.5rem;
+    justify-content: flex-start;
+    min-height: 100svh;
+    padding: 48px 0 64px;
+    background: linear-gradient(to bottom, rgba(6,21,33,.84), rgba(6,21,33,.96) 300px);
   }
-
-  .home-main__inner {
-    width: min(100% - 1.25rem, 38rem);
+  .home-main::before {
+    content: "";
+    position: absolute;
+    inset: -96px 0 auto;
+    height: 96px;
+    background: linear-gradient(to bottom, transparent, rgba(6,21,33,.84));
+    pointer-events: none;
   }
-
-  .home-grid {
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(12, auto);
-  }
-
+  .home-main__inner { width: min(calc(100% - 48px), 38rem); }
+  .home-grid { display: flex; flex-direction: column; gap: 0; }
+  .home-wing { display: contents; }
   .index-card {
-    padding: 1.5rem;
+    aspect-ratio: auto;
+    padding: 25px 0 27px;
+    overflow: visible;
+    background: transparent;
+    box-shadow: none;
+    border-bottom: 1px solid rgba(220,221,216,.16);
   }
-
+  .index-card:hover, .index-card:focus-within { background: transparent; box-shadow: none; }
   .index-header {
-    display: -webkit-box;
-    overflow: hidden;
-    word-break: break-word;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
+    display: block;
+    overflow: visible;
+    margin: 0 0 10px;
+    font-size: 21px;
+    font-weight: 500;
+    line-height: 1.5;
+    -webkit-line-clamp: unset;
   }
+  .index-excerpt { margin: 0; font-size: 15px; line-height: 1.75; }
+  .index-excerpt > div { line-height: 1.75; -webkit-line-clamp: 2; }
+  .index-meta { order: -1; margin: 0 0 9px; font-size: 12px; line-height: 1.5; letter-spacing: .07em; }
+  .index-meta__icon { display: none; }
+  .index-meta__item > * { margin: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {

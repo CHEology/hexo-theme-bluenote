@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.5.0
+
+- Replace square cards at mobile widths (≤767px) with an unboxed reading list: date, full title, and a two-line excerpt separated by fine rules. Preserve the cover and serif typography, with a dark gradient into the list. Desktop and tablet layouts are unchanged.
+
 ## 1.4.1
 
 - Give the desktop split home layout equal 20–24px card gaps and symmetric vertical breathing room. Preserve the centred twelve-position stage, left-first filling, square cards and existing tablet/mobile layout.
