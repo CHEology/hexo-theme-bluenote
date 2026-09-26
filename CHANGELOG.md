@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.5.3
+
+- Use colour and a fine text underline for adjacent-post hover and keyboard focus feedback; remove moving-arrow animations.
+
 ## 1.5.2
 
 - Keep the empty search panel stable during the first index request. Expose loading through the input’s busy state and show the loading row only after a query is entered; preserve errors and retry even without a query.
