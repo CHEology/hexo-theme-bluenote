@@ -122,6 +122,10 @@
     var query = input.value.trim().toLowerCase();
     results.replaceChildren();
     results.setAttribute('aria-busy', String(loading));
+    input.setAttribute('aria-busy', String(loading));
+    // Opening an empty search must not add a temporary results row and then
+    // collapse it when the first index request finishes. Errors remain visible.
+    if (!query && !failed) return;
     if (loading || failed) {
       var status = document.createElement('p');
       status.className = 'site-search-status';

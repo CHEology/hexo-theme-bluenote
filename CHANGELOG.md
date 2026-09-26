@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.5.2
+
+- Keep the empty search panel stable during the first index request. Expose loading through the input’s busy state and show the loading row only after a query is entered; preserve errors and retry even without a query.
+
 ## 1.5.1
 
 - Remove the mobile reading list’s gradient and its fade above the upper edge. Use a uniform translucent dark blue background with a direct boundary against the cover.

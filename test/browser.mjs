@@ -108,6 +108,64 @@ try {
       assert.equal(await page.locator('html').getAttribute('data-scheme'),'light');
       assert.deepEqual(errors,[]);
       await context.close();
+      // Hold the first index response. Empty searches must have identical
+      // geometry before/after loading, even after closing and reopening early.
+      for(const width of [320,390,1280]) for(const colorScheme of ['light','dark']) {
+        const stableContext=await browser.newContext({viewport:{width,height:844},colorScheme});
+        const stable=await stableContext.newPage();
+        let release;const gate=new Promise(resolve=>{release=resolve});let requests=0;
+        await stable.route('**/search.xml',async route=>{requests++;await gate;await route.continue()});
+        try {
+          await stable.goto(servers[0].url);
+          const open=async()=>{
+            if(width<992)await stable.locator('.site-nav__toggle').click();
+            await stable.getByRole('link',{name:'Search',exact:true}).click();
+          };
+          const box=()=>stable.locator('.site-search-dialog').boundingBox();
+          await stable.evaluate(()=>{
+            const selectors=['.site-search-dialog','.site-search-dialog__field','#site-search-input'];
+            const measure=()=>selectors.map(s=>{const r=document.querySelector(s).getBoundingClientRect();return [r.x,r.y,r.width,r.height]});
+            const check=window.searchLayout={running:true,baseline:null,maxMovement:0,samples:0};
+            const sample=()=>{if(!check.running)return;if(!document.querySelector('[data-search-overlay]').hidden){const boxes=measure();check.baseline||=boxes;boxes.forEach((b,i)=>b.forEach((n,j)=>{check.maxMovement=Math.max(check.maxMovement,Math.abs(n-check.baseline[i][j]))}));check.samples++;}requestAnimationFrame(sample)};
+            requestAnimationFrame(sample);
+          });
+          await open();
+          const first=await box();
+          assert.equal(await stable.locator('.site-search-results').isVisible(),false,'No temporary row on first open');
+          assert.equal(await stable.getByRole('searchbox').getAttribute('aria-busy'),'true');
+          await stable.waitForFunction(()=>window.searchLayout.samples>=4);
+          await stable.keyboard.press('Escape');
+          await open();
+          assert.deepEqual(await box(),first,'Reopening a pending empty search is stable');
+          release();
+          await stable.waitForFunction(()=>document.querySelector('#site-search-input').getAttribute('aria-busy')==='false');
+          await stable.waitForFunction(()=>window.searchLayout.samples>=8);
+          assert.deepEqual(await box(),first,'Index completion does not resize the panel');
+          await stable.keyboard.press('Escape');
+          await open();
+          assert.deepEqual(await box(),first,'Cached opening matches cold opening');
+          const measured=await stable.evaluate(()=>{window.searchLayout.running=false;return window.searchLayout});
+          assert.equal(measured.maxMovement,0,engine.name()+' '+width+' '+colorScheme+' search movement');
+          assert.equal(requests,1,'Reopening shares the pending or cached index');
+          await stable.getByRole('searchbox').fill('Reading');
+          await stable.locator('.site-search-result').first().waitFor();
+          await stable.getByRole('searchbox').fill('');
+          assert.deepEqual(await box(),first,'Clearing a query restores the same input-only panel');
+        } finally {release();await stableContext.close()}
+      }
+      // Typing before the index arrives still reports loading and preserves the query.
+      const pending=await browser.newPage();
+      let releaseQuery;const queryGate=new Promise(resolve=>{releaseQuery=resolve});
+      await pending.route('**/search.xml',async route=>{await queryGate;await route.continue()});
+      try {
+        await pending.goto(servers[0].url+'reading/');
+        await pending.getByRole('link',{name:'Search',exact:true}).click();
+        await pending.getByRole('searchbox').fill('Reading');
+        await pending.getByText('Loading…',{exact:true}).waitFor();
+        releaseQuery();
+        await pending.locator('.site-search-result').first().waitFor();
+        assert.equal(await pending.getByRole('searchbox').inputValue(),'Reading');
+      } finally {releaseQuery();await pending.close()}
       console.log(engine.name()+': configuration, captions, search/retry/focus, Gallery and five viewport widths passed');
     } finally {await browser.close();}
   }
