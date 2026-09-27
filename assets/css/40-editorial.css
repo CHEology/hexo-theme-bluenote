@@ -96,6 +96,21 @@
   white-space: normal;
 }
 
+.listing__annotated {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.15rem 0.75rem;
+  min-width: 0;
+}
+
+.listing__note {
+  color: var(--muted);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  line-height: 1.65;
+}
+
 .listing__count {
   margin-left: auto;
   color: var(--muted);

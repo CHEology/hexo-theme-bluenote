@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.6.1
+
+- Respect year-only dates in cards and chronological listings, and render optional archive annotations in muted, wrapping text.
+
 ## 1.6.0
 
 - Centre a native Back to top chevron between adjacent-post links. All three arrows share the same 24px icon size, 2px stroke and rounded corners. Keep stationary colour/underline feedback, accessible labels, 44px targets and no-JavaScript navigation to the header.

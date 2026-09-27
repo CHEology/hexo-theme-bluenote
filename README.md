@@ -178,3 +178,7 @@ Stable extension hooks include `html[data-root]`, `html[data-scheme]`, `.markdow
 ## License
 
 MIT. Bundled components retain their own licenses; see [THIRD-PARTY-LICENSES.md](THIRD-PARTY-LICENSES.md).
+
+### Historical dates and archive annotations
+
+Set `date_precision: year` on a post to show only its year in cards and listings. Its `date` still determines chronology. Optional `archive_note` text appears beside the title on archive pages only; it is escaped and wraps at narrow widths.
