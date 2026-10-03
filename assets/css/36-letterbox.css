@@ -1,0 +1,576 @@
+/* Letterbox design (opt-in: `design: letterbox`).
+   One bar of fixed height carries the navigation on every page. The home page holds its
+   content between two fixed bars: the cover first, then a dated index; the lower bar shows
+   the slogan, or the excerpt of the entry under the pointer, on a single line that never
+   changes height. Content pages trade the colour band for a title block on the paper. */
+
+html[data-design="letterbox"] {
+  --lb-bar: var(--home-bg);
+  --lb-bar-h: 88px;
+  --lb-gutter: clamp(24px, 5vw, 72px);
+  --lb-on: #eeebe3;
+  --lb-on-2: #bcc6cb;
+  --lb-on-3: #8b9aa3;
+  --lb-line: rgba(226, 232, 236, 0.09);
+  /* Short and long pages keep the same width, so the bar never shifts sideways. */
+  scrollbar-gutter: stable;
+}
+
+/* ── The bar (every page) ─────────────────────────────────────────── */
+html[data-design="letterbox"] .site-header {
+  position: relative;
+  z-index: 1030;
+}
+
+html[data-design="letterbox"] .site-nav {
+  position: relative;
+  height: var(--lb-bar-h);
+  padding: 0;
+  background: var(--lb-bar);
+  box-shadow: none;
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+html[data-design="letterbox"] .site-nav__inner {
+  flex-wrap: nowrap;
+  height: 100%;
+  max-width: none;
+  padding: 0 var(--lb-gutter);
+}
+
+html[data-design="letterbox"] .site-nav__brand {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin: 0;
+  padding: 0;
+  color: var(--lb-on);
+  font-size: 1.375rem;
+  font-weight: 400;
+  letter-spacing: 0.07em;
+}
+
+html[data-design="letterbox"] .site-menu {
+  margin-right: -11px;
+}
+
+html[data-design="letterbox"] .site-menu__item,
+html[data-design="letterbox"] .scheme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 11px;
+  color: var(--lb-on-2);
+  letter-spacing: 0.02em;
+  transition: color 160ms ease;
+}
+
+html[data-design="letterbox"] .site-menu__item:hover,
+html[data-design="letterbox"] .site-menu__item:focus-visible,
+html[data-design="letterbox"] .scheme-toggle:hover,
+html[data-design="letterbox"] .scheme-toggle:focus-visible {
+  color: var(--accent);
+}
+
+html[data-design="letterbox"] .site-menu__label::after {
+  bottom: -0.2rem;
+}
+
+html[data-design="letterbox"] .scheme-toggle__icon {
+  width: 1.0625rem;
+  height: 1.0625rem;
+  margin: 0;
+  vertical-align: middle;
+}
+
+html[data-design="letterbox"] .site-nav :focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* A quiet two-line burger, drawn in the bar's own weight. */
+html[data-design="letterbox"] .site-nav__toggle {
+  margin-right: -10px;
+  padding: 15px 10px;
+}
+
+html[data-design="letterbox"] .site-nav__burger {
+  width: 22px;
+  height: 13px;
+}
+
+html[data-design="letterbox"] .site-nav__burger span {
+  height: 1.5px;
+  background: var(--lb-on);
+  border-radius: 0;
+}
+
+html[data-design="letterbox"] .site-nav__burger span:nth-child(1) { top: 0; }
+html[data-design="letterbox"] .site-nav__burger span:nth-child(2) { top: 6px; }
+html[data-design="letterbox"] .site-nav__burger span:nth-child(3) { top: 12px; }
+html[data-design="letterbox"] .site-nav--open .site-nav__burger span:nth-child(1) { top: 6px; }
+html[data-design="letterbox"] .site-nav--open .site-nav__burger span:nth-child(3) { top: 6px; }
+
+html[data-design="letterbox"] .site-menu,
+html[data-design="letterbox"] .home-page .site-menu {
+  background-color: var(--lb-bar);
+}
+
+@media (max-width: 991.98px) {
+  html[data-design="letterbox"] .site-menu {
+    padding-top: calc(var(--lb-bar-h) + 0.5rem);
+  }
+
+  html[data-design="letterbox"] .site-menu__item,
+  html[data-design="letterbox"] .scheme-toggle {
+    justify-content: flex-start;
+    min-height: 56px;
+    padding: 0 0.15rem;
+    border-bottom-color: var(--lb-line);
+    color: var(--lb-on);
+  }
+
+  html[data-design="letterbox"] .scheme-toggle__icon {
+    margin-left: auto;
+  }
+
+  html[data-design="letterbox"] .site-menu__label,
+  html[data-design="letterbox"] .scheme-toggle__label {
+    font-size: 1.0625rem;
+    letter-spacing: 0.04em;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  html[data-design="letterbox"]:not([data-scheme="light"]) body:not(.home-page) .site-nav {
+    box-shadow: 0 1px 0 var(--lb-line);
+  }
+}
+
+html[data-design="letterbox"][data-scheme="dark"] body:not(.home-page) .site-nav {
+  box-shadow: 0 1px 0 var(--lb-line);
+}
+
+/* ── Title block on the paper (content pages) ─────────────────────── */
+html[data-design="letterbox"] .masthead {
+  display: block;
+  height: auto;
+  padding: clamp(3.5rem, 9vh, 5.25rem) 0 0;
+  overflow: visible;
+  background: transparent;
+}
+
+html[data-design="letterbox"] .masthead__inner {
+  width: min(100% - 2.5rem, var(--reading-width));
+  margin: 0 auto;
+  color: var(--heading);
+  text-align: center;
+}
+
+html[data-design="letterbox"] .masthead__date {
+  display: block;
+  margin-bottom: 0.875rem;
+  color: var(--muted);
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  font-variant-numeric: lining-nums tabular-nums;
+  letter-spacing: 0.08em;
+}
+
+html[data-design="letterbox"] .masthead__title {
+  font-size: clamp(2rem, 2.8vw, 2.5rem);
+  letter-spacing: 0.03em;
+  line-height: 1.25;
+  text-wrap: balance;
+}
+
+html[data-design="letterbox"] .masthead__inner::after {
+  width: 2.5rem;
+  margin: 1.75rem auto 0;
+  background: var(--heading);
+  opacity: 0.5;
+}
+
+/* English verse and quoted lines share the prose face; formulas keep --font-math. */
+html[data-design="letterbox"] .markdown-body .literary-block__section p,
+html[data-design="letterbox"] .markdown-body .literary-block__title,
+html[data-design="letterbox"] .markdown-body .literary-block--verse p {
+  font-family: var(--font-prose);
+}
+
+html[data-design="letterbox"] .markdown-body .literary-block__section .literary-block__emphasis {
+  font-weight: 500;
+}
+
+/* Archive and tag listings use the home index's type: italic dates, year in tracked figures. */
+html[data-design="letterbox"] .listing__year {
+  margin: 3rem 0 0;
+  padding-bottom: 0.625rem;
+  border-bottom: 1px solid var(--line);
+  font-size: 1.25rem;
+  font-variant-numeric: lining-nums;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+}
+
+html[data-design="letterbox"] .listing__year:first-child {
+  margin-top: 0;
+}
+
+html[data-design="letterbox"] .listing__item {
+  gap: 1.5rem;
+  padding: 0.875rem 0.2rem;
+}
+
+html[data-design="letterbox"] .listing__date {
+  flex-basis: 4rem;
+  font-size: 0.9375rem;
+  font-style: italic;
+  font-variant-numeric: lining-nums tabular-nums;
+  letter-spacing: 0.04em;
+}
+
+html[data-design="letterbox"] .listing__title {
+  font-size: 1.125rem;
+}
+
+/* The search panel is cut from the same paper as the page, by day and by night. */
+html[data-design="letterbox"] .site-search-dialog {
+  color: var(--text);
+  background: var(--paper);
+  border-color: var(--line);
+}
+
+html[data-design="letterbox"] .site-search-dialog__field input,
+html[data-design="letterbox"] .site-search-result {
+  color: var(--text);
+}
+
+html[data-design="letterbox"] .site-search-dialog__icon,
+html[data-design="letterbox"] .site-search-dialog__close,
+html[data-design="letterbox"] .site-search-dialog__field input::placeholder,
+html[data-design="letterbox"] .site-search-result__excerpt,
+html[data-design="letterbox"] .site-search-result__privacy {
+  color: var(--muted);
+}
+
+html[data-design="letterbox"] .site-search-result {
+  border-color: var(--line);
+}
+
+html[data-design="letterbox"] .site-search-result:hover,
+html[data-design="letterbox"] .site-search-result:focus-visible {
+  color: var(--link-hover);
+  background: var(--link-hover-bg);
+}
+
+/* ── Home: the frame between two fixed bars ───────────────────────── */
+html.home-root[data-design="letterbox"],
+html[data-design="letterbox"] body.home-page {
+  background: var(--lb-bar);
+}
+
+html[data-design="letterbox"] .home-page .site-header {
+  height: var(--lb-bar-h);
+}
+
+html[data-design="letterbox"] .home-page .home-main {
+  display: block;
+  min-height: 0;
+  padding: 0;
+  background: transparent;
+}
+
+.letterbox-frame {
+  height: calc(100vh - 2 * var(--lb-bar-h));
+  height: calc(100svh - 2 * var(--lb-bar-h));
+  margin: 0;
+  overflow: hidden;
+  background: #0b1d27;
+}
+
+.letterbox-frame__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 52%;
+}
+
+.letterbox-dock {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1020;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--lb-bar-h);
+  padding: 0 var(--lb-gutter);
+  background: var(--lb-bar);
+}
+
+.letterbox-dock__line {
+  width: 100%;
+  max-width: 48em;
+  margin: 0;
+  overflow: hidden;
+  color: #e6e2d8;
+  font-family: var(--font-ui);
+  font-size: 1.1875rem;
+  line-height: 1.6;
+  letter-spacing: 0.015em;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.letterbox-dock__line span {
+  transition: opacity 120ms ease;
+}
+
+.letterbox-dock.is-idle .letterbox-dock__line {
+  font-style: italic;
+  letter-spacing: 0.01em;
+}
+
+.letterbox-dock.is-swapping span {
+  opacity: 0;
+}
+
+html.letterbox-scrolled .home-page .site-nav {
+  box-shadow: 0 1px 0 var(--lb-line);
+}
+
+html.letterbox-scrolled .letterbox-dock {
+  box-shadow: 0 -1px 0 var(--lb-line);
+}
+
+/* ── Home: the index ──────────────────────────────────────────────── */
+.letterbox-index {
+  padding: clamp(48px, 8vh, 80px) var(--lb-gutter) calc(var(--lb-bar-h) + clamp(64px, 10vh, 112px));
+  color: var(--lb-on);
+  font-family: var(--font-ui);
+}
+
+.letterbox-year + .letterbox-year {
+  margin-top: clamp(44px, 7vh, 64px);
+}
+
+.letterbox-year__title {
+  margin: 0;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--lb-line);
+  color: var(--lb-on-3);
+  font-size: 1.375rem;
+  font-variant-numeric: lining-nums;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  line-height: 1.2;
+}
+
+.letterbox-year__list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: clamp(24px, 2.6vw, 44px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.letterbox-entry {
+  min-width: 0;
+}
+
+.letterbox-entry__link {
+  display: block;
+  padding: 16px 0 14px;
+  color: inherit;
+}
+
+.letterbox-entry__date {
+  display: block;
+  min-height: 1.5em;
+  margin-bottom: 2px;
+  color: var(--lb-on-3);
+  font-size: 0.9375rem;
+  font-style: italic;
+  font-variant-numeric: lining-nums tabular-nums;
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+  transition: color 160ms ease;
+}
+
+.letterbox-entry__title {
+  display: block;
+  color: var(--lb-on);
+  font-size: 1.25rem;
+  line-height: 1.45;
+  letter-spacing: 0.01em;
+  transition: color 160ms ease;
+}
+
+.letterbox-entry__excerpt {
+  display: none;
+}
+
+.letterbox-entry__link:hover .letterbox-entry__title,
+.letterbox-entry__link:focus-visible .letterbox-entry__title {
+  color: var(--accent);
+}
+
+.letterbox-entry__link:hover .letterbox-entry__date,
+.letterbox-entry__link:focus-visible .letterbox-entry__date {
+  color: var(--lb-on-2);
+}
+
+.letterbox-entry__link:focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: 4px;
+}
+
+html:not(.private-reading-unlocked) .letterbox-entry[data-private-entry],
+html:not(.private-reading-unlocked) .letterbox-year[data-private-year] {
+  display: none;
+}
+
+@media (max-width: 1199.98px) {
+  .letterbox-year__list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 899.98px) {
+  .letterbox-year__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Keyboard focus never lands under a fixed bar. */
+@media (min-width: 768px) and (min-height: 521px) {
+  html.home-root[data-design="letterbox"] {
+    scroll-padding-top: var(--lb-bar-h);
+    scroll-padding-bottom: var(--lb-bar-h);
+  }
+
+  html[data-design="letterbox"] .home-page .site-nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+  }
+}
+
+/* ── Phones, and windows too short for two fixed bars ─────────────── */
+@media (max-width: 767px), (max-height: 520px) {
+  html[data-design="letterbox"] {
+    --lb-bar-h: 64px;
+    --lb-gutter: 24px;
+  }
+
+  html[data-design="letterbox"] .site-nav__inner {
+    padding-right: 14px;
+  }
+
+  html[data-design="letterbox"] .home-page .site-header {
+    height: auto;
+  }
+
+  .letterbox-frame {
+    height: 58vh;
+    height: 58svh;
+    min-height: 280px;
+  }
+
+  .letterbox-dock {
+    position: static;
+    display: block;
+    height: auto;
+    padding: 22px 24px 0;
+    box-shadow: none;
+  }
+
+  html.letterbox-scrolled .letterbox-dock {
+    box-shadow: none;
+  }
+
+  .letterbox-dock__line {
+    max-width: none;
+    font-size: 1.0625rem;
+    white-space: normal;
+  }
+
+  .letterbox-index {
+    padding: 32px 24px 88px;
+  }
+
+  .letterbox-year + .letterbox-year {
+    margin-top: 44px;
+  }
+
+  .letterbox-year__title {
+    font-size: 1.25rem;
+    padding-bottom: 10px;
+  }
+
+  .letterbox-year__list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .letterbox-entry + .letterbox-entry {
+    border-top: 1px solid var(--lb-line);
+  }
+
+  .letterbox-entry__link {
+    padding: 16px 0 17px;
+  }
+
+  .letterbox-entry__date {
+    min-height: 0;
+  }
+
+  .letterbox-entry__excerpt {
+    display: -webkit-box;
+    margin-top: 4px;
+    overflow: hidden;
+    color: var(--lb-on-3);
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
+
+  html[data-design="letterbox"] .masthead {
+    padding-top: 3rem;
+  }
+
+  html[data-design="letterbox"] .masthead__title {
+    font-size: 1.875rem;
+  }
+}
+
+@media (min-width: 600px) and (max-height: 520px) {
+  .letterbox-year__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 32px;
+  }
+
+  .letterbox-entry + .letterbox-entry {
+    border-top: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .letterbox-dock__line span,
+  .letterbox-entry__date,
+  .letterbox-entry__title,
+  html[data-design="letterbox"] .site-menu__item,
+  html[data-design="letterbox"] .scheme-toggle {
+    transition: none;
+  }
+}

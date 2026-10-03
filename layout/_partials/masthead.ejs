@@ -1,5 +1,12 @@
+<%
+const dated = theme.design === 'letterbox' && is_post() && page.date;
+const yearOnly = page.date_precision === 'year';
+-%>
 <div class="masthead">
   <div class="masthead__inner">
+<% if (dated) { -%>
+    <time class="masthead__date" datetime="<%= yearOnly ? date(page.date, 'YYYY') : full_date(page.date, 'YYYY-MM-DD') %>"><%= yearOnly ? date(page.date, 'YYYY') : date(page.date, 'YYYY-MM-DD').replace(/-/g, '.') %></time>
+<% } -%>
     <h1 class="masthead__title"><%= masthead_title(page) %></h1>
   </div>
 </div>

@@ -41,7 +41,7 @@ const cover = home && theme.home.cover ? url_for(theme.home.cover) : '';
 <link rel="stylesheet" href="<%= url_for(href) %>">
 <% }); -%>
 <script id="bluenote-scheme-boot"><%- scheme_boot_script() %></script>
-<% if (home && theme.home.desktop_style === "fog") { -%>
+<% if (home && theme.design !== 'letterbox' && theme.home.desktop_style === "fog") { -%>
 <link rel="stylesheet" href="<%= url_for("/fonts/serif.css") %>" media="(min-width:768px)">
 <noscript><style>@media(min-width:768px){html[data-home-style="fog"] .home-cover{position:absolute}}</style></noscript>
 <% } -%>

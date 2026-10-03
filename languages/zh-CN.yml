@@ -3,6 +3,7 @@ name: 简体中文
 home:
   menu: 首页
   title: 首页
+  index: 文章
 
 archive:
   menu: 归档

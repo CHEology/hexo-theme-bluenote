@@ -1,5 +1,6 @@
 <%
 const archiveListing = is_archive();
+const dayFormat = theme.design === 'letterbox' ? 'MM.DD' : 'MM-DD';
 const entries = showEntries ? (theme.archive.extra_entries || []) : [];
 let cursor;
 -%>
@@ -9,7 +10,7 @@ let cursor;
   if (year !== cursor) { cursor = year; -%>
   <p class="listing__year"><%= year %></p>
 <% } -%>
-  <a class="listing__item" href="<%- url_for(post.path) %>"><time class="listing__date" datetime="<%= post.date_precision === 'year' ? date(post.date, 'YYYY') : full_date(post.date, 'YYYY-MM-DD') %>"><%= post.date_precision === 'year' ? date(post.date, 'YYYY') : date(post.date, 'MM-DD') %></time><% if (archiveListing && post.archive_note) { %><span class="listing__annotated"><span class="listing__title"><%= post.title %></span><small class="listing__note"><%= post.archive_note %></small></span><% } else { %><span class="listing__title"><%= post.title %></span><% } %></a>
+  <a class="listing__item" href="<%- url_for(post.path) %>"><time class="listing__date" datetime="<%= post.date_precision === 'year' ? date(post.date, 'YYYY') : full_date(post.date, 'YYYY-MM-DD') %>"><%= post.date_precision === 'year' ? date(post.date, 'YYYY') : date(post.date, dayFormat) %></time><% if (archiveListing && post.archive_note) { %><span class="listing__annotated"><span class="listing__title"><%= post.title %></span><small class="listing__note"><%= post.archive_note %></small></span><% } else { %><span class="listing__title"><%= post.title %></span><% } %></a>
 <% }); -%>
 <% entries.forEach((entry) => { if (!entry || !entry.link) return; -%>
   <p class="listing__year listing__section"><%= entry.section || '' %></p>

@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.8.0
+
+- Add the opt-in `design: letterbox`. One navigation bar of fixed height (88px; 64px on phones and short windows) appears on every page, with identical bar geometry across pages and a stable scrollbar gutter so short pages never shift it sideways.
+- Content pages replace the colour-band masthead with a centred title block on the paper; posts show their date above the title (year only for year-precision posts). Archive and tag listings use italic `MM.DD` dates.
+- The home page holds the cover between two fixed bars, followed by every post grouped by year in a four-column index (three below 1200px, two below 900px). The lower bar shows the slogan, or the excerpt of the entry under the pointer or focus, on one line that never changes height. No typing, parallax, snapping or scroll-driven motion.
+- Private posts on the letterbox home are listed only for readers who have unlocked them, and never expose an excerpt.
+- `classic` remains the default; existing sites are unchanged unless they opt in.
+
 ## 1.7.0
 
 - Add opt-in desktop fog composition with five centered articles per column, one-column pagination, paired active page numbers, native history and reduced-motion support.

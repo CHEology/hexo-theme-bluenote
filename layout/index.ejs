@@ -1,3 +1,6 @@
+<% if (theme.design === 'letterbox') { -%>
+<%- partial('_partials/letterbox') %>
+<% } else { -%>
 <%
 const limit = Number(theme.home.cards) || 12;
 const posts = typeof page.posts.limit === 'function' ? page.posts.limit(limit) : page.posts;
@@ -29,4 +32,5 @@ const split = theme.home.layout === 'split';
 
 <% if (theme.home.desktop_style === "fog") { -%>
 <%- partial("_partials/home-folio") %>
+<% } -%>
 <% } -%>

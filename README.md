@@ -122,6 +122,7 @@ The commented [_config.yml](_config.yml) is the full reference. Site overrides m
 | Key | Default | Meaning |
 | --- | --- | --- |
 | `brand` | site title | Navigation title |
+| `design` | `classic` | `letterbox`: one fixed-height bar on every page, centred title blocks, and a home page held between two fixed bars (see below) |
 | `favicon`, `apple_touch_icon` | empty | Local icon paths; use a small favicon and a 180×180 touch icon |
 | `force_https` | true | Emit the HTTPS resource-upgrade policy |
 | `fonts.*`, `colors.light.*`, `colors.dark.*`, `colors.home.*` | paper/serif palette | CSS tokens |
@@ -182,6 +183,10 @@ MIT. Bundled components retain their own licenses; see [THIRD-PARTY-LICENSES.md]
 ### Historical dates and archive annotations
 
 Set `date_precision: year` on a post to show only its year in cards and listings. Its `date` still determines chronology. Optional `archive_note` text appears beside the title on archive pages only; it is escaped and wraps at narrow widths.
+
+### Letterbox design (1.8.0)
+
+Set `design: letterbox` for one fixed-height navigation bar on every page and a title block on the paper in place of the colour band. The home page shows `home.cover` between two fixed bars, then all posts grouped by year in a four-column index; the lower bar carries `home.slogan` and swaps to the excerpt of the entry under the pointer. The bar takes the `home.bg` colour in both schemes. `home.desktop_style`, `home.typing`, `home.cards` and `home.layout` apply only to the classic design.
 
 ### Desktop fog homepage (1.7.0)
 

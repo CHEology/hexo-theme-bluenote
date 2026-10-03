@@ -1,0 +1,50 @@
+<%
+/* Letterbox home: the cover between two fixed bars, then every post grouped by year.
+   Private posts are listed for readers who have unlocked them; locked readers never see them. */
+const cover = theme.home.cover ? url_for(theme.home.cover) : '';
+const slogan = theme.home.slogan || config.subtitle || '';
+const all = site.posts.sort('-date').toArray();
+const years = [];
+all.forEach(post => {
+  const year = date(post.date, 'YYYY');
+  let group = years[years.length - 1];
+  if (!group || group.year !== year) years.push(group = { year, posts: [] });
+  group.posts.push(post);
+});
+-%>
+<h1 class="visually-hidden"><%= config.title %></h1>
+<figure class="letterbox-frame">
+<% if (cover) { -%>
+  <img class="letterbox-frame__image" src="<%- cover %>" alt="" fetchpriority="high" decoding="async">
+<% } -%>
+</figure>
+<div class="letterbox-dock is-idle">
+  <p class="letterbox-dock__line"><span><%= slogan %></span></p>
+</div>
+<section class="letterbox-index" aria-label="<%= __('home.index') %>">
+<% years.forEach(group => {
+  const locked = group.posts.every(post => post.private_post || post.private_id);
+-%>
+  <section class="letterbox-year"<%- locked ? ' data-private-year="true"' : '' %>>
+    <h2 class="letterbox-year__title"><%= group.year %></h2>
+    <ol class="letterbox-year__list">
+<% group.posts.forEach(post => {
+  const isPrivate = Boolean(post.private_post || post.private_id);
+  const source = isPrivate ? '' : (post.description || post.excerpt || '');
+  const excerpt = strip_html(source).substring(0, 200).trim().replace(/\s*\n\s*/g, ' ');
+  const yearOnly = post.date_precision === 'year';
+-%>
+      <li class="letterbox-entry"<%- isPrivate ? ' data-private-entry="true"' : '' %>>
+        <a class="letterbox-entry__link" href="<%- url_for(post.path) %>" data-excerpt="<%= excerpt %>">
+          <time class="letterbox-entry__date" datetime="<%= yearOnly ? date(post.date, 'YYYY') : full_date(post.date, 'YYYY-MM-DD') %>"><%= yearOnly ? '' : date(post.date, 'MM.DD') %></time>
+          <span class="letterbox-entry__title"><%= post.title %></span>
+<% if (excerpt) { -%>
+          <span class="letterbox-entry__excerpt"><%= excerpt %></span>
+<% } -%>
+        </a>
+      </li>
+<% }); -%>
+    </ol>
+  </section>
+<% }); -%>
+</section>

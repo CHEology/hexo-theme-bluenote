@@ -5,6 +5,12 @@
 # Navigation title. Falls back to the site `title` when empty.
 brand:
 
+# Overall chrome. `classic` keeps the colour-band mastheads and the cover/cards or fog home.
+# `letterbox` uses one fixed-height bar on every page, a title block on the paper instead of
+# the band, and a home page held between two fixed bars: the cover, then a dated index whose
+# lower bar shows the slogan or the excerpt of the entry under the pointer.
+design: classic
+
 # Icons. Leave empty to omit the tags.
 favicon:
 apple_touch_icon:

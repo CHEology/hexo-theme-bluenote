@@ -2,18 +2,19 @@
 const home = is_home();
 const bodyClasses = body_classes(page);
 const contentLanguage = page.content_language || (is_post() && theme.post.language) || page.lang || config.language || 'en';
+const letterbox = theme.design === 'letterbox';
 const schemeDefault = theme.dark_mode && theme.dark_mode.enable ? (theme.dark_mode.default || 'auto') : 'light';
 -%>
 <!DOCTYPE html>
-<html lang="<%= contentLanguage %>"<%- home ? ' class="home-root"' : '' %> data-root="<%= config.root %>"<%- home && theme.home.desktop_style === "fog" ? ' data-home-style="fog"' : '' %> data-scheme-default="<%= schemeDefault %>" data-scheme-storage="<%= theme.dark_mode.storage_key || 'bluenote.color-scheme' %>"<%- theme.dark_mode.legacy_storage_key ? ` data-scheme-legacy="${theme.dark_mode.legacy_storage_key}"` : '' %><%- theme.search && theme.search.enable ? ` data-search-path="${theme.search.path || '/local-search.xml'}"` : '' %>>
+<html lang="<%= contentLanguage %>"<%- home ? ' class="home-root"' : '' %><%- letterbox ? ' data-design="letterbox"' : '' %> data-root="<%= config.root %>"<%- home && !letterbox && theme.home.desktop_style === "fog" ? ' data-home-style="fog"' : '' %> data-scheme-default="<%= schemeDefault %>" data-scheme-storage="<%= theme.dark_mode.storage_key || 'bluenote.color-scheme' %>"<%- theme.dark_mode.legacy_storage_key ? ` data-scheme-legacy="${theme.dark_mode.legacy_storage_key}"` : '' %><%- theme.search && theme.search.enable ? ` data-search-path="${theme.search.path || '/local-search.xml'}"` : '' %>>
 <%- partial('_partials/head') %>
 <body class="<%= bodyClasses %>">
 <%- partial('_partials/icons') %>
 <header class="site-header"<%- is_post() ? ' id="page-top" tabindex="-1"' : '' %>>
 <%- partial('_partials/nav') %>
-<% if (home) { -%>
+<% if (home && !letterbox) { -%>
 <%- partial('_partials/cover') %>
-<% } else if (page.layout !== '404') { -%>
+<% } else if (!home && page.layout !== '404') { -%>
 <%- partial('_partials/masthead') %>
 <% } -%>
 </header>

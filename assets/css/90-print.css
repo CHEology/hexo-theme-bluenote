@@ -4,6 +4,8 @@
   .post-toc,
   .post-nav,
   .home-cover,
+  .letterbox-frame,
+  .letterbox-dock,
   .lightbox,
   .site-search-overlay {
     display: none !important;

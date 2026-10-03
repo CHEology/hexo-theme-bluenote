@@ -1,5 +1,5 @@
 <%
-const typing = is_home() && theme.home.typing && theme.home.typing.enable && (theme.home.slogan || config.subtitle);
+const typing = is_home() && theme.design !== 'letterbox' && theme.home.typing && theme.home.typing.enable && (theme.home.slogan || config.subtitle);
 -%>
 <% if (typing) { -%>
 <script defer src="<%= url_for('/vendor/typed.js/2.0.12/typed.min.js') %>"></script>

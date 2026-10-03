@@ -3,6 +3,7 @@ name: English
 home:
   menu: Home
   title: Home
+  index: Writing
 
 archive:
   menu: Archives

@@ -53,3 +53,35 @@ test('missing Gallery data is an intentional empty page; invalid paths fail befo
   try {assert.match(f.read('gallery/index.html'),/No photographs yet/);assert.doesNotMatch(f.read('gallery/index.html'),/<dialog/);}finally{f.cleanup();}
   await assert.rejects(fixture({theme:{gallery:{path:'../escape'}}}),/URL-safe/);
 });
+
+test('letterbox design: one bar everywhere, a dated index grouped by year, no cover banner or typing',async()=>{
+  const f=await fixture({root:'/notes/',theme:{design:'letterbox',home:{cover:'/images/cover.svg',slogan:'Quiet things.'}}});
+  try {
+    const home=f.read('index.html'),post=f.read('reading/index.html');
+    for(const html of [home,post]) assert.match(html,/<html[^>]*data-design="letterbox"/);
+    assert.match(home,/<img class="letterbox-frame__image" src="\/notes\/images\/cover.svg"/);
+    assert.match(home,/rel="preload" as="image" fetchpriority="high" href="\/notes\/images\/cover.svg"/);
+    assert.match(home,/<p class="letterbox-dock__line"><span>Quiet things\.<\/span><\/p>/);
+    assert.doesNotMatch(home,/id="banner"|typed\.min\.js|home-folio|index-card/);
+    const years=[...home.matchAll(/<h2 class="letterbox-year__title">(\d{4})<\/h2>/g)].map(m=>Number(m[1]));
+    assert.ok(years.length>0);
+    assert.deepEqual(years,[...years].sort((a,b)=>b-a));
+    assert.match(home,/<a class="letterbox-entry__link" href="\/notes\/[^"]+" data-excerpt="[^"]*">\s*<time class="letterbox-entry__date" datetime="\d{4}-\d{2}-\d{2}">\d{2}\.\d{2}<\/time>/);
+    assert.match(post,/<time class="masthead__date" datetime="\d{4}-\d{2}-\d{2}">\d{4}\.\d{2}\.\d{2}<\/time>\s*<h1 class="masthead__title">/);
+    assert.match(f.read('archives/index.html'),/<time class="listing__date" datetime="[^"]+">\d{2}\.\d{2}<\/time>/);
+    const css=f.read('css/bluenote.css');
+    assert.match(css,/html\[data-design="letterbox"\] \{[^}]*--lb-bar-h: 88px/);
+    assert.match(css,/html:not\(\.private-reading-unlocked\) \.letterbox-entry\[data-private-entry\]/);
+    assert.doesNotMatch(css,/100vw/);
+  } finally {f.cleanup();}
+});
+
+test('classic remains the default: no letterbox markup unless a site opts in',async()=>{
+  const f=await fixture({defaults:true});
+  try {
+    const home=f.read('index.html');
+    assert.doesNotMatch(home,/data-design=|letterbox-frame/);
+    assert.match(home,/id="banner" class="home-cover"/);
+    assert.doesNotMatch(f.read('reading/index.html'),/masthead__date/);
+  } finally {f.cleanup();}
+});
