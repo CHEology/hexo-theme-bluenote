@@ -5,15 +5,44 @@ const dayFormat = letterbox ? 'MM.DD' : 'MM-DD';
 /* Letterbox listings sit under a year heading, so a year-only post leaves its date blank. */
 const yearText = post => letterbox ? '' : date(post.date, 'YYYY');
 const entries = showEntries ? (theme.archive.extra_entries || []) : [];
+/* Optional details (archive.details): year counts, each post's length on the right and its
+   first sentence below the title. Private posts never show either. Photo posts
+   (photo_layout) are measured by their photographs instead of their words. */
+const details = letterbox && theme.archive.details;
+const labels = theme.archive.details_labels || {};
+const label = (key, n) => String(labels[key] || '{n}').replace('{n}', n);
+const isPrivate = post => Boolean(post.private_post || post.private_id);
+const photos = post => (String(post.content || '').match(/<img\b/g) || []).length;
+const length = post => post_length(post);
+const roundTen = n => Math.max(10, Math.round(n / 10) * 10);
+const lengthText = n => {
+  const from = Number(labels.large_from) || 10000;
+  const divisor = Number(labels.large_divisor) || 1000;
+  return n >= from ? label('length_large', (n / divisor).toFixed(1).replace(/\.0$/, '')) : label('length', roundTen(n).toLocaleString('en-US'));
+};
+const measure = post => post.photo_layout ? label('photos', photos(post)) : lengthText(length(post));
+const yearSummary = year => {
+  const group = [];
+  posts.each(post => { if (date(post.date, 'YYYY') === year) group.push(post); });
+  const words = group.filter(post => !isPrivate(post) && !post.photo_layout).reduce((sum, post) => sum + length(post), 0);
+  return { count: label('posts', group.length), words: words ? lengthText(words) : '' };
+};
 let cursor;
 -%>
-<section class="listing">
+<section class="listing<%= details ? ' listing--details' : '' %>">
 <% posts.each((post) => {
   const year = date(post.date, 'YYYY');
   if (year !== cursor) { cursor = year; -%>
   <p class="listing__year"><%= year %></p>
+<% if (details) { const summary = yearSummary(year); -%>
+  <p class="listing__year-count"><span><%= summary.count %></span><% if (summary.words) { %><span><%= summary.words %></span><% } %></p>
 <% } -%>
-  <a class="listing__item" href="<%- url_for(post.path) %>"><time class="listing__date" datetime="<%= post.date_precision === 'year' ? date(post.date, 'YYYY') : full_date(post.date, 'YYYY-MM-DD') %>"><%= post.date_precision === 'year' ? yearText(post) : date(post.date, dayFormat) %></time><% if (archiveListing && post.archive_note) { %><span class="listing__annotated"><span class="listing__title"><%= post.title %></span><small class="listing__note<%= /[）」』]$/.test(post.archive_note) ? ' listing__note--close' : '' %>"><%= post.archive_note %></small></span><% } else { %><span class="listing__title"><%= post.title %></span><% } %></a>
+<% }
+  const hidden = isPrivate(post);
+  const excerpt = details && !hidden ? first_sentence(strip_html(post.description || post.excerpt || '')) : '';
+  const size = details && !hidden ? measure(post) : '';
+-%>
+  <a class="listing__item" href="<%- url_for(post.path) %>"><time class="listing__date" datetime="<%= post.date_precision === 'year' ? date(post.date, 'YYYY') : full_date(post.date, 'YYYY-MM-DD') %>"><%= post.date_precision === 'year' ? yearText(post) : date(post.date, dayFormat) %></time><% if (archiveListing && post.archive_note) { %><span class="listing__annotated"><span class="listing__title"><%= post.title %></span><small class="listing__note<%= /[）」』]$/.test(post.archive_note) ? ' listing__note--close' : '' %>"><%= post.archive_note %></small></span><% } else { %><span class="listing__title"><%= post.title %></span><% } %><% if (size) { %><span class="listing__length"><%= size %></span><% } %><% if (excerpt) { %><span class="listing__excerpt"><%- cjk_punct(escape_html(excerpt)) %></span><% } %></a>
 <% }); -%>
 <% entries.forEach((entry) => { if (!entry || !entry.link) return; -%>
   <p class="listing__year listing__section"><%= entry.section || '' %></p>

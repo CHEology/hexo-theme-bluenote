@@ -118,7 +118,7 @@ try {
         try {
           await stable.goto(servers[0].url);
           const open=async()=>{
-            if(width<992)await stable.locator('.site-nav__toggle').click();
+            if(width<768)await stable.locator('.site-nav__toggle').click();
             await stable.getByRole('link',{name:'Search',exact:true}).click();
           };
           const box=()=>stable.locator('.site-search-dialog').boundingBox();

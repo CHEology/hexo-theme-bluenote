@@ -122,7 +122,7 @@ The commented [_config.yml](_config.yml) is the full reference. Site overrides m
 | Key | Default | Meaning |
 | --- | --- | --- |
 | `brand` | site title | Navigation title |
-| `design` | `classic` | `letterbox`: one fixed-height bar on every page, centred title blocks, and a home page held between two fixed bars (see below) |
+| `design` | `classic` | `letterbox`: one fixed-height bar at the top of every page, centred title blocks, and a home cover framed by two bars of the same height (see below) |
 | `favicon`, `apple_touch_icon` | empty | Local icon paths; use a small favicon and a 180×180 touch icon |
 | `force_https` | true | Emit the HTTPS resource-upgrade policy |
 | `fonts.*`, `colors.light.*`, `colors.dark.*`, `colors.home.*` | paper/serif palette | CSS tokens |
@@ -149,6 +149,12 @@ The commented [_config.yml](_config.yml) is the full reference. Site overrides m
 | `open_graph.enable/twitter_card` | true / summary_large_image | Social metadata |
 | `asset_version` | true | Content hashes for local CSS/JS |
 | `footer.content`, `custom_css`, `custom_js` | empty | Site extensions |
+| `custom_css_deferred` | empty | Stylesheets loaded without blocking the first paint (for example a web-font fallback) |
+| `cjk_punctuation` | `false` | Set quotation marks, dashes and ellipses that touch Chinese text in `fonts.cjk` (build time; text unchanged) |
+| `home.cover_portrait` | empty | Letterbox: `base` and `widths` of a portrait crop (`<base>-<w>.webp` / `.jpg`) served to portrait phones |
+| `home.cover_placeholder` | empty | Letterbox: tiny image (data URI) or colour shown behind the cover while it loads |
+| `post.date_format`, `post.year_format` | `YYYY.MM.DD`, `YYYY` | Letterbox title block date, and the form used when only the year is known |
+| `archive.details`, `archive.details_labels` | `false` | Letterbox listings: year counts, each post's length and first sentence; labels take `{n}` |
 
 ## Local verification and maintenance
 
@@ -186,7 +192,7 @@ Set `date_precision: year` on a post to show only its year in cards and listings
 
 ### Letterbox design (1.8.0)
 
-Set `design: letterbox` for a navigation bar fixed to the viewport on every page and a shared blue-black title card. The home page shows `home.cover` between two fixed bars, then all posts grouped by year in a narrow, continuous date-and-title list; the lower bar carries `home.slogan` and swaps to the excerpt of the entry under the pointer. The bar takes the `home.bg` colour in both schemes. `home.desktop_style`, `home.typing`, `home.cards` and `home.layout` apply only to the classic design.
+Set `design: letterbox` for a navigation bar at the top of every page, scrolling away with it, and a shared title block on the page paper. The home page shows `home.cover` between two bars that scroll with the page, then all posts grouped by year in a narrow, continuous date-and-title list; the lower bar carries `home.slogan` and swaps to the excerpt of the entry under the pointer. The bar takes the `home.bg` colour in both schemes. `home.desktop_style`, `home.typing`, `home.cards` and `home.layout` apply only to the classic design.
 
 ### Desktop fog homepage (1.7.0)
 

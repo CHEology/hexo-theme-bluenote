@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.12.0
+
+- Letterbox bars scroll with the document: the navigation sits at the document top and the home lower bar follows the cover in normal flow. Neither is fixed or returns on scroll-up; an open phone menu still pins its bar so it can be closed.
+- Phones (≤767px) place each home date directly above its title on the shared centre axis instead of in a left track. Desktop and short windows keep the track layout.
+- `home.cover_portrait` serves an art-directed crop to portrait phones through `<picture>` (WebP with JPEG fallback, `srcset`), with a matching preload; the wide cover is no longer downloaded there. The viewport meta now precedes the preloads so their media queries use the real width. `home.cover_placeholder` paints a tiny image or colour behind the cover while it loads.
+- `cjk_punctuation` sets quotation marks, dashes and ellipses that touch Chinese text in the Chinese face (`fonts.cjk`, new `--font-cjk` token) at build time; the same characters in Latin text are unchanged.
+- `custom_css_deferred` loads site stylesheets, such as an optional web-font fallback, without blocking the first paint.
+- The menu collapses into the menu button below 768px instead of 992px.
+- Letterbox title blocks sit on the page's own paper below the bar, with no band or rule; the text follows 3rem below (2.25rem on phones). The article date format is configurable (`post.date_format`, `post.year_format`) and set upright and muted.
+- `archive.details` adds year counts, each post's length (or photo count for `photo_layout` posts) and its first sentence to letterbox listings. Private posts show neither. New helpers: `first_sentence`, `post_length`, `cjk_punct`.
+
 ## 1.11.0
 
 - Centre every home title on the same axis as its year, with dates in a left track balanced by an equal empty track on the right. Use a 440px responsive measure and narrower side tracks on phones; undated and wrapped titles keep the same centre.

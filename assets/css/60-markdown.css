@@ -623,3 +623,10 @@
 .markdown-body > :last-child {
   margin-bottom: 0 !important;
 }
+
+/* Quotation marks, dashes and ellipses in Chinese text, marked at build time
+   (`cjk_punctuation`). No tracking, so a doubled —— joins into one line. */
+.cjk-punct {
+  font-family: var(--font-cjk, serif);
+  letter-spacing: 0;
+}

@@ -1,6 +1,8 @@
 /* Letterbox design (opt-in: `design: letterbox`).
-   One bar of fixed height carries the navigation on every page. The home page holds its
-   content between two fixed bars: the cover first, then a dated index; the lower bar shows
+   One bar of fixed height carries the navigation at the top of every page and scrolls
+   away with the document like any other content; it does not return on scroll-up. The
+   home page frames the cover between that bar and a lower bar of the same height, which
+   also scrolls with the page: the cover first, then a dated index. The lower bar shows
    the slogan, or the excerpt of the entry under the pointer, on a single line that never
    changes height. Content pages open with a centred title card on the same blue-black. */
 
@@ -19,7 +21,7 @@ html[data-design="letterbox"] {
      breakpoints after first paint with scrollbar-gutter: stable, moving fixed bars. */
   overflow-y: scroll;
   overscroll-behavior: none;
-  scroll-padding-top: calc(var(--lb-bar-h) + 1rem);
+  scroll-padding-top: 1rem;
 }
 
 /* ── The bar (every page) ─────────────────────────────────────────── */
@@ -28,12 +30,14 @@ html[data-design="letterbox"] body {
   overscroll-behavior: none;
 }
 
+/* The bar is positioned against the document, not the header, so it sits in the space
+   reserved by the body's top padding and leaves with the page when it scrolls. */
 html[data-design="letterbox"] .site-header {
-  position: relative;
+  position: static;
 }
 
 html[data-design="letterbox"] .site-nav {
-  position: fixed;
+  position: absolute;
   top: 0;
   right: 0;
   left: 0;
@@ -134,7 +138,12 @@ html[data-design="letterbox"] .home-page .site-menu {
   background-color: var(--lb-bar);
 }
 
-@media (max-width: 991.98px) {
+@media (max-width: 767.98px) {
+  /* An open menu keeps its close button in view. */
+  html[data-design="letterbox"] .site-nav--open {
+    position: fixed;
+  }
+
   html[data-design="letterbox"] .site-menu {
     padding-top: calc(var(--lb-bar-h) + 0.5rem);
   }
@@ -159,17 +168,17 @@ html[data-design="letterbox"] .home-page .site-menu {
   }
 }
 
-/* The same title card on articles, Archives, Gallery, About and other content pages.
-   A reserved date row keeps the title on one baseline even when no date is present. */
+/* The same title block on articles, Archives, Gallery, About and other content pages.
+   It sits on the page's own paper below the bar, with no band or rule of its own, and the
+   text follows close beneath. A reserved date row keeps the title on one baseline even
+   when no date is present. */
 html[data-design="letterbox"] .masthead {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
   height: auto;
-  min-height: clamp(240px, 36svh, 360px);
-  padding: 3rem var(--lb-gutter) 3.5rem;
+  min-height: 0;
+  padding: 5rem var(--lb-gutter) 0;
   overflow: visible;
-  background: var(--lb-bar);
+  background: transparent;
 }
 
 html[data-design="letterbox"] .masthead__inner {
@@ -179,7 +188,7 @@ html[data-design="letterbox"] .masthead__inner {
   width: 100%;
   max-width: var(--column-width);
   margin: 0 auto;
-  color: var(--lb-on);
+  color: var(--heading);
   text-align: center;
 }
 
@@ -187,12 +196,11 @@ html[data-design="letterbox"] .masthead__date {
   grid-row: 1;
   display: block;
   margin: 0;
-  color: var(--lb-on-3);
+  color: var(--muted);
   font-family: var(--font-ui);
   font-size: 1rem;
-  font-style: italic;
-  font-variant-numeric: lining-nums tabular-nums;
-  letter-spacing: 0.06em;
+  font-variant-numeric: lining-nums;
+  letter-spacing: 0.1em;
   line-height: 1.5rem;
 }
 
@@ -209,15 +217,15 @@ html[data-design="letterbox"] .masthead__inner::after {
 }
 
 html[data-design="letterbox"] .page-body {
-  padding-top: 3.5rem;
+  padding-top: 3rem;
 }
 
 html[data-design="letterbox"] .post-toc {
-  top: calc(var(--lb-bar-h) + 1rem);
+  top: 1rem;
 }
 
 html[data-design="letterbox"] .post-toc__body {
-  max-height: calc(100svh - var(--lb-bar-h) - 8rem);
+  max-height: calc(100svh - 8rem);
 }
 
 /* English verse and quoted lines share the prose face; formulas keep --font-math. */
@@ -317,6 +325,50 @@ html[data-design="letterbox"] .listing__date:empty {
   display: none;
 }
 
+/* Optional details (archive.details): a quiet count under each year, the post's length
+   beside its date, and its first sentence under the title. Same face, smaller and muted. */
+html[data-design="letterbox"] .listing__year-count {
+  display: flex;
+  justify-content: center;
+  gap: 1em;
+  margin: -0.5rem 0 0.875rem;
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-variant-numeric: lining-nums;
+  letter-spacing: 0.12em;
+  line-height: 1.5;
+}
+
+html[data-design="letterbox"] .listing--details .listing__item {
+  flex-wrap: wrap;
+  row-gap: 0;
+  padding: 0.75rem 0;
+}
+
+html[data-design="letterbox"] .listing__length {
+  order: 2;
+  flex: none;
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 0.8125rem;
+  font-variant-numeric: lining-nums tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+html[data-design="letterbox"] .listing__item:has(.listing__length) .listing__date {
+  margin-left: 0;
+}
+
+html[data-design="letterbox"] .listing__excerpt {
+  order: 4;
+  flex-basis: 100%;
+  margin-top: 0.125rem;
+  color: var(--muted);
+  font-size: 0.875rem;
+  letter-spacing: 0.01em;
+  line-height: 1.6;
+}
+
 @media (max-width: 479.98px) {
   html[data-design="letterbox"] .listing__item {
     flex-wrap: wrap;
@@ -360,7 +412,7 @@ html[data-design="letterbox"] .site-search-result:focus-visible {
   background: var(--link-hover-bg);
 }
 
-/* ── Home: the frame between two fixed bars ───────────────────────── */
+/* ── Home: the frame between the two bars ─────────────────────────── */
 html.home-root[data-design="letterbox"],
 html[data-design="letterbox"] body.home-page {
   background: var(--lb-bar);
@@ -382,7 +434,15 @@ html[data-design="letterbox"] .home-page .home-main {
   height: calc(100svh - 2 * var(--lb-bar-h));
   margin: 0;
   overflow: hidden;
-  background: #0b1d27;
+  /* An optional placeholder (home.cover_placeholder) is painted here while the cover
+     loads, framed like the cover itself. */
+  background-color: #0b1d27;
+  background-position: 50% 52%;
+  background-size: cover;
+}
+
+.letterbox-frame picture {
+  display: contents;
 }
 
 .letterbox-frame__image {
@@ -394,11 +454,6 @@ html[data-design="letterbox"] .home-page .home-main {
 }
 
 .letterbox-dock {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1020;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -447,7 +502,7 @@ html[data-design="letterbox"] .home-page .home-main {
    let dates sit to the left without displacing short or undated titles. */
 .letterbox-index {
   min-height: calc(100svh - var(--lb-bar-h));
-  padding: 4rem var(--lb-gutter) calc(var(--lb-bar-h) + 4rem);
+  padding: 4rem var(--lb-gutter);
   color: var(--lb-on);
   font-family: var(--font-ui);
 }
@@ -538,14 +593,8 @@ html:not(.private-reading-unlocked) .letterbox-year[data-private-year] {
   display: none;
 }
 
-/* A second fixed bar is useful where there is room for it. The top navigation
-   stays fixed at every size; only the subtitle moves into flow on small screens. */
-@media (min-width: 768px) and (min-height: 521px) {
-  html.home-root[data-design="letterbox"] {
-    scroll-padding-bottom: calc(var(--lb-bar-h) + 1rem);
-  }
-}
-
+/* On small screens the lower bar gives up its fixed height and simply carries the slogan
+   between the cover and the index. */
 @media (max-width: 767px), (max-height: 520px) {
   html[data-design="letterbox"] {
     --lb-bar-h: 64px;
@@ -583,7 +632,7 @@ html:not(.private-reading-unlocked) .letterbox-year[data-private-year] {
   }
 
   html[data-design="letterbox"] .masthead {
-    min-height: 240px;
+    padding-top: 3.5rem;
   }
 
   html[data-design="letterbox"] .masthead__title {
@@ -591,7 +640,35 @@ html:not(.private-reading-unlocked) .letterbox-year[data-private-year] {
   }
 
   html[data-design="letterbox"] .page-body {
-    padding-top: 2.5rem;
+    padding-top: 2.25rem;
+  }
+}
+
+/* Phones: a far-left date column leaves short titles stranded in the middle of the line.
+   Each date sits directly above its title instead, as on the article title card, so both
+   stay on the same centre axis as the year. Undated entries show their title alone. */
+@media (max-width: 767px) {
+  .letterbox-entry__link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    padding-block: 0.625rem;
+  }
+
+  .letterbox-entry__date {
+    font-size: 0.8125rem;
+    letter-spacing: 0.08em;
+    line-height: 1.4;
+    text-align: center;
+  }
+
+  .letterbox-entry__date:empty {
+    display: none;
+  }
+
+  .letterbox-entry__title {
+    line-height: 1.4;
   }
 }
 

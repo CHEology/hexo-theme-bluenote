@@ -2,14 +2,20 @@
 /* Letterbox home: the cover between two fixed bars, then every post grouped by year.
    Private posts are listed for readers who have unlocked them; locked readers never see them. */
 const cover = theme.home.cover ? url_for(theme.home.cover) : '';
+/* Portrait phones get their own crop in WebP with a JPEG fallback; everything else keeps
+   the single wide cover. The media query matches the preload in head.ejs. */
+const portrait = theme.home.cover_portrait || {};
+const portraitWidths = portrait.base && Array.isArray(portrait.widths) ? portrait.widths : [];
+const portraitMedia = '(max-width: 767px) and (orientation: portrait)';
+const portraitSet = ext => portraitWidths.map(w => url_for(portrait.base + '-' + w + '.' + ext) + ' ' + w + 'w').join(', ');
+const placeholder = theme.home.cover_placeholder || '';
+const placeholderStyle = !placeholder ? '' : /^(data:|\/|https?:)/.test(placeholder)
+  ? `background-image: url('${placeholder}')` : `background-color: ${placeholder}`;
 const slogan = theme.home.slogan || config.subtitle || '';
 const all = site.posts.sort('-date').toArray();
 /* The subtitle shows a post's first sentence, whole: up to the first full stop
    (。！？!? …, or a Latin period after a lowercase word), keeping closing quotes. */
-const firstSentence = text => {
-  const match = text.match(/^[\s\S]*?(?:[。！？!?…]+|(?<=[a-z\u4e00-\u9fff）)」”"'])\.(?=\s|$))[」』”"’）)]*/u);
-  return (match ? match[0] : text).trim();
-};
+const firstSentence = text => first_sentence(text);
 const isPrivate = post => Boolean(post.private_post || post.private_id);
 const years = [];
 all.forEach(post => {
@@ -20,8 +26,14 @@ all.forEach(post => {
 });
 -%>
 <h1 class="visually-hidden"><%= config.title %></h1>
-<figure class="letterbox-frame">
-<% if (cover) { -%>
+<figure class="letterbox-frame"<%- placeholderStyle ? ` style="${placeholderStyle}"` : '' %>>
+<% if (cover && portraitWidths.length) { -%>
+  <picture>
+    <source media="<%- portraitMedia %>" type="image/webp" srcset="<%- portraitSet('webp') %>" sizes="100vw">
+    <source media="<%- portraitMedia %>" srcset="<%- portraitSet('jpg') %>" sizes="100vw">
+    <img class="letterbox-frame__image" src="<%- cover %>" alt="" fetchpriority="high" decoding="async">
+  </picture>
+<% } else if (cover) { -%>
   <img class="letterbox-frame__image" src="<%- cover %>" alt="" fetchpriority="high" decoding="async">
 <% } -%>
 </figure>

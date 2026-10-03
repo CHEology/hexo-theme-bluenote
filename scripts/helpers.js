@@ -106,6 +106,7 @@ hexo.extend.helper.register('theme_tokens_css', function() {
     fonts.ui ? `--font-ui:${fonts.ui}` : '',
     fonts.prose ? `--font-prose:${fonts.prose}` : '',
     fonts.math ? `--font-math:${fonts.math}` : '',
+    fonts.cjk ? `--font-cjk:${fonts.cjk}` : '',
     fonts.mono ? `--font-mono:${fonts.mono}` : '',
     !isEmpty(fonts.letter_spacing) ? `--letter-spacing:${fonts.letter_spacing}` : ''
   ].filter(Boolean).join(';');
@@ -141,4 +142,20 @@ hexo.extend.helper.register('icon', function(name, className) {
   const classes = ['icon', `icon--${name}`];
   if (className) classes.push(className);
   return `<svg class="${escapeHTML(classes.join(' '))}" aria-hidden="true" focusable="false"><use href="#icon-${escapeHTML(name)}"></use></svg>`;
+});
+
+/* A post's first sentence, whole: up to the first full stop (。！？!? …, or a Latin period
+   after a lowercase word), keeping closing quotes. Shared by the home subtitle and listings. */
+hexo.extend.helper.register('first_sentence', function(text) {
+  const plain = String(text || '').replace(/\s+/g, ' ').trim();
+  const match = plain.match(/^[\s\S]*?(?:[。！？!?…]+|(?<=[a-z\u4e00-\u9fff）)」”"'])\.(?=\s|$))[」』”"’）)]*/u);
+  return (match ? match[0] : plain).trim();
+});
+
+/* Length of a post as readers count it: Chinese characters plus Latin words. */
+hexo.extend.helper.register('post_length', function(post) {
+  const text = this.strip_html(post.content || '');
+  const han = (text.match(/[\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff]/g) || []).length;
+  const words = (text.match(/[A-Za-z]+(?:['’-][A-Za-z]+)*/g) || []).length;
+  return han + words;
 });

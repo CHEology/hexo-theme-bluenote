@@ -24,8 +24,16 @@ fonts:
   ui: 'Times, "Times New Roman", Georgia, serif'
   prose: 'Charter, Georgia, "Times New Roman", "Songti SC", "Noto Serif CJK SC", "Source Han Serif SC", STSong, serif'
   math: 'Times, "Times New Roman", Georgia, serif'
+  # Chinese face alone, used for quotation marks, dashes and ellipses that sit in Chinese
+  # text (see `cjk_punctuation`).
+  cjk: '"Songti SC", "Noto Serif CJK SC", "Source Han Serif SC", STSong, serif'
   mono: 'SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace'
   letter_spacing: 0.02em
+
+# Set quotation marks, dashes and ellipses that touch Chinese text in the Chinese face
+# (`fonts.cjk`), so “引号” and —— take their full-width Chinese forms while the same
+# characters inside Latin text keep the Latin face. Rendering only; text is unchanged.
+cjk_punctuation: false
 
 # Colour tokens. Each key becomes a CSS custom property (`paper` -> `--paper`,
 # `home.nav` -> `--home-nav`). `light` applies by default, `dark` under
@@ -102,6 +110,15 @@ home:
   # Full-viewport cover image behind the slogan; empty uses the solid `home.bg` colour.
   cover:
   preload_cover: true
+  # Letterbox only, optional: an art-directed crop for portrait phones (≤767px), served
+  # instead of `cover` so phones never download the wide desktop file. `base` names the
+  # files `<base>-<width>.jpg` and `<base>-<width>.webp`; `widths` lists the sizes made.
+  cover_portrait:
+    base:
+    widths: []
+  # Letterbox only, optional: a tiny image (data URI) or colour painted behind the cover
+  # while it loads, so the frame never shows an empty block.
+  cover_placeholder:
   # Slogan typed on the cover; falls back to the site `subtitle`.
   slogan:
   typing:
@@ -123,6 +140,10 @@ home:
 post:
   # Optional content language independent of navigation/interface language.
   language:
+  # Letterbox title block: the article date (moment.js tokens) and the form used when
+  # only the year is known.
+  date_format: YYYY.MM.DD
+  year_format: YYYY
   toc:
     enable: true
     min_depth: 1
@@ -141,6 +162,17 @@ post:
 
 archive:
   show_total: false
+  # Letterbox listings: each year notes its number of posts and their length; each post
+  # shows its length on the right and its first sentence below the title. Private posts
+  # never show a length or an excerpt. `{n}` is replaced by the number.
+  details: false
+  details_labels:
+    posts: '{n} posts'
+    length: '{n} words'
+    length_large: '{n}k words'
+    large_from: 10000
+    large_divisor: 1000
+    photos: '{n} photos'
   # Extra rows appended to the main archive page, e.g.
   # - { section: SITE, kind: DOC, title: Design Doc, summary: Colours and type, link: /design/ }
   extra_entries: []
@@ -201,4 +233,6 @@ footer:
 
 # Additional site stylesheets and scripts (site-relative paths).
 custom_css: []
+# Stylesheets that must not block the first paint, such as optional web-font fallbacks.
+custom_css_deferred: []
 custom_js: []

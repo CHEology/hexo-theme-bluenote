@@ -1,11 +1,13 @@
 <%
 const dated = theme.design === 'letterbox' && is_post() && page.date;
 const yearOnly = page.date_precision === 'year';
+const dayFormat = theme.post.date_format || 'YYYY.MM.DD';
+const yearFormat = theme.post.year_format || 'YYYY';
 -%>
 <div class="masthead">
   <div class="masthead__inner">
 <% if (dated) { -%>
-    <time class="masthead__date" datetime="<%= yearOnly ? date(page.date, 'YYYY') : full_date(page.date, 'YYYY-MM-DD') %>"><%= yearOnly ? date(page.date, 'YYYY') : date(page.date, 'YYYY-MM-DD').replace(/-/g, '.') %></time>
+    <time class="masthead__date" datetime="<%= yearOnly ? date(page.date, 'YYYY') : full_date(page.date, 'YYYY-MM-DD') %>"><%= date(page.date, yearOnly ? yearFormat : dayFormat) %></time>
 <% } -%>
     <h1 class="masthead__title"><%= masthead_title(page) %></h1>
   </div>

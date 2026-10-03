@@ -8,13 +8,23 @@ let keywords = page.keywords || config.keywords;
 if (Array.isArray(keywords)) keywords = keywords.join(',');
 const ogImage = page.og_img || page.cover || page.index_img;
 const cover = home && theme.home.cover ? url_for(theme.home.cover) : '';
+const portrait = theme.home.cover_portrait || {};
+const portraitWidths = home && portrait.base && Array.isArray(portrait.widths) ? portrait.widths : [];
+/* Keep these two media queries complementary: portrait phones preload only their crop. */
+const portraitMedia = '(max-width: 767px) and (orientation: portrait)';
 -%>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+<%# The viewport is declared first so phones evaluate the preload media queries at their real width. -%>
 <% if (cover && theme.home.preload_cover) { -%>
+<% if (portraitWidths.length) { -%>
+<link rel="preload" as="image" fetchpriority="high" href="<%- cover %>" media="(min-width: 768px), (orientation: landscape)">
+<link rel="preload" as="image" fetchpriority="high" type="image/webp" media="<%- portraitMedia %>" imagesrcset="<%- portraitWidths.map(w => url_for(portrait.base + '-' + w + '.webp') + ' ' + w + 'w').join(', ') %>" imagesizes="100vw">
+<% } else { -%>
 <link rel="preload" as="image" fetchpriority="high" href="<%- cover %>">
 <% } -%>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+<% } -%>
 <% if (theme.favicon) { -%>
 <link rel="icon" href="<%= url_for(theme.favicon) %>">
 <% } -%>
@@ -39,6 +49,10 @@ const cover = home && theme.home.cover ? url_for(theme.home.cover) : '';
 <link rel="stylesheet" href="<%= url_for('/css/bluenote.css') %>">
 <% (theme.custom_css || []).forEach((href) => { -%>
 <link rel="stylesheet" href="<%= url_for(href) %>">
+<% }); -%>
+<% (theme.custom_css_deferred || []).forEach((href) => { -%>
+<link rel="stylesheet" href="<%= url_for(href) %>" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="<%= url_for(href) %>"></noscript>
 <% }); -%>
 <script id="bluenote-scheme-boot"><%- scheme_boot_script() %></script>
 <% if (home && theme.design !== 'letterbox' && theme.home.desktop_style === "fog") { -%>

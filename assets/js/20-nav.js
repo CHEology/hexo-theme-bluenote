@@ -15,7 +15,7 @@
     nav.classList.toggle('site-nav--open', open);
     document.body.classList.toggle('mobile-menu-open', open);
     if (toggle) toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-    if (wasOpen && !open && toggle && window.innerWidth < 992) toggle.focus({ preventScroll: true });
+    if (wasOpen && !open && toggle && window.innerWidth < 768) toggle.focus({ preventScroll: true });
     if (menu && open) {
       Array.prototype.forEach.call(menu.children, function(entry, index) {
         entry.style.animationDelay = (index * 20) + 'ms';
@@ -29,11 +29,11 @@
   if (menu) {
     menu.addEventListener('click', function(event) {
       var link = event.target.closest('a[href]');
-      if (link && window.innerWidth < 992) setOpen(false);
+      if (link && window.innerWidth < 768) setOpen(false);
     });
   }
   window.addEventListener('resize', function() {
-    if (open && window.innerWidth >= 992) setOpen(false);
+    if (open && window.innerWidth >= 768) setOpen(false);
   });
   document.addEventListener('keydown', function(event) {
     if (event.key === 'Escape' && open) setOpen(false);
