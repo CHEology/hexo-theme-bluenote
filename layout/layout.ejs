@@ -5,7 +5,7 @@ const contentLanguage = page.content_language || (is_post() && theme.post.langua
 const schemeDefault = theme.dark_mode && theme.dark_mode.enable ? (theme.dark_mode.default || 'auto') : 'light';
 -%>
 <!DOCTYPE html>
-<html lang="<%= contentLanguage %>"<%- home ? ' class="home-root"' : '' %> data-root="<%= config.root %>" data-scheme-default="<%= schemeDefault %>" data-scheme-storage="<%= theme.dark_mode.storage_key || 'bluenote.color-scheme' %>"<%- theme.dark_mode.legacy_storage_key ? ` data-scheme-legacy="${theme.dark_mode.legacy_storage_key}"` : '' %><%- theme.search && theme.search.enable ? ` data-search-path="${theme.search.path || '/local-search.xml'}"` : '' %>>
+<html lang="<%= contentLanguage %>"<%- home ? ' class="home-root"' : '' %> data-root="<%= config.root %>"<%- home && theme.home.desktop_style === "fog" ? ' data-home-style="fog"' : '' %> data-scheme-default="<%= schemeDefault %>" data-scheme-storage="<%= theme.dark_mode.storage_key || 'bluenote.color-scheme' %>"<%- theme.dark_mode.legacy_storage_key ? ` data-scheme-legacy="${theme.dark_mode.legacy_storage_key}"` : '' %><%- theme.search && theme.search.enable ? ` data-search-path="${theme.search.path || '/local-search.xml'}"` : '' %>>
 <%- partial('_partials/head') %>
 <body class="<%= bodyClasses %>">
 <%- partial('_partials/icons') %>

@@ -26,3 +26,7 @@ const split = theme.home.layout === 'split';
 <%- partial('_partials/pagination') %>
 <% } -%>
 </div>
+
+<% if (theme.home.desktop_style === "fog") { -%>
+<%- partial("_partials/home-folio") %>
+<% } -%>

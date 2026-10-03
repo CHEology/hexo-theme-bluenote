@@ -182,3 +182,9 @@ MIT. Bundled components retain their own licenses; see [THIRD-PARTY-LICENSES.md]
 ### Historical dates and archive annotations
 
 Set `date_precision: year` on a post to show only its year in cards and listings. Its `date` still determines chronology. Optional `archive_note` text appears beside the title on archive pages only; it is escaped and wraps at narrow widths.
+
+### Desktop fog homepage (1.7.0)
+
+Set `home.desktop_style: fog` to show a full-bleed, softly shaded cover and two centered five-entry columns on widths of 768px and above. The phone homepage and its capacity remain unchanged. Each column is one page; the next control moves one column, and two adjacent page numbers remain active. URLs use `#home-page-N`, browser history restores the current spread, reduced motion swaps instantly, and no-JavaScript readers get all public columns in order.
+
+The desktop list filters `private_post` / `private_id` metadata while locked, then rebuilds when the existing `private-reading-unlocked` state changes; private bodies are never included. Short viewports use shorter excerpts or dates and titles only. The original card homepage remains the default for other theme users.

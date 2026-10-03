@@ -5,7 +5,7 @@ const site=await support.fixture({defaults:true});
 const server=await support.serve(site.publicDir,site.root);
 try {
   for(const engine of [chromium,webkit]) {
-    const browser=await engine.launch();
+    const browser=await engine.launch(engine===chromium&&process.env.BLUE_NOTE_CHROMIUM?{executablePath:process.env.BLUE_NOTE_CHROMIUM}:{});
     try {
       for(const width of [320,390,1280]) for(const colorScheme of ['light','dark']) {
         const page=await browser.newPage({viewport:{width,height:844},colorScheme});

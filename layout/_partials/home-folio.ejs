@@ -1,0 +1,31 @@
+<%
+const all = site.posts.sort('-date').toArray();
+const publicPosts = all.filter(post => !post.private_post && !post.private_id);
+const count = Math.max(1, Math.ceil(publicPosts.length / 5));
+-%>
+<section class="home-folio" aria-label="Writing">
+  <div class="home-folio-pages">
+<% for (let i = 0; i < count; i++) { -%>
+    <div class="home-folio-column" id="home-page-<%= i + 1 %>" data-page="<%= i + 1 %>" data-side="<%= i % 2 ? 'right' : 'left' %>" role="group" aria-label="Page <%= i + 1 %>">
+<% publicPosts.slice(i * 5, i * 5 + 5).forEach(post => { -%>
+<%- partial('_partials/home-entry', { post }) %>
+<% }); -%>
+    </div>
+<% } -%>
+  </div>
+  <nav class="home-folio-pagination" aria-label="Article pages">
+    <button type="button" data-folio-step="-1" aria-label="Previous column" disabled><%- icon('arrow-left') %></button>
+    <div class="home-folio-numbers">
+<% for (let i = 0; i < count; i++) { -%>
+      <a href="#home-page-<%= i + 1 %>" data-folio-page="<%= i + 1 %>"<%- i < 2 ? ' aria-current="page"' : '' %> aria-label="Page <%= i + 1 %>"><%= i + 1 %></a>
+<% } -%>
+    </div>
+    <button type="button" data-folio-step="1" aria-label="Next column" disabled><%- icon('arrow-right') %></button>
+  </nav>
+  <p class="visually-hidden" data-folio-status role="status" aria-live="polite" aria-atomic="true"></p>
+</section>
+<template id="home-folio-source">
+<% all.forEach(post => { -%>
+<%- partial('_partials/home-entry', { post }) %>
+<% }); -%>
+</template>

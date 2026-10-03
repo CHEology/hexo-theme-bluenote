@@ -10,7 +10,7 @@ const fixtures=[active,disabled,gallery,fixedScheme];
 const servers=await Promise.all(fixtures.map(f=>serve(f.publicDir,f.root)));
 try {
   for(const engine of [chromium,webkit]) {
-    const browser=await engine.launch();
+    const browser=await engine.launch(engine===chromium&&process.env.BLUE_NOTE_CHROMIUM?{executablePath:process.env.BLUE_NOTE_CHROMIUM}:{});
     try {
       const context=await browser.newContext({viewport:{width:1280,height:900}});
       const page=await context.newPage();const errors=[];const requests=[];

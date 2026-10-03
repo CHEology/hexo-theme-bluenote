@@ -1,0 +1,15 @@
+<%
+const href = url_for(post.path);
+const isPrivate = Boolean(post.private_post || post.private_id);
+const source = isPrivate ? '' : (post.description || post.excerpt || (theme.home.excerpt ? post.content : '') || '');
+const excerpt = strip_html(source).substring(0, 200).trim().replace(/\n/g, ' ');
+-%>
+<article class="home-folio-entry"<%- isPrivate ? ' data-private-entry="true"' : '' %>>
+<% if (theme.home.date) { -%>
+  <time class="home-folio-date" datetime="<%= post.date_precision === 'year' ? date(post.date, 'YYYY') : full_date(post.date, 'YYYY-MM-DD HH:mm') %>"><%= post.date_precision === 'year' ? date(post.date, 'YYYY') : date(post.date, config.date_format) %></time>
+<% } -%>
+  <h2 class="home-folio-title"><a href="<%- href %>" title="<%= post.title %>"><span><%= post.title %></span></a></h2>
+<% if (excerpt) { -%>
+  <p class="home-folio-excerpt"><%= excerpt %></p>
+<% } -%>
+</article>

@@ -91,6 +91,8 @@ nav:
   scheme_toggle: true
 
 home:
+  # Desktop only: cards (legacy) or fog (centered five-entry columns).
+  desktop_style: cards
   # Full-viewport cover image behind the slogan; empty uses the solid `home.bg` colour.
   cover:
   preload_cover: true

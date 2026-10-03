@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.7.0
+
+- Add opt-in desktop fog composition with five centered articles per column, one-column pagination, paired active page numbers, native history and reduced-motion support.
+- Preserve the phone homepage and legacy cards by default. Short desktop windows reduce excerpts while keeping the page strip visible.
+- Bundle an OFL-licensed Chinese serif fallback, requested only by the fog desktop homepage.
+
 ## 1.6.1
 
 - Respect year-only dates in cards and chronological listings, and render optional archive annotations in muted, wrapping text.

@@ -5,6 +5,9 @@ const typing = Boolean(theme.home.typing && theme.home.typing.enable && slogan);
 const mobileStatic = typing && theme.home.typing.mobile === false;
 -%>
 <div id="banner" class="home-cover"<%- cover ? ` style="background-image: url('${cover}')"` : '' %>>
+<% if (theme.home.desktop_style === "fog") { -%>
+  <div class="home-fog-image" aria-hidden="true"></div><div class="home-fog-veil" aria-hidden="true"></div>
+<% } -%>
   <div class="home-cover__mask">
 <% if (slogan) { -%>
     <div class="home-cover__slogan">
