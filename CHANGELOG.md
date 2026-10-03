@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.11.0
+
+- Centre every home title on the same axis as its year, with dates in a left track balanced by an equal empty track on the right. Use a 440px responsive measure and narrower side tracks on phones; undated and wrapped titles keep the same centre.
+
 ## 1.10.1
 
 - Restore the home slogan when the pointer or keyboard focus leaves an article, including gaps within the index. Preserve excerpts while moving between a link’s children and clear pending fades when reduced motion is enabled.

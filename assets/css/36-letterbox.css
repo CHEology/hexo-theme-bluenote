@@ -443,8 +443,8 @@ html[data-design="letterbox"] .home-page .home-main {
   opacity: 0;
 }
 
-/* Home credits: centre the complete date-and-title measure, not the gap between
-   equal columns. One shared title edge; every year continues in document flow. */
+/* Home credits: years and titles share the page's centre axis. Equal side tracks
+   let dates sit to the left without displacing short or undated titles. */
 .letterbox-index {
   min-height: calc(100svh - var(--lb-bar-h));
   padding: 4rem var(--lb-gutter) calc(var(--lb-bar-h) + 4rem);
@@ -453,8 +453,8 @@ html[data-design="letterbox"] .home-page .home-main {
 }
 
 .letterbox-credits {
-  width: fit-content;
-  max-width: min(100%, 32rem);
+  width: 100%;
+  max-width: 27.5rem;
   margin-inline: auto;
 }
 
@@ -486,8 +486,8 @@ html[data-design="letterbox"] .home-page .home-main {
 
 .letterbox-entry__link {
   display: grid;
-  grid-template-columns: 3.5rem minmax(0, 1fr);
-  column-gap: 1.75rem;
+  grid-template-columns: 4rem minmax(0, 1fr) 4rem;
+  column-gap: 1rem;
   align-items: baseline;
   min-height: 44px;
   padding: 0.4375rem 0;
@@ -495,6 +495,7 @@ html[data-design="letterbox"] .home-page .home-main {
 }
 
 .letterbox-entry__date {
+  grid-column: 1;
   color: var(--lb-on-3);
   font-size: 1rem;
   font-style: italic;
@@ -505,11 +506,16 @@ html[data-design="letterbox"] .home-page .home-main {
 }
 
 .letterbox-entry__title {
+  position: relative;
+  grid-column: 2;
+  justify-self: center;
   min-width: 0;
+  max-width: 100%;
   color: var(--lb-on);
   font-size: 1.3125rem;
   line-height: 1.5;
   letter-spacing: 0.01em;
+  text-align: center;
   overflow-wrap: anywhere;
 }
 
@@ -567,8 +573,8 @@ html:not(.private-reading-unlocked) .letterbox-year[data-private-year] {
   }
 
   .letterbox-entry__link {
-    grid-template-columns: 3.5rem minmax(0, 1fr);
-    column-gap: 1.25rem;
+    grid-template-columns: 2.75rem minmax(0, 1fr) 2.75rem;
+    column-gap: 0.5rem;
     padding-block: 0.5rem;
   }
 
