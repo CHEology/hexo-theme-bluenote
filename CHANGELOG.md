@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.10.1
+
+- Restore the home slogan when the pointer or keyboard focus leaves an article, including gaps within the index. Preserve excerpts while moving between a link’s children and clear pending fades when reduced motion is enabled.
+
 ## 1.10.0
 
 - Letterbox navigation is fixed on every page and at every viewport size; preserve its geometry when menus or search open, disable boundary overscroll, and use stable 88px / 64px bars.

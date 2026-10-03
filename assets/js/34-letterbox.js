@@ -1,5 +1,5 @@
 /* Letterbox home: the lower bar shows the excerpt of the entry under the pointer or focus,
-   and returns to the slogan when the pointer leaves the index. One line, fixed height:
+   and returns to the slogan when the pointer or focus leaves an entry. Fixed height:
    only the words change. */
 (function() {
   'use strict';
@@ -27,7 +27,11 @@
     clearTimeout(swap);
     /* A short pause so sweeping across the grid does not flicker. */
     wait = setTimeout(function() {
-      if (window.BlueNote.reduceMotion()) { show(wanted); return; }
+      if (window.BlueNote.reduceMotion()) {
+        show(wanted);
+        dock.classList.remove('is-swapping');
+        return;
+      }
       dock.classList.add('is-swapping');
       swap = setTimeout(function() {
         show(wanted);
@@ -36,18 +40,16 @@
     }, 80);
   }
 
-  function pick(event) {
-    if (!wide.matches) return;
-    var link = event.target.closest('.letterbox-entry__link');
-    if (link) say(link.getAttribute('data-excerpt') || idle);
+  function pick(target) {
+    var link = target && target.closest && target.closest('.letterbox-entry__link');
+    say(wide.matches && link && index.contains(link) ? link.getAttribute('data-excerpt') || idle : idle);
   }
 
-  index.addEventListener('pointerover', pick);
-  index.addEventListener('focusin', pick);
+  index.addEventListener('pointerover', function(event) { pick(event.target); });
+  index.addEventListener('focusin', function(event) { pick(event.target); });
+  index.addEventListener('pointerout', function(event) { pick(event.relatedTarget); });
   index.addEventListener('pointerleave', function() { say(idle); });
-  index.addEventListener('focusout', function(event) {
-    if (!index.contains(event.relatedTarget)) say(idle);
-  });
+  index.addEventListener('focusout', function(event) { pick(event.relatedTarget); });
   wide.addEventListener('change', function() { say(idle); });
   dock.classList.add('is-idle');
 
