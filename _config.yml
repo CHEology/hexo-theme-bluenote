@@ -110,6 +110,10 @@ home:
     mobile: false
     speed: 70
     cursor: "_"
+  # Letterbox design only: the home index holds the latest public posts in at most this many
+  # rows of four, from at most this many years; older posts are reached through the archive.
+  letterbox_rows: 3
+  letterbox_years: 2
   # Number of square cards on the second screen (desktop shows 4 x 3).
   cards: 12
   # split fills six positions on the left, then six on the right, around a clear centre.

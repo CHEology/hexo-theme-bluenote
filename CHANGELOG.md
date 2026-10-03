@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.9.0
+
+- Letterbox home holds a fixed amount: the latest public posts in at most `home.letterbox_rows` rows of four (default 3) from at most `home.letterbox_years` years (default 2); older posts live in the archive. The block is placed so a full one is centred, so the first year rests in the same place however many posts exist. Four columns at every letterbox width keep that capacity identical on tablets.
+- Letterbox listings (archive, tags) read like a book's table of contents: a narrow centred column, small centred year, title left and italic date flush right, no rules or fills. Year-only posts leave the date blank; an archive note takes the date's place on the right and hangs a closing full-width bracket.
+
 ## 1.8.2
 
 - Letterbox home: the lower bar shows a post's first sentence, whole, instead of an ellipsised excerpt. A sentence that does not fit one line wraps into two balanced lines inside the bar, whose size never changes; only a sentence longer than two lines is clamped. Phones show the same first sentence under each title, up to two lines.

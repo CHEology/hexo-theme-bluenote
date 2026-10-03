@@ -10,8 +10,27 @@ const firstSentence = text => {
   const match = text.match(/^[\s\S]*?(?:[。！？!?…]+|(?<=[a-z\u4e00-\u9fff）)」”"'])\.(?=\s|$))[」』”"’）)]*/u);
   return (match ? match[0] : text).trim();
 };
+/* The home index holds a fixed amount: the latest public posts filling at most `rows` rows of
+   four, from at most `years` years. Everything older lives in the archive, so the index
+   always fits one screen and its first year never moves. Private posts within that span
+   are listed for unlocked readers only and do not count against the space. */
+const isPrivate = post => Boolean(post.private_post || post.private_id);
+const maxRows = Number(theme.home.letterbox_rows) || 3;
+const maxYears = Number(theme.home.letterbox_years) || 2;
+const counts = new Map();
+const rowsUsed = () => [...counts.values()].reduce((sum, n) => sum + Math.ceil(n / 4), 0);
+let cutoff = null;
+for (const post of all) {
+  if (isPrivate(post)) continue;
+  const year = date(post.date, 'YYYY');
+  if (!counts.has(year) && counts.size >= maxYears) break;
+  counts.set(year, (counts.get(year) || 0) + 1);
+  if (rowsUsed() > maxRows) { counts.set(year, counts.get(year) - 1); if (!counts.get(year)) counts.delete(year); break; }
+  cutoff = post.date;
+}
+const shown = cutoff ? all.filter(post => post.date >= cutoff && counts.has(date(post.date, 'YYYY'))) : [];
 const years = [];
-all.forEach(post => {
+shown.forEach(post => {
   const year = date(post.date, 'YYYY');
   let group = years[years.length - 1];
   if (!group || group.year !== year) years.push(group = { year, posts: [] });
@@ -29,18 +48,18 @@ all.forEach(post => {
 </div>
 <section class="letterbox-index" aria-label="<%= __('home.index') %>">
 <% years.forEach(group => {
-  const locked = group.posts.every(post => post.private_post || post.private_id);
+  const locked = group.posts.every(isPrivate);
 -%>
   <section class="letterbox-year"<%- locked ? ' data-private-year="true"' : '' %>>
     <h2 class="letterbox-year__title"><%= group.year %></h2>
     <ol class="letterbox-year__list">
 <% group.posts.forEach(post => {
-  const isPrivate = Boolean(post.private_post || post.private_id);
-  const source = isPrivate ? '' : (post.description || post.excerpt || '');
+  const hidden = isPrivate(post);
+  const source = hidden ? '' : (post.description || post.excerpt || '');
   const excerpt = firstSentence(strip_html(source).replace(/\s+/g, ' ').trim());
   const yearOnly = post.date_precision === 'year';
 -%>
-      <li class="letterbox-entry"<%- isPrivate ? ' data-private-entry="true"' : '' %>>
+      <li class="letterbox-entry"<%- hidden ? ' data-private-entry="true"' : '' %>>
         <a class="letterbox-entry__link" href="<%- url_for(post.path) %>" data-excerpt="<%= excerpt %>">
           <time class="letterbox-entry__date" datetime="<%= yearOnly ? date(post.date, 'YYYY') : full_date(post.date, 'YYYY-MM-DD') %>"><%= yearOnly ? '' : date(post.date, 'MM.DD') %></time>
           <span class="letterbox-entry__title"><%= post.title %></span>

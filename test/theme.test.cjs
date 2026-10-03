@@ -85,3 +85,15 @@ test('classic remains the default: no letterbox markup unless a site opts in',as
     assert.doesNotMatch(f.read('reading/index.html'),/masthead__date/);
   } finally {f.cleanup();}
 });
+
+test('letterbox home holds a fixed amount: rows of four from the latest years only',async()=>{
+  const f=await fixture({theme:{design:'letterbox',home:{letterbox_rows:1,letterbox_years:1}}});
+  try {
+    const home=f.read('index.html');
+    const years=[...home.matchAll(/<h2 class="letterbox-year__title">(\d{4})<\/h2>/g)];
+    const entries=home.match(/<li class="letterbox-entry"/g)||[];
+    assert.equal(years.length,1);
+    assert.ok(entries.length>=1&&entries.length<=4);
+    assert.match(f.read('archives/index.html'),/class="listing__item"/);
+  } finally {f.cleanup();}
+});
