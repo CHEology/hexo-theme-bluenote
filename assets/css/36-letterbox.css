@@ -330,15 +330,23 @@ html[data-design="letterbox"] .home-page .home-main {
   width: 100%;
   max-width: 48em;
   margin: 0;
-  overflow: hidden;
   color: #e6e2d8;
   font-family: var(--font-ui);
   font-size: 1.1875rem;
-  line-height: 1.6;
+  line-height: 1.45;
   letter-spacing: 0.015em;
   text-align: center;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+}
+
+/* A whole first sentence, never cut mid-sentence. It almost always fits one line; a longer
+   one wraps into two balanced lines inside the bar, whose size never changes. Only a
+   sentence longer than two lines is clamped. */
+.letterbox-dock__line span {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  text-wrap: balance;
 }
 
 .letterbox-dock__line span {
@@ -579,7 +587,7 @@ html:not(.private-reading-unlocked) .letterbox-year[data-private-year] {
     font-size: 0.9375rem;
     line-height: 1.7;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1;
+    -webkit-line-clamp: 2;
   }
 
   html[data-design="letterbox"] .masthead {

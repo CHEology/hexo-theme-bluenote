@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.8.2
+
+- Letterbox home: the lower bar shows a post's first sentence, whole, instead of an ellipsised excerpt. A sentence that does not fit one line wraps into two balanced lines inside the bar, whose size never changes; only a sentence longer than two lines is clamped. Phones show the same first sentence under each title, up to two lines.
+
 ## 1.8.1
 
 - Letterbox home: the index is a second screen exactly as tall as the window between the bars, with its content centred, so the end of the page never shows the cover above it nor leaves the first year against the upper bar. Longer indexes grow with equal margins.

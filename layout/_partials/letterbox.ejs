@@ -4,6 +4,12 @@
 const cover = theme.home.cover ? url_for(theme.home.cover) : '';
 const slogan = theme.home.slogan || config.subtitle || '';
 const all = site.posts.sort('-date').toArray();
+/* The subtitle shows a post's first sentence, whole: up to the first full stop
+   (。！？!? …, or a Latin period after a lowercase word), keeping closing quotes. */
+const firstSentence = text => {
+  const match = text.match(/^[\s\S]*?(?:[。！？!?…]+|(?<=[a-z\u4e00-\u9fff）)」”"'])\.(?=\s|$))[」』”"’）)]*/u);
+  return (match ? match[0] : text).trim();
+};
 const years = [];
 all.forEach(post => {
   const year = date(post.date, 'YYYY');
@@ -31,7 +37,7 @@ all.forEach(post => {
 <% group.posts.forEach(post => {
   const isPrivate = Boolean(post.private_post || post.private_id);
   const source = isPrivate ? '' : (post.description || post.excerpt || '');
-  const excerpt = strip_html(source).substring(0, 200).trim().replace(/\s*\n\s*/g, ' ');
+  const excerpt = firstSentence(strip_html(source).replace(/\s+/g, ' ').trim());
   const yearOnly = post.date_precision === 'year';
 -%>
       <li class="letterbox-entry"<%- isPrivate ? ' data-private-entry="true"' : '' %>>
