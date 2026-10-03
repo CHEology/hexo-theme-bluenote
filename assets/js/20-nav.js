@@ -8,10 +8,14 @@
   var open = false;
 
   function setOpen(value) {
+    var wasOpen = open;
     open = Boolean(value);
+    var bn = window.BlueNote;
+    if (bn.lockPage) { if (open) bn.lockPage('menu'); else bn.unlockPage('menu'); }
     nav.classList.toggle('site-nav--open', open);
     document.body.classList.toggle('mobile-menu-open', open);
     if (toggle) toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (wasOpen && !open && toggle && window.innerWidth < 992) toggle.focus({ preventScroll: true });
     if (menu && open) {
       Array.prototype.forEach.call(menu.children, function(entry, index) {
         entry.style.animationDelay = (index * 20) + 'ms';
@@ -33,6 +37,14 @@
   });
   document.addEventListener('keydown', function(event) {
     if (event.key === 'Escape' && open) setOpen(false);
+    if (event.key === 'Tab' && open) {
+      var items = Array.from(nav.querySelectorAll('a[href], button')).filter(function(el) {
+        return el.getClientRects().length && getComputedStyle(el).visibility !== 'hidden';
+      });
+      var first = items[0], last = items[items.length - 1];
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+    }
   });
 
   window.BlueNote = window.BlueNote || {};

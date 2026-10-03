@@ -11,6 +11,10 @@
     display: none !important;
   }
 
+  html[data-design="letterbox"] body {
+    padding-top: 0;
+  }
+
   body {
     color: #000;
     background: #fff;

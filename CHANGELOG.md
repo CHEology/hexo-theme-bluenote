@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.10.0
+
+- Letterbox navigation is fixed on every page and at every viewport size; preserve its geometry when menus or search open, disable boundary overscroll, and use stable 88px / 64px bars.
+- Shared blue-black title cards reserve one date row and align page titles consistently without decorative rules.
+- The home index includes every year and post in a continuous list. Centre the intrinsic width of the complete date-and-title block; long titles wrap and private-only years remain hidden until unlocked. Remove the old row/year capacity settings.
+- Keep the existing contents-style Archives layout. Preserve keyboard focus on menu close and trap focus inside the open menu.
+
 ## 1.9.0
 
 - Letterbox home holds a fixed amount: the latest public posts in at most `home.letterbox_rows` rows of four (default 3) from at most `home.letterbox_years` years (default 2); older posts live in the archive. The block is placed so a full one is centred, so the first year rests in the same place however many posts exist. Four columns at every letterbox width keep that capacity identical on tablets.

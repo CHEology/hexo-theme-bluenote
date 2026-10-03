@@ -1,6 +1,6 @@
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
-const {existsSync}=require('node:fs');
+const {existsSync,writeFileSync}=require('node:fs');
 const {join}=require('node:path');
 const {fixture}=require('./support.cjs');
 
@@ -86,14 +86,20 @@ test('classic remains the default: no letterbox markup unless a site opts in',as
   } finally {f.cleanup();}
 });
 
-test('letterbox home holds a fixed amount: rows of four from the latest years only',async()=>{
-  const f=await fixture({theme:{design:'letterbox',home:{letterbox_rows:1,letterbox_years:1}}});
+test('letterbox home includes all years and all entries beyond the old row capacity',async()=>{
+  const f=await fixture({theme:{design:'letterbox'},prepare(base){
+    for(let i=0;i<25;i++) writeFileSync(join(base,'source/_posts',`continuous-${i}.md`),
+      `---\ntitle: Continuous ${i}\ndate: ${2000+i}-01-02 12:00:00\n---\nPublic paragraph.\n`);
+    writeFileSync(join(base,'source/_posts','private-history.md'),
+      '---\ntitle: Locked history\ndate: 1990-01-01 12:00:00\nprivate_post: true\nprivate_id: example-private\ndescription: MUST NOT APPEAR\n---\nMUST NOT APPEAR\n');
+  }});
   try {
     const home=f.read('index.html');
-    const years=[...home.matchAll(/<h2 class="letterbox-year__title">(\d{4})<\/h2>/g)];
-    const entries=home.match(/<li class="letterbox-entry"/g)||[];
-    assert.equal(years.length,1);
-    assert.ok(entries.length>=1&&entries.length<=4);
-    assert.match(f.read('archives/index.html'),/class="listing__item"/);
+    for(let i=0;i<25;i++) assert.match(home,new RegExp(`>Continuous ${i}</span>`));
+    assert.match(home,/<section class="letterbox-year" data-private-year="true">/);
+    assert.match(home,/<li class="letterbox-entry" data-private-entry="true">/);
+    assert.match(home,/>Locked history<\/span>/);
+    assert.doesNotMatch(home,/MUST NOT APPEAR/);
+    assert.ok((home.match(/<h2 class="letterbox-year__title">/g)||[]).length>25);
   } finally {f.cleanup();}
 });

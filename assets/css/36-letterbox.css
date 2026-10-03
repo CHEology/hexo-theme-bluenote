@@ -2,7 +2,7 @@
    One bar of fixed height carries the navigation on every page. The home page holds its
    content between two fixed bars: the cover first, then a dated index; the lower bar shows
    the slogan, or the excerpt of the entry under the pointer, on a single line that never
-   changes height. Content pages trade the colour band for a title block on the paper. */
+   changes height. Content pages open with a centred title card on the same blue-black. */
 
 html[data-design="letterbox"] {
   --lb-bar: var(--home-bg);
@@ -15,25 +15,28 @@ html[data-design="letterbox"] {
   --lb-on-3: #8b9aa3;
   --lb-line: rgba(226, 232, 236, 0.09);
   /* Short and long pages keep the same width, so the bar never shifts sideways. */
-  scrollbar-gutter: stable;
-}
-
-/* Windows shorter than 900px get slightly lower bars (never below 64px). The height depends
-   only on the window, so it is the same on every page and never changes while scrolling. */
-@supports (height: round(1.5px, 1px)) {
-  html[data-design="letterbox"] {
-    --lb-bar-h: round(clamp(64px, 9.8vh, 88px), 1px);
-  }
+  /* Keep a real scrollbar slot even on short pages. WebKit can re-evaluate width
+     breakpoints after first paint with scrollbar-gutter: stable, moving fixed bars. */
+  overflow-y: scroll;
+  overscroll-behavior: none;
+  scroll-padding-top: calc(var(--lb-bar-h) + 1rem);
 }
 
 /* ── The bar (every page) ─────────────────────────────────────────── */
+html[data-design="letterbox"] body {
+  padding-top: var(--lb-bar-h);
+  overscroll-behavior: none;
+}
+
 html[data-design="letterbox"] .site-header {
   position: relative;
-  z-index: 1030;
 }
 
 html[data-design="letterbox"] .site-nav {
-  position: relative;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
   height: var(--lb-bar-h);
   padding: 0;
   background: var(--lb-bar);
@@ -156,54 +159,65 @@ html[data-design="letterbox"] .home-page .site-menu {
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  html[data-design="letterbox"]:not([data-scheme="light"]) body:not(.home-page) .site-nav {
-    box-shadow: 0 1px 0 var(--lb-line);
-  }
-}
-
-html[data-design="letterbox"][data-scheme="dark"] body:not(.home-page) .site-nav {
-  box-shadow: 0 1px 0 var(--lb-line);
-}
-
-/* ── Title block on the paper (content pages) ─────────────────────── */
+/* The same title card on articles, Archives, Gallery, About and other content pages.
+   A reserved date row keeps the title on one baseline even when no date is present. */
 html[data-design="letterbox"] .masthead {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: auto;
-  padding: clamp(3.5rem, 9vh, 5.25rem) 0 0;
+  min-height: clamp(240px, 36svh, 360px);
+  padding: 3rem var(--lb-gutter) 3.5rem;
   overflow: visible;
-  background: transparent;
+  background: var(--lb-bar);
 }
 
 html[data-design="letterbox"] .masthead__inner {
-  width: min(100% - 2.5rem, var(--reading-width));
+  display: grid;
+  grid-template-rows: 1.5rem auto;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: var(--column-width);
   margin: 0 auto;
-  color: var(--heading);
+  color: var(--lb-on);
   text-align: center;
 }
 
 html[data-design="letterbox"] .masthead__date {
+  grid-row: 1;
   display: block;
-  margin-bottom: 0.875rem;
-  color: var(--muted);
+  margin: 0;
+  color: var(--lb-on-3);
   font-family: var(--font-ui);
-  font-size: 0.9375rem;
+  font-size: 1rem;
+  font-style: italic;
   font-variant-numeric: lining-nums tabular-nums;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
+  line-height: 1.5rem;
 }
 
 html[data-design="letterbox"] .masthead__title {
-  font-size: clamp(2rem, 2.8vw, 2.5rem);
+  grid-row: 2;
+  font-size: clamp(2.125rem, 3vw, 2.75rem);
   letter-spacing: 0.03em;
   line-height: 1.25;
   text-wrap: balance;
 }
 
 html[data-design="letterbox"] .masthead__inner::after {
-  width: 2.5rem;
-  margin: 1.75rem auto 0;
-  background: var(--heading);
-  opacity: 0.5;
+  content: none;
+}
+
+html[data-design="letterbox"] .page-body {
+  padding-top: 3.5rem;
+}
+
+html[data-design="letterbox"] .post-toc {
+  top: calc(var(--lb-bar-h) + 1rem);
+}
+
+html[data-design="letterbox"] .post-toc__body {
+  max-height: calc(100svh - var(--lb-bar-h) - 8rem);
 }
 
 /* English verse and quoted lines share the prose face; formulas keep --font-math. */
@@ -353,7 +367,7 @@ html[data-design="letterbox"] body.home-page {
 }
 
 html[data-design="letterbox"] .home-page .site-header {
-  height: var(--lb-bar-h);
+  height: 0;
 }
 
 html[data-design="letterbox"] .home-page .home-main {
@@ -429,82 +443,74 @@ html[data-design="letterbox"] .home-page .home-main {
   opacity: 0;
 }
 
-html.letterbox-scrolled .home-page .site-nav {
-  box-shadow: 0 1px 0 var(--lb-line);
-}
-
-html.letterbox-scrolled .letterbox-dock {
-  box-shadow: 0 -1px 0 var(--lb-line);
-}
-
-/* ── Home: the index ──────────────────────────────────────────────── */
+/* Home credits: centre the complete date-and-title measure, not the gap between
+   equal columns. One shared title edge; every year continues in document flow. */
 .letterbox-index {
-  padding: clamp(48px, 8vh, 80px) var(--lb-gutter) calc(var(--lb-bar-h) + clamp(64px, 10vh, 112px));
+  min-height: calc(100svh - var(--lb-bar-h));
+  padding: 4rem var(--lb-gutter) calc(var(--lb-bar-h) + 4rem);
   color: var(--lb-on);
   font-family: var(--font-ui);
 }
 
-.letterbox-year {
-  width: 100%;
-  max-width: var(--lb-measure);
+.letterbox-credits {
+  width: fit-content;
+  max-width: min(100%, 32rem);
   margin-inline: auto;
 }
 
+.letterbox-year {
+  width: 100%;
+}
+
 .letterbox-year + .letterbox-year {
-  margin-top: clamp(44px, 7vh, 64px);
+  margin-top: 3.5rem;
 }
 
 .letterbox-year__title {
-  margin: 0;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--lb-line);
+  margin: 0 0 0.75rem;
   color: var(--lb-on-3);
-  font-size: 1.375rem;
+  font-size: 0.9375rem;
   font-variant-numeric: lining-nums;
   font-weight: 400;
-  letter-spacing: 0.14em;
-  line-height: 1.2;
+  letter-spacing: 0.32em;
+  line-height: 1.5;
+  text-align: center;
+  text-indent: 0.32em;
 }
 
 .letterbox-year__list {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  column-gap: clamp(24px, 2.6vw, 44px);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.letterbox-entry {
-  min-width: 0;
-}
-
 .letterbox-entry__link {
-  display: block;
-  padding: 16px 0 14px;
+  display: grid;
+  grid-template-columns: 3.5rem minmax(0, 1fr);
+  column-gap: 1.75rem;
+  align-items: baseline;
+  min-height: 44px;
+  padding: 0.4375rem 0;
   color: inherit;
 }
 
 .letterbox-entry__date {
-  display: block;
-  min-height: 1.5em;
-  margin-bottom: 2px;
   color: var(--lb-on-3);
-  font-size: 0.9375rem;
+  font-size: 1rem;
   font-style: italic;
   font-variant-numeric: lining-nums tabular-nums;
   letter-spacing: 0.04em;
   line-height: 1.5;
-  transition: color 160ms ease;
+  text-align: right;
 }
 
 .letterbox-entry__title {
-  display: block;
+  min-width: 0;
   color: var(--lb-on);
-  font-size: 1.25rem;
-  line-height: 1.45;
+  font-size: 1.3125rem;
+  line-height: 1.5;
   letter-spacing: 0.01em;
-  transition: color 160ms ease;
+  overflow-wrap: anywhere;
 }
 
 .letterbox-entry__excerpt {
@@ -514,11 +520,6 @@ html.letterbox-scrolled .letterbox-dock {
 .letterbox-entry__link:hover .letterbox-entry__title,
 .letterbox-entry__link:focus-visible .letterbox-entry__title {
   color: var(--accent);
-}
-
-.letterbox-entry__link:hover .letterbox-entry__date,
-.letterbox-entry__link:focus-visible .letterbox-entry__date {
-  color: var(--lb-on-2);
 }
 
 .letterbox-entry__link:focus-visible {
@@ -531,162 +532,60 @@ html:not(.private-reading-unlocked) .letterbox-year[data-private-year] {
   display: none;
 }
 
-/* Four columns at every width that shows the letterbox, so "three rows" always means the
-   same capacity; narrower screens set titles a little smaller instead of dropping a column. */
-@media (max-width: 1199.98px) {
-  .letterbox-year__list {
-    column-gap: 20px;
-  }
-
-  .letterbox-entry__title {
-    font-size: 1.125rem;
-  }
-}
-
-
-/* Keyboard focus never lands under a fixed bar. */
+/* A second fixed bar is useful where there is room for it. The top navigation
+   stays fixed at every size; only the subtitle moves into flow on small screens. */
 @media (min-width: 768px) and (min-height: 521px) {
   html.home-root[data-design="letterbox"] {
-    scroll-padding-top: var(--lb-bar-h);
-    scroll-padding-bottom: var(--lb-bar-h);
-  }
-
-  html[data-design="letterbox"] .home-page .site-nav {
-    position: fixed;
-    top: 0;
-    right: 0;
-    left: 0;
-  }
-
-  /* The index is a second screen exactly as tall as the window between the bars (the last
-     bar's height of the document sits under the fixed lower bar). It holds a fixed amount
-     (two years, three rows at most), placed so that a full block is centred: the first year
-     therefore sits in the same place whatever the posts, and the cover never shows above. */
-  .letterbox-index {
-    --lb-pad: clamp(48px, 7vh, 72px);
-    /* Height of a full block: two year headings, three rows of entries, one year gap. */
-    --lb-block: calc(2 * 39px + 3 * 83.5px + clamp(44px, 7vh, 64px));
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    min-height: calc(100vh - var(--lb-bar-h));
-    min-height: calc(100svh - var(--lb-bar-h));
-    padding: max(var(--lb-pad), calc((100svh - 2 * var(--lb-bar-h) - var(--lb-block)) / 2)) var(--lb-gutter)
-      calc(var(--lb-bar-h) + var(--lb-pad));
+    scroll-padding-bottom: calc(var(--lb-bar-h) + 1rem);
   }
 }
 
-/* Shorter desktop windows tighten the rhythm so a year or two still fits one screen. */
-@media (min-width: 768px) and (min-height: 521px) and (max-height: 820px) {
-  .letterbox-index {
-    --lb-block: calc(2 * 39px + 3 * 71.5px + 32px);
-  }
-
-  .letterbox-year + .letterbox-year {
-    margin-top: 32px;
-  }
-
-  .letterbox-entry__link {
-    padding: 10px 0 8px;
-  }
-}
-
-/* ── Phones, and windows too short for two fixed bars ─────────────── */
 @media (max-width: 767px), (max-height: 520px) {
   html[data-design="letterbox"] {
     --lb-bar-h: 64px;
     --lb-gutter: 24px;
   }
 
-  html[data-design="letterbox"] .site-nav__inner {
-    padding-right: 14px;
-  }
-
-  html[data-design="letterbox"] .home-page .site-header {
-    height: auto;
-  }
-
   .letterbox-frame {
-    height: 58vh;
     height: 58svh;
-    min-height: 280px;
+    min-height: 180px;
   }
 
   .letterbox-dock {
     position: static;
-    display: block;
     height: auto;
-    padding: 22px 24px 0;
-    box-shadow: none;
-  }
-
-  html.letterbox-scrolled .letterbox-dock {
-    box-shadow: none;
+    padding: 1.5rem 24px 0;
   }
 
   .letterbox-dock__line {
-    max-width: none;
     font-size: 1.0625rem;
-    white-space: normal;
   }
 
   .letterbox-index {
-    padding: 32px 24px 88px;
-  }
-
-  .letterbox-year + .letterbox-year {
-    margin-top: 44px;
-  }
-
-  .letterbox-year__title {
-    font-size: 1.25rem;
-    padding-bottom: 10px;
-  }
-
-  .letterbox-year__list {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .letterbox-entry + .letterbox-entry {
-    border-top: 1px solid var(--lb-line);
+    min-height: 0;
+    padding: 3rem 24px 4rem;
   }
 
   .letterbox-entry__link {
-    padding: 16px 0 17px;
+    grid-template-columns: 3.5rem minmax(0, 1fr);
+    column-gap: 1.25rem;
+    padding-block: 0.5rem;
   }
 
-  .letterbox-entry__date {
-    min-height: 0;
-  }
-
-  .letterbox-entry__excerpt {
-    display: -webkit-box;
-    margin-top: 4px;
-    overflow: hidden;
-    color: var(--lb-on-3);
-    font-size: 0.9375rem;
-    line-height: 1.7;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
+  .letterbox-entry__title {
+    font-size: 1.1875rem;
   }
 
   html[data-design="letterbox"] .masthead {
-    padding-top: 3rem;
+    min-height: 240px;
   }
 
   html[data-design="letterbox"] .masthead__title {
     font-size: 1.875rem;
   }
-}
 
-@media (min-width: 600px) and (max-height: 520px) {
-  .letterbox-year__list {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: 32px;
-  }
-
-  .letterbox-entry + .letterbox-entry {
-    border-top: 0;
+  html[data-design="letterbox"] .page-body {
+    padding-top: 2.5rem;
   }
 }
 

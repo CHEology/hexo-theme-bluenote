@@ -67,6 +67,7 @@
 
   function open(position, source) {
     opener = source;
+    if (window.BlueNote.lockPage) window.BlueNote.lockPage('lightbox');
     body.classList.add('lightbox-open');
     dialog.showModal();
     close.focus();
@@ -96,6 +97,7 @@
   next.addEventListener('click', function() { show(index + 1); });
   dialog.addEventListener('close', function() {
     body.classList.remove('lightbox-open');
+    if (window.BlueNote.unlockPage) window.BlueNote.unlockPage('lightbox');
     stageImage.removeAttribute('src');
     if (opener && opener.focus) opener.focus({ preventScroll: true });
   });

@@ -48,18 +48,7 @@
   index.addEventListener('focusout', function(event) {
     if (!index.contains(event.relatedTarget)) say(idle);
   });
+  wide.addEventListener('change', function() { say(idle); });
   dock.classList.add('is-idle');
 
-  /* A hairline marks the bars only once writing passes beneath them. */
-  var ticking = false;
-  function update() {
-    root.classList.toggle('letterbox-scrolled', window.scrollY > 1);
-    ticking = false;
-  }
-  window.addEventListener('scroll', function() {
-    if (ticking) return;
-    ticking = true;
-    window.requestAnimationFrame(update);
-  }, { passive: true });
-  update();
 })();

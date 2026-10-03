@@ -293,22 +293,27 @@
     }
 
     function openPhoto(position, link) {
-      var scrollY = win.scrollY;
-      var body = doc.body;
-      var properties = ['position', 'top', 'width', 'overflow', 'paddingRight'];
-      var styles = {};
-      properties.forEach(function(property) { styles[property] = body.style[property]; });
-      var scrollbar = win.innerWidth - doc.documentElement.clientWidth;
-      var padding = parseFloat(win.getComputedStyle(body).paddingRight) || 0;
-      body.style.position = 'fixed';
-      body.style.top = -scrollY + 'px';
-      body.style.width = '100%';
-      body.style.overflow = 'hidden';
-      body.style.paddingRight = padding + Math.max(0, scrollbar) + 'px';
-      restoreBody = function() {
-        properties.forEach(function(property) { body.style[property] = styles[property]; });
-        win.scrollTo(0, scrollY);
-      };
+      if (win.BlueNote && win.BlueNote.lockPage) {
+        win.BlueNote.lockPage('gallery');
+        restoreBody = function() { win.BlueNote.unlockPage('gallery'); };
+      } else {
+        var scrollY = win.scrollY;
+        var body = doc.body;
+        var properties = ['position', 'top', 'width', 'overflow', 'paddingRight'];
+        var styles = {};
+        properties.forEach(function(property) { styles[property] = body.style[property]; });
+        var scrollbar = win.innerWidth - doc.documentElement.clientWidth;
+        var padding = parseFloat(win.getComputedStyle(body).paddingRight) || 0;
+        body.style.position = 'fixed';
+        body.style.top = -scrollY + 'px';
+        body.style.width = '100%';
+        body.style.overflow = 'hidden';
+        body.style.paddingRight = padding + Math.max(0, scrollbar) + 'px';
+        restoreBody = function() {
+          properties.forEach(function(property) { body.style[property] = styles[property]; });
+          win.scrollTo(0, scrollY);
+        };
+      }
       opener = link;
       viewer.showModal();
       close.focus();

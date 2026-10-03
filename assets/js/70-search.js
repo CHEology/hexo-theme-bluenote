@@ -186,6 +186,7 @@
   function openSearch(source) {
     if (!overlay.hidden) return;
     previousFocus = source || document.activeElement;
+    if (window.BlueNote.lockPage) window.BlueNote.lockPage('search');
     if (window.BlueNote.nav) window.BlueNote.nav.close();
     overlay.hidden = false;
     inerted = Array.from(document.body.children).filter(function(element) {
@@ -203,6 +204,7 @@
   function closeSearch() {
     overlay.hidden = true;
     document.body.classList.remove('search-dialog-open');
+    if (window.BlueNote.unlockPage) window.BlueNote.unlockPage('search');
     input.value = '';
     results.replaceChildren();
     inerted.forEach(function(record) { record.element.inert = record.value; });
@@ -211,7 +213,7 @@
     if (!focusTarget || getComputedStyle(focusTarget).visibility === 'hidden' || !focusTarget.getClientRects().length) {
       focusTarget = document.querySelector('.site-nav__toggle');
     }
-    if (focusTarget && focusTarget.focus) focusTarget.focus();
+    if (focusTarget && focusTarget.focus) focusTarget.focus({ preventScroll: true });
   }
 
   document.addEventListener('click', function(event) {

@@ -2,7 +2,7 @@
 (function() {
   'use strict';
   var page = document.body;
-  if (!page.classList.contains('home-page')) return;
+  if (!page.classList.contains('home-page') || document.documentElement.dataset.design === 'letterbox') return;
   var ticking = false;
 
   function update() {

@@ -186,7 +186,7 @@ Set `date_precision: year` on a post to show only its year in cards and listings
 
 ### Letterbox design (1.8.0)
 
-Set `design: letterbox` for one fixed-height navigation bar on every page and a title block on the paper in place of the colour band. The home page shows `home.cover` between two fixed bars, then the latest posts grouped by year in a four-column index of fixed capacity (`home.letterbox_rows`, `home.letterbox_years`); the lower bar carries `home.slogan` and swaps to the excerpt of the entry under the pointer. The bar takes the `home.bg` colour in both schemes. `home.desktop_style`, `home.typing`, `home.cards` and `home.layout` apply only to the classic design.
+Set `design: letterbox` for a navigation bar fixed to the viewport on every page and a shared blue-black title card. The home page shows `home.cover` between two fixed bars, then all posts grouped by year in a narrow, continuous date-and-title list; the lower bar carries `home.slogan` and swaps to the excerpt of the entry under the pointer. The bar takes the `home.bg` colour in both schemes. `home.desktop_style`, `home.typing`, `home.cards` and `home.layout` apply only to the classic design.
 
 ### Desktop fog homepage (1.7.0)
 

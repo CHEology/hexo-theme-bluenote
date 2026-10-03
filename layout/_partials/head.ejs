@@ -45,4 +45,12 @@ const cover = home && theme.home.cover ? url_for(theme.home.cover) : '';
 <link rel="stylesheet" href="<%= url_for("/fonts/serif.css") %>" media="(min-width:768px)">
 <noscript><style>@media(min-width:768px){html[data-home-style="fog"] .home-cover{position:absolute}}</style></noscript>
 <% } -%>
+<% if (theme.design === 'letterbox') { -%>
+<script id="bluenote-layout-boot">
+/* Resolve the permanent scrollbar before WebKit evaluates width breakpoints. Without
+   this pre-paint pass, the first hover can change a bar's height at the tablet boundary. */
+document.documentElement.getBoundingClientRect();
+document.documentElement.setAttribute('data-layout-ready', '');
+</script>
+<% } -%>
 </head>

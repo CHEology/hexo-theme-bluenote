@@ -10,27 +10,9 @@ const firstSentence = text => {
   const match = text.match(/^[\s\S]*?(?:[。！？!?…]+|(?<=[a-z\u4e00-\u9fff）)」”"'])\.(?=\s|$))[」』”"’）)]*/u);
   return (match ? match[0] : text).trim();
 };
-/* The home index holds a fixed amount: the latest public posts filling at most `rows` rows of
-   four, from at most `years` years. Everything older lives in the archive, so the index
-   always fits one screen and its first year never moves. Private posts within that span
-   are listed for unlocked readers only and do not count against the space. */
 const isPrivate = post => Boolean(post.private_post || post.private_id);
-const maxRows = Number(theme.home.letterbox_rows) || 3;
-const maxYears = Number(theme.home.letterbox_years) || 2;
-const counts = new Map();
-const rowsUsed = () => [...counts.values()].reduce((sum, n) => sum + Math.ceil(n / 4), 0);
-let cutoff = null;
-for (const post of all) {
-  if (isPrivate(post)) continue;
-  const year = date(post.date, 'YYYY');
-  if (!counts.has(year) && counts.size >= maxYears) break;
-  counts.set(year, (counts.get(year) || 0) + 1);
-  if (rowsUsed() > maxRows) { counts.set(year, counts.get(year) - 1); if (!counts.get(year)) counts.delete(year); break; }
-  cutoff = post.date;
-}
-const shown = cutoff ? all.filter(post => post.date >= cutoff && counts.has(date(post.date, 'YYYY'))) : [];
 const years = [];
-shown.forEach(post => {
+all.forEach(post => {
   const year = date(post.date, 'YYYY');
   let group = years[years.length - 1];
   if (!group || group.year !== year) years.push(group = { year, posts: [] });
@@ -47,6 +29,7 @@ shown.forEach(post => {
   <p class="letterbox-dock__line"><span><%= slogan %></span></p>
 </div>
 <section class="letterbox-index" aria-label="<%= __('home.index') %>">
+  <div class="letterbox-credits">
 <% years.forEach(group => {
   const locked = group.posts.every(isPrivate);
 -%>
@@ -72,4 +55,5 @@ shown.forEach(post => {
     </ol>
   </section>
 <% }); -%>
+  </div>
 </section>

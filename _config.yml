@@ -6,8 +6,8 @@
 brand:
 
 # Overall chrome. `classic` keeps the colour-band mastheads and the cover/cards or fog home.
-# `letterbox` uses one fixed-height bar on every page, a title block on the paper instead of
-# the band, and a home page held between two fixed bars: the cover, then a dated index whose
+# `letterbox` fixes the navigation on every page above a centred blue-black title card,
+# and holds the desktop home between two fixed bars: the cover, then a dated index whose
 # lower bar shows the slogan or the excerpt of the entry under the pointer.
 design: classic
 
@@ -110,10 +110,7 @@ home:
     mobile: false
     speed: 70
     cursor: "_"
-  # Letterbox design only: the home index holds the latest public posts in at most this many
-  # rows of four, from at most this many years; older posts are reached through the archive.
-  letterbox_rows: 3
-  letterbox_years: 2
+  # Letterbox shows all posts in one continuous, year-grouped list.
   # Number of square cards on the second screen (desktop shows 4 x 3).
   cards: 12
   # split fills six positions on the left, then six on the right, around a clear centre.
