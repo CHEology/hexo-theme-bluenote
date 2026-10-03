@@ -597,15 +597,10 @@ html:not(.private-reading-unlocked) .letterbox-year[data-private-year] {
     --lb-gutter: 24px;
   }
 
+  /* The first screen is the same on every size: the top bar, the cover and the lower bar,
+     filling the smallest viewport exactly. Both bars keep the small-screen height. */
   .letterbox-frame {
-    height: 58svh;
-    min-height: 180px;
-  }
-
-  .letterbox-dock {
-    position: static;
-    height: auto;
-    padding: 1.5rem 24px;
+    min-height: 160px;
   }
 
   .letterbox-dock__line {
@@ -614,7 +609,7 @@ html:not(.private-reading-unlocked) .letterbox-year[data-private-year] {
 
   .letterbox-index {
     min-height: 0;
-    padding: 2.5rem 24px 4rem;
+    padding: 3rem 24px 4rem;
   }
 
   .letterbox-entry__link {

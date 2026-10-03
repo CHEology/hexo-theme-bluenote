@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.13.2
+
+- Phones and short windows open on the same first screen as desktops: top bar, cover and a fixed-height lower bar fill `100svh` exactly, so nothing of the index shows before the first scroll.
+
 ## 1.13.1
 
 - Article paragraphs are justified and no longer use `text-wrap: pretty`, which in WebKit re-balanced every line and left a ragged right edge in Chinese text.
