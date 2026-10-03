@@ -154,7 +154,8 @@ The commented [_config.yml](_config.yml) is the full reference. Site overrides m
 | `home.cover_portrait` | empty | Letterbox: `base` and `widths` of a portrait crop (`<base>-<w>.webp` / `.jpg`) served to portrait phones |
 | `home.cover_placeholder` | empty | Letterbox: tiny image (data URI) or colour shown behind the cover while it loads |
 | `post.date_format`, `post.year_format` | `YYYY.MM.DD`, `YYYY` | Letterbox title block date, and the form used when only the year is known |
-| `archive.details`, `archive.details_labels` | `false` | Letterbox listings: year counts, each post's length and first sentence; labels take `{n}` |
+| `archive.details`, `archive.details_labels` | `false` | Letterbox listings: each post's length and first sentence; labels take `{n}` |
+| `home.subtitle_excerpts` | `true` | Letterbox: `false` keeps the slogan in the lower bar instead of previewing the entry under the pointer |
 
 ## Local verification and maintenance
 
@@ -192,7 +193,7 @@ Set `date_precision: year` on a post to show only its year in cards and listings
 
 ### Letterbox design (1.8.0)
 
-Set `design: letterbox` for a navigation bar at the top of every page, scrolling away with it, and a shared title block on the page paper. The home page shows `home.cover` between two bars that scroll with the page, then all posts grouped by year in a narrow, continuous date-and-title list; the lower bar carries `home.slogan` and swaps to the excerpt of the entry under the pointer. The bar takes the `home.bg` colour in both schemes. `home.desktop_style`, `home.typing`, `home.cards` and `home.layout` apply only to the classic design.
+Set `design: letterbox` for a navigation bar at the top of every page, scrolling away with it, and a shared title block on the page paper. The home page shows `home.cover` between two bars that scroll with the page, then all posts grouped by year in a narrow, continuous date-and-title list; the lower bar carries `home.slogan` and, unless `home.subtitle_excerpts` is false, swaps to the excerpt of the entry under the pointer. The bar takes the `home.bg` colour in both schemes. `home.desktop_style`, `home.typing`, `home.cards` and `home.layout` apply only to the classic design.
 
 ### Desktop fog homepage (1.7.0)
 

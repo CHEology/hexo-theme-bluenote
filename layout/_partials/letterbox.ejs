@@ -17,6 +17,8 @@ const all = site.posts.sort('-date').toArray();
    (。！？!? …, or a Latin period after a lowercase word), keeping closing quotes. */
 const firstSentence = text => first_sentence(text);
 const isPrivate = post => Boolean(post.private_post || post.private_id);
+/* home.subtitle_excerpts: false keeps the slogan in the lower bar at all times. */
+const excerpts = theme.home.subtitle_excerpts !== false;
 const years = [];
 all.forEach(post => {
   const year = date(post.date, 'YYYY');
@@ -37,7 +39,7 @@ all.forEach(post => {
   <img class="letterbox-frame__image" src="<%- cover %>" alt="" fetchpriority="high" decoding="async">
 <% } -%>
 </figure>
-<div class="letterbox-dock is-idle">
+<div class="letterbox-dock is-idle"<%- excerpts ? '' : ' data-excerpts="false"' %>>
   <p class="letterbox-dock__line"><span><%= slogan %></span></p>
 </div>
 <section class="letterbox-index" aria-label="<%= __('home.index') %>">
@@ -50,12 +52,12 @@ all.forEach(post => {
     <ol class="letterbox-year__list">
 <% group.posts.forEach(post => {
   const hidden = isPrivate(post);
-  const source = hidden ? '' : (post.description || post.excerpt || '');
-  const excerpt = firstSentence(strip_html(source).replace(/\s+/g, ' ').trim());
+  const source = hidden || !excerpts ? '' : (post.description || post.excerpt || '');
+  const excerpt = source ? firstSentence(strip_html(source).replace(/\s+/g, ' ').trim()) : '';
   const yearOnly = post.date_precision === 'year';
 -%>
       <li class="letterbox-entry"<%- hidden ? ' data-private-entry="true"' : '' %>>
-        <a class="letterbox-entry__link" href="<%- url_for(post.path) %>" data-excerpt="<%= excerpt %>">
+        <a class="letterbox-entry__link" href="<%- url_for(post.path) %>"<% if (excerpts) { %> data-excerpt="<%= excerpt %>"<% } %>>
           <time class="letterbox-entry__date" datetime="<%= yearOnly ? date(post.date, 'YYYY') : full_date(post.date, 'YYYY-MM-DD') %>"><%= yearOnly ? '' : date(post.date, 'MM.DD') %></time>
           <span class="letterbox-entry__title"><%= post.title %></span>
 <% if (excerpt) { -%>

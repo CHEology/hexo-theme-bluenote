@@ -5,14 +5,12 @@ const dayFormat = letterbox ? 'MM.DD' : 'MM-DD';
 /* Letterbox listings sit under a year heading, so a year-only post leaves its date blank. */
 const yearText = post => letterbox ? '' : date(post.date, 'YYYY');
 const entries = showEntries ? (theme.archive.extra_entries || []) : [];
-/* Optional details (archive.details): year counts, each post's length on the right and its
-   first sentence below the title. Private posts never show either. Photo posts
-   (photo_layout) are measured by their photographs instead of their words. */
+/* Optional details (archive.details): each post's length on the right and its first
+   sentence below the title. Private posts never show either. */
 const details = letterbox && theme.archive.details;
 const labels = theme.archive.details_labels || {};
 const label = (key, n) => String(labels[key] || '{n}').replace('{n}', n);
 const isPrivate = post => Boolean(post.private_post || post.private_id);
-const photos = post => (String(post.content || '').match(/<img\b/g) || []).length;
 const length = post => post_length(post);
 const roundTen = n => Math.max(10, Math.round(n / 10) * 10);
 const lengthText = n => {
@@ -20,13 +18,7 @@ const lengthText = n => {
   const divisor = Number(labels.large_divisor) || 1000;
   return n >= from ? label('length_large', (n / divisor).toFixed(1).replace(/\.0$/, '')) : label('length', roundTen(n).toLocaleString('en-US'));
 };
-const measure = post => post.photo_layout ? label('photos', photos(post)) : lengthText(length(post));
-const yearSummary = year => {
-  const group = [];
-  posts.each(post => { if (date(post.date, 'YYYY') === year) group.push(post); });
-  const words = group.filter(post => !isPrivate(post) && !post.photo_layout).reduce((sum, post) => sum + length(post), 0);
-  return { count: label('posts', group.length), words: words ? lengthText(words) : '' };
-};
+const measure = post => lengthText(length(post));
 let cursor;
 -%>
 <section class="listing<%= details ? ' listing--details' : '' %>">
@@ -34,9 +26,6 @@ let cursor;
   const year = date(post.date, 'YYYY');
   if (year !== cursor) { cursor = year; -%>
   <p class="listing__year"><%= year %></p>
-<% if (details) { const summary = yearSummary(year); -%>
-  <p class="listing__year-count"><span><%= summary.count %></span><% if (summary.words) { %><span><%= summary.words %></span><% } %></p>
-<% } -%>
 <% }
   const hidden = isPrivate(post);
   const excerpt = details && !hidden ? first_sentence(strip_html(post.description || post.excerpt || '')) : '';

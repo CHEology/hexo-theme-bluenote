@@ -325,20 +325,8 @@ html[data-design="letterbox"] .listing__date:empty {
   display: none;
 }
 
-/* Optional details (archive.details): a quiet count under each year, the post's length
-   beside its date, and its first sentence under the title. Same face, smaller and muted. */
-html[data-design="letterbox"] .listing__year-count {
-  display: flex;
-  justify-content: center;
-  gap: 1em;
-  margin: -0.5rem 0 0.875rem;
-  color: var(--muted);
-  font-size: 0.75rem;
-  font-variant-numeric: lining-nums;
-  letter-spacing: 0.12em;
-  line-height: 1.5;
-}
-
+/* Optional details (archive.details): the post's length beside its date and its first
+   sentence under the title. Same face, smaller and muted. */
 html[data-design="letterbox"] .listing--details .listing__item {
   flex-wrap: wrap;
   row-gap: 0;

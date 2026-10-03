@@ -8,6 +8,8 @@
   var dock = document.querySelector('.letterbox-dock');
   var index = document.querySelector('.letterbox-index');
   if (!dock || !index) return;
+  /* home.subtitle_excerpts: false — the slogan stays. */
+  if (dock.getAttribute('data-excerpts') === 'false') return;
   var line = dock.querySelector('.letterbox-dock__line span');
   var idle = line.textContent;
   var wanted = idle;

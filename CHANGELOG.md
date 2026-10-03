@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.12.1
+
+- `home.subtitle_excerpts: false` keeps the slogan in the letterbox lower bar at all times; entries then carry no excerpt data.
+- `archive.details` no longer adds year counts or photo counts: every post shows its word length and first sentence. The `posts` and `photos` labels are gone.
+
 ## 1.12.0
 
 - Letterbox bars scroll with the document: the navigation sits at the document top and the home lower bar follows the cover in normal flow. Neither is fixed or returns on scroll-up; an open phone menu still pins its bar so it can be closed.
