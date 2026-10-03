@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.13.1
+
+- Article paragraphs are justified and no longer use `text-wrap: pretty`, which in WebKit re-balanced every line and left a ragged right edge in Chinese text.
+- `cjk_punctuation`: a Chinese quote next to another full-width mark takes its half-width form (`halt`), and typed spaces between a Chinese quote and Chinese text or punctuation are not rendered.
+
 ## 1.13.0
 
 - The letterbox home index takes its colours from optional tokens `index-bg`, `index-title`, `index-meta` and `index-hover`, set per scheme in `colors.light` / `colors.dark`; unset, it keeps the bar's blue-black. Its keyboard focus ring follows the hover colour.

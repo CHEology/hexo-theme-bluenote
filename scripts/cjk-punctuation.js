@@ -12,6 +12,8 @@
 const MARK = /[—‘’“”…]/;
 /* Han, CJK punctuation, full-width forms and kana. */
 const CJK = /[⺀-⿟　-〿぀-ヿ㐀-䶿一-鿿豈-﫿︰-﹏＀-￯]/;
+/* Full-width punctuation that already carries its own half-em of blank space. */
+const CJK_PUNCT = /[\u3001\u3002\u3008-\u3011\u3014-\u301b\uff01\uff08\uff09\uff0c\uff1a\uff1b\uff1f\u201c\u201d\u2018\u2019]/;
 const SKIP = /^<(pre|code|script|style|math|svg|textarea|kbd|samp)\b/i;
 
 function firstLetter(text, from, step) {
@@ -89,22 +91,55 @@ function cjkPunctuation(html) {
     for (let k = 0; k < value.length; k += 1) { text += value[k]; owners.push([piece.index, k]); }
   });
   const wrap = decide(text);
+  /* Mechanical spacing: a typed space between a Chinese quote and Chinese text or
+     punctuation (或是 “认清” ，) is not shown; the full-width quote carries its own space.
+     The author's source is unchanged. */
+  const drop = new Set();
+  for (let a = 0; a < text.length; a += 1) {
+    if (text[a] !== ' ') continue;
+    let b = a;
+    while (text[b + 1] === ' ') b += 1;
+    const prev = a > 0 ? a - 1 : -1;
+    const next = b + 1 < text.length ? b + 1 : -1;
+    if (prev >= 0 && next >= 0 && ((wrap[prev] && CJK.test(text[next])) || (wrap[next] && CJK.test(text[prev])))) {
+      for (let k = a; k <= b; k += 1) drop.add(k);
+    }
+    a = b;
+  }
+  const neighbour = (position, step) => {
+    let k = position + step;
+    while (drop.has(k)) k += step;
+    return text[k] || '';
+  };
+  /* A full-width quote that touches another full-width mark (”，  ，“  ）“ …) would leave
+     two half-em blanks side by side. Those quotes take their half-width form ('halt'),
+     the usual squeeze of adjacent Chinese punctuation. */
+  const tight = position => {
+    const ch = text[position];
+    if (/[\u201d\u2019]/.test(ch)) return CJK_PUNCT.test(neighbour(position, 1));
+    if (/[\u201c\u2018]/.test(ch)) return CJK_PUNCT.test(neighbour(position, -1));
+    return false;
+  };
   const marks = new Map();
-  wrap.forEach((yes, position) => {
-    if (!yes || !owners[position]) return;
+  const mark = (position, value) => {
+    if (!owners[position]) return;
     const [index, offset] = owners[position];
-    if (!marks.has(index)) marks.set(index, new Set());
-    marks.get(index).add(offset);
-  });
+    if (!marks.has(index)) marks.set(index, new Map());
+    marks.get(index).set(offset, value);
+  };
+  wrap.forEach((yes, position) => { if (yes) mark(position, tight(position) ? 'cjk-punct cjk-punct--tight' : 'cjk-punct'); });
+  drop.forEach(position => mark(position, ''));
   marks.forEach((offsets, index) => {
     const value = tokens[index];
     let out = '';
     let k = 0;
     while (k < value.length) {
       if (!offsets.has(k)) { out += value[k]; k += 1; continue; }
+      const cls = offsets.get(k);
+      if (!cls) { k += 1; continue; }
       let end = k;
-      while (offsets.has(end + 1)) end += 1;
-      out += `<span class="cjk-punct">${value.slice(k, end + 1)}</span>`;
+      while (offsets.has(end + 1) && offsets.get(end + 1) === cls) end += 1;
+      out += `<span class="${cls}">${value.slice(k, end + 1)}</span>`;
       k = end + 1;
     }
     tokens[index] = out;

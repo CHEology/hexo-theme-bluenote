@@ -626,14 +626,16 @@
 
 /* Mechanical typesetting for mixed Chinese and Latin text: a hairline of space where Han
    characters meet Latin letters or digits (no space is added where the author typed one),
-   and paragraph endings that avoid a lone character on the last line. Browsers without
-   support keep the previous rendering. */
+   and body paragraphs set flush on both edges, as Chinese text is. Justification only
+   spreads the slack a Latin word leaves at the end of a line; Chinese lines are already
+   full. No text-wrap: pretty here: WebKit re-balances every line with it, which cuts
+   Chinese lines short and leaves a ragged right edge. */
 .markdown-body {
   text-autospace: normal;
 }
 
-.markdown-body p {
-  text-wrap: pretty;
+.markdown-body > p {
+  text-align: justify;
 }
 
 /* Quotation marks, dashes and ellipses in Chinese text, marked at build time
@@ -641,4 +643,9 @@
 .cjk-punct {
   font-family: var(--font-cjk, serif);
   letter-spacing: 0;
+}
+
+/* A quote against another full-width mark takes its half-width form. */
+.cjk-punct--tight {
+  font-feature-settings: "halt";
 }
