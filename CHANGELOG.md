@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.8.1
+
+- Letterbox home: the index is a second screen exactly as tall as the window between the bars, with its content centred, so the end of the page never shows the cover above it nor leaves the first year against the upper bar. Longer indexes grow with equal margins.
+- Bars lower slightly on windows under 900px tall (`clamp(64px, 9.8vh, 88px)`, rounded); the height depends only on the window and is identical on every page.
+- Short windows tighten the index rhythm; tablets keep three columns; very wide screens centre the bar contents and the index on a shared 1680px measure.
+
 ## 1.8.0
 
 - Add the opt-in `design: letterbox`. One navigation bar of fixed height (88px; 64px on phones and short windows) appears on every page, with identical bar geometry across pages and a stable scrollbar gutter so short pages never shift it sideways.

@@ -8,12 +8,22 @@ html[data-design="letterbox"] {
   --lb-bar: var(--home-bg);
   --lb-bar-h: 88px;
   --lb-gutter: clamp(24px, 5vw, 72px);
+  /* On very wide screens the bar's contents and the index share one centred measure. */
+  --lb-measure: 1680px;
   --lb-on: #eeebe3;
   --lb-on-2: #bcc6cb;
   --lb-on-3: #8b9aa3;
   --lb-line: rgba(226, 232, 236, 0.09);
   /* Short and long pages keep the same width, so the bar never shifts sideways. */
   scrollbar-gutter: stable;
+}
+
+/* Windows shorter than 900px get slightly lower bars (never below 64px). The height depends
+   only on the window, so it is the same on every page and never changes while scrolling. */
+@supports (height: round(1.5px, 1px)) {
+  html[data-design="letterbox"] {
+    --lb-bar-h: round(clamp(64px, 9.8vh, 88px), 1px);
+  }
 }
 
 /* ── The bar (every page) ─────────────────────────────────────────── */
@@ -36,7 +46,8 @@ html[data-design="letterbox"] .site-nav {
 html[data-design="letterbox"] .site-nav__inner {
   flex-wrap: nowrap;
   height: 100%;
-  max-width: none;
+  max-width: calc(var(--lb-measure) + 2 * var(--lb-gutter));
+  margin: 0 auto;
   padding: 0 var(--lb-gutter);
 }
 
@@ -358,6 +369,12 @@ html.letterbox-scrolled .letterbox-dock {
   font-family: var(--font-ui);
 }
 
+.letterbox-year {
+  width: 100%;
+  max-width: var(--lb-measure);
+  margin-inline: auto;
+}
+
 .letterbox-year + .letterbox-year {
   margin-top: clamp(44px, 7vh, 64px);
 }
@@ -445,11 +462,6 @@ html:not(.private-reading-unlocked) .letterbox-year[data-private-year] {
   }
 }
 
-@media (max-width: 899.98px) {
-  .letterbox-year__list {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
 
 /* Keyboard focus never lands under a fixed bar. */
 @media (min-width: 768px) and (min-height: 521px) {
@@ -463,6 +475,31 @@ html:not(.private-reading-unlocked) .letterbox-year[data-private-year] {
     top: 0;
     right: 0;
     left: 0;
+  }
+
+  /* The index is a second screen exactly as tall as the window between the bars (the last
+     bar's height of the document sits under the fixed lower bar). Content is centred in it,
+     so at the end of the page neither the cover shows above it nor its first year sits
+     against the upper bar. A longer index simply grows, keeping equal margins. */
+  .letterbox-index {
+    --lb-pad: clamp(48px, 7vh, 72px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: calc(100vh - var(--lb-bar-h));
+    min-height: calc(100svh - var(--lb-bar-h));
+    padding: var(--lb-pad) var(--lb-gutter) calc(var(--lb-bar-h) + var(--lb-pad));
+  }
+}
+
+/* Shorter desktop windows tighten the rhythm so a year or two still fits one screen. */
+@media (min-width: 768px) and (min-height: 521px) and (max-height: 820px) {
+  .letterbox-year + .letterbox-year {
+    margin-top: 32px;
+  }
+
+  .letterbox-entry__link {
+    padding: 10px 0 8px;
   }
 }
 
