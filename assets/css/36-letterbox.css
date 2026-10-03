@@ -16,6 +16,13 @@ html[data-design="letterbox"] {
   --lb-on-2: #bcc6cb;
   --lb-on-3: #8b9aa3;
   --lb-line: rgba(226, 232, 236, 0.09);
+  /* The home index below the lower bar. By default it stays on the bar's blue-black;
+     a site can set the colour tokens index-bg, index-title, index-meta and index-hover
+     (per scheme) to set it on the article paper instead. */
+  --lb-index-bg: var(--index-bg, var(--lb-bar));
+  --lb-index-title: var(--index-title, var(--lb-on));
+  --lb-index-meta: var(--index-meta, var(--lb-on-3));
+  --lb-index-hover: var(--index-hover, var(--accent));
   /* Short and long pages keep the same width, so the bar never shifts sideways. */
   /* Keep a real scrollbar slot even on short pages. WebKit can re-evaluate width
      breakpoints after first paint with scrollbar-gutter: stable, moving fixed bars. */
@@ -403,7 +410,7 @@ html[data-design="letterbox"] .site-search-result:focus-visible {
 /* ── Home: the frame between the two bars ─────────────────────────── */
 html.home-root[data-design="letterbox"],
 html[data-design="letterbox"] body.home-page {
-  background: var(--lb-bar);
+  background: var(--lb-index-bg);
 }
 
 html[data-design="letterbox"] .home-page .site-header {
@@ -491,7 +498,8 @@ html[data-design="letterbox"] .home-page .home-main {
 .letterbox-index {
   min-height: calc(100svh - var(--lb-bar-h));
   padding: 4rem var(--lb-gutter);
-  color: var(--lb-on);
+  background: var(--lb-index-bg);
+  color: var(--lb-index-title);
   font-family: var(--font-ui);
 }
 
@@ -511,7 +519,7 @@ html[data-design="letterbox"] .home-page .home-main {
 
 .letterbox-year__title {
   margin: 0 0 0.75rem;
-  color: var(--lb-on-3);
+  color: var(--lb-index-meta);
   font-size: 0.9375rem;
   font-variant-numeric: lining-nums;
   font-weight: 400;
@@ -539,7 +547,7 @@ html[data-design="letterbox"] .home-page .home-main {
 
 .letterbox-entry__date {
   grid-column: 1;
-  color: var(--lb-on-3);
+  color: var(--lb-index-meta);
   font-size: 1rem;
   font-style: italic;
   font-variant-numeric: lining-nums tabular-nums;
@@ -554,7 +562,7 @@ html[data-design="letterbox"] .home-page .home-main {
   justify-self: center;
   min-width: 0;
   max-width: 100%;
-  color: var(--lb-on);
+  color: var(--lb-index-title);
   font-size: 1.3125rem;
   line-height: 1.5;
   letter-spacing: 0.01em;
@@ -568,11 +576,11 @@ html[data-design="letterbox"] .home-page .home-main {
 
 .letterbox-entry__link:hover .letterbox-entry__title,
 .letterbox-entry__link:focus-visible .letterbox-entry__title {
-  color: var(--accent);
+  color: var(--lb-index-hover);
 }
 
 .letterbox-entry__link:focus-visible {
-  outline: 1px solid var(--accent);
+  outline: 1px solid var(--lb-index-hover);
   outline-offset: 4px;
 }
 
@@ -597,7 +605,7 @@ html:not(.private-reading-unlocked) .letterbox-year[data-private-year] {
   .letterbox-dock {
     position: static;
     height: auto;
-    padding: 1.5rem 24px 0;
+    padding: 1.5rem 24px;
   }
 
   .letterbox-dock__line {
@@ -606,7 +614,7 @@ html:not(.private-reading-unlocked) .letterbox-year[data-private-year] {
 
   .letterbox-index {
     min-height: 0;
-    padding: 3rem 24px 4rem;
+    padding: 2.5rem 24px 4rem;
   }
 
   .letterbox-entry__link {

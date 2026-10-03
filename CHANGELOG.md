@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.13.0
+
+- The letterbox home index takes its colours from optional tokens `index-bg`, `index-title`, `index-meta` and `index-hover`, set per scheme in `colors.light` / `colors.dark`; unset, it keeps the bar's blue-black. Its keyboard focus ring follows the hover colour.
+- On phones the in-flow lower bar has equal top and bottom padding (1.5rem) and the index starts 2.5rem below it, so a differently coloured index meets a finished bar.
+- Article text uses `text-autospace: normal` (hairline space where Han meets Latin or digits) and paragraphs use `text-wrap: pretty`.
+
 ## 1.12.1
 
 - `home.subtitle_excerpts: false` keeps the slogan in the letterbox lower bar at all times; entries then carry no excerpt data.

@@ -624,6 +624,18 @@
   margin-bottom: 0 !important;
 }
 
+/* Mechanical typesetting for mixed Chinese and Latin text: a hairline of space where Han
+   characters meet Latin letters or digits (no space is added where the author typed one),
+   and paragraph endings that avoid a lone character on the last line. Browsers without
+   support keep the previous rendering. */
+.markdown-body {
+  text-autospace: normal;
+}
+
+.markdown-body p {
+  text-wrap: pretty;
+}
+
 /* Quotation marks, dashes and ellipses in Chinese text, marked at build time
    (`cjk_punctuation`). No tracking, so a doubled —— joins into one line. */
 .cjk-punct {

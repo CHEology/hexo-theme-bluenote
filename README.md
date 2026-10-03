@@ -155,6 +155,7 @@ The commented [_config.yml](_config.yml) is the full reference. Site overrides m
 | `home.cover_placeholder` | empty | Letterbox: tiny image (data URI) or colour shown behind the cover while it loads |
 | `post.date_format`, `post.year_format` | `YYYY.MM.DD`, `YYYY` | Letterbox title block date, and the form used when only the year is known |
 | `archive.details`, `archive.details_labels` | `false` | Letterbox listings: each post's length and first sentence; labels take `{n}` |
+| `colors.light` / `colors.dark`: `index-bg`, `index-title`, `index-meta`, `index-hover` | unset | Letterbox: colours of the home index below the lower bar (unset keeps the bar's blue-black) |
 | `home.subtitle_excerpts` | `true` | Letterbox: `false` keeps the slogan in the lower bar instead of previewing the entry under the pointer |
 
 ## Local verification and maintenance
