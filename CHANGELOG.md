@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.14.2
+
+- Replace the article end mark’s underline with a colour change using the existing index-hover palette (falling back to the link colour). Preserve the square, touch target, stationary layout and visible keyboard focus outline.
+
 ## 1.14.1
 
 - Align the article end mark’s hover and keyboard underline with the 7px square itself, leaving a 4px gap instead of underlining the preceding space. Keep paragraph layout and the expanded touch target unchanged.
