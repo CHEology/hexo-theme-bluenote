@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.14.1
+
+- Align the article end mark’s hover and keyboard underline with the 7px square itself, leaving a 4px gap instead of underlining the preceding space. Keep paragraph layout and the expanded touch target unchanged.
+
 ## 1.14.0
 
 - Put a small solid square at the end of the final paragraph and use it as the native Back to top link. Preserve authored HTML and line height, with a nonbreaking gap, accessible label and expanded touch target. Media endings use a separate right-aligned line; private articles get the marker after unlocking.

@@ -69,7 +69,7 @@ try {
         }
         const top=page.getByRole('link',{name:'Back to top',exact:true});
         await top.hover();
-        assert.equal(await top.evaluate(e=>getComputedStyle(e).borderBottomStyle),'solid','End mark has a hover underline');
+        assert.deepEqual(await top.locator('span').evaluate(e=>{const s=getComputedStyle(e,'::after');return [s.width,s.height,s.left,s.bottom,s.opacity];}),['7px','1px','0px','-5px','1'],'Underline stays centred under the square, excluding the preceding space');
         const before=await top.boundingBox();
         await page.mouse.move(0,0);
         await page.keyboard.press('Tab');

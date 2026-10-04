@@ -209,11 +209,22 @@
   padding: 0;
 }
 .post-end > span {
+  position: relative;
   display: inline-block;
   width: 7px;
   height: 7px;
   background: currentColor;
   vertical-align: 0.08em;
+}
+.post-end > span::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  opacity: 0;
 }
 .post-end::after {
   content: "";
@@ -226,8 +237,8 @@
 }
 .markdown-body a.post-end:hover,
 .markdown-body a.post-end:focus-visible { color: var(--link-hover); }
-.markdown-body a.post-end:hover,
-.markdown-body a.post-end:focus-visible { border-bottom: 1px solid currentColor; }
+.markdown-body a.post-end:hover > span::after,
+.markdown-body a.post-end:focus-visible > span::after { opacity: 1; }
 .markdown-body a.post-end:focus-visible {
   outline: 2px solid var(--link);
   outline-offset: 4px;
