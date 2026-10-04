@@ -83,6 +83,19 @@ html[data-design="letterbox"] .site-header {
   position: static;
 }
 
+/* Paint across both sides of the fractional edge. An outer shadow alone can still
+   leave a partially covered pixel in dark mode. This strip changes no geometry. */
+html[data-design="letterbox"] .site-header:has(.masthead) + .page-body::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  right: 0;
+  left: 0;
+  height: 2px;
+  background: var(--paper);
+  pointer-events: none;
+}
+
 html[data-design="letterbox"] .site-nav {
   position: absolute;
   top: 0;
@@ -468,6 +481,7 @@ html[data-design="letterbox"] .home-page .home-main {
 }
 
 .letterbox-frame {
+  --lb-cover-position: 50% 52%;
   height: calc(100vh - 2 * var(--lb-bar-h) - var(--lb-safe-top) - var(--lb-safe-bottom));
   height: calc(100svh - 2 * var(--lb-bar-h) - var(--lb-safe-top) - var(--lb-safe-bottom));
   margin: 0;
@@ -475,7 +489,7 @@ html[data-design="letterbox"] .home-page .home-main {
   /* An optional placeholder (home.cover_placeholder) is painted here while the cover
      loads, framed like the cover itself. */
   background-color: #0b1d27;
-  background-position: 50% 52%;
+  background-position: var(--lb-cover-position);
   background-size: cover;
 }
 
@@ -488,7 +502,7 @@ html[data-design="letterbox"] .home-page .home-main {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 50% 52%;
+  object-position: var(--lb-cover-position);
 }
 
 .letterbox-dock {

@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import {chromium, webkit} from 'playwright';
+import {PNG} from 'pngjs';
 import support from './support.cjs';
 
 // Desktop engines cannot draw the iOS system status bar. Inject nonzero inset
@@ -64,7 +65,29 @@ try {
           await page.close();
         }
       }
-      console.log(`${engine.name()}: Home Screen metadata, dark body, zero/nonzero safe areas, first-screen height, reading surface and menu passed`);
+      // The dark body must not leak through touching paper surfaces at fractional DPR.
+      for (const deviceScaleFactor of [1, 1.25, 1.5, 2]) for (const colorScheme of ['light', 'dark']) {
+        const page = await browser.newPage({viewport: {width: 1024, height: 768}, deviceScaleFactor, colorScheme});
+        await page.goto(server.url + 'reading/');
+        await page.evaluate(() => document.fonts.ready);
+        await page.evaluate(() => scrollTo(0, 100));
+        const edge = await page.locator('.site-header').evaluate(e => ({
+          y: e.getBoundingClientRect().bottom,
+          paper: getComputedStyle(e).backgroundColor.match(/\d+/g).slice(0, 3).map(Number)
+        }));
+        const pixels = PNG.sync.read(await page.screenshot());
+        for (let y = Math.floor(edge.y * deviceScaleFactor) - 1; y <= Math.ceil(edge.y * deviceScaleFactor) + 1; y++) {
+          for (let x = 12; x < 40; x++) {
+            const offset = (y * pixels.width + x) * 4;
+            // Allow one 8-bit step for compositing-rounding at the overlap's outer
+            // edges; the original seam and the dark-mode shadow leak exceed this.
+            assert.ok([...pixels.data.subarray(offset, offset + 3)].every((value, channel) => Math.abs(value - edge.paper[channel]) <= 1),
+              `${engine.name()} ${colorScheme} DPR ${deviceScaleFactor}: title seam at ${x},${y}`);
+          }
+        }
+        await page.close();
+      }
+      console.log(`${engine.name()}: Home Screen metadata, safe areas, layout, menus and fractional-scale paper seams passed`);
     } finally { await browser.close(); }
   }
 } finally { await server.close(); site.cleanup(); }

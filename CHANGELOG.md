@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.13.6
+
+- Paint matching paper across both sides of the title-header seam, preventing the dark body from bleeding through at fractional display scales without changing layout or home navigation.
+- Share `--lb-cover-position` between the Letterbox cover image and its placeholder so sites can adjust the focal point for their own image and viewport shapes.
+
 ## 1.13.5
 
 - Complete Letterbox Home Screen support with Apple standalone status-bar metadata and `viewport-fit=cover`. Both body and html keep the bar colour; the reading surfaces paint their own paper so iOS cannot sample the light body background.
