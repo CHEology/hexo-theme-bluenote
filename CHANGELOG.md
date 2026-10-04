@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.14.0
+
+- Put a small solid square at the end of the final paragraph and use it as the native Back to top link. Preserve authored HTML and line height, with a nonbreaking gap, accessible label and expanded touch target. Media endings use a separate right-aligned line; private articles get the marker after unlocking.
+- Remove the middle footer diamond and retain two equal columns for adjacent articles. The end mark also works on articles without adjacent links and without JavaScript.
+
 ## 1.13.9
 
 - Protect Letterbox title descenders with bottom padding before the following paper surface and seam strip. Keep title position and typography unchanged while increasing the title-to-content gap by 0.5rem on desktop, mobile and short windows.
