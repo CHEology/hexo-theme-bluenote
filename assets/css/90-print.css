@@ -12,7 +12,13 @@
   }
 
   html[data-design="letterbox"] body {
+    display: block;
     padding-top: 0;
+    background: #fff;
+  }
+
+  html[data-design="letterbox"] body::before {
+    content: none;
   }
 
   body {

@@ -1,6 +1,6 @@
 {
   "name": "hexo-theme-bluenote",
-  "version": "1.13.4",
+  "version": "1.13.5",
   "description": "A quiet editorial Hexo theme: paper tones, serif Latin and CJK typography, an image-led home page with desktop cards and a mobile reading list, dark mode, no framework and no third-party requests.",
   "keywords": [
     "hexo",
@@ -37,7 +37,7 @@
   },
   "scripts": {
     "test": "node --test test/*.test.cjs",
-    "test:browser": "node test/browser.mjs && node test/post-nav.browser.mjs",
+    "test:browser": "node test/browser.mjs && node test/post-nav.browser.mjs && node test/safe-area.browser.mjs",
     "screenshots": "node test/screenshots.mjs"
   },
   "devDependencies": {

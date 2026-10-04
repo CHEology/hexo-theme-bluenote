@@ -9,9 +9,13 @@
 html[data-design="letterbox"] {
   --lb-bar: var(--home-bg);
   --theme-color: var(--lb-bar);
-  /* Give browser chrome and the canvas the bar colour instead of propagating the
-     reading surface from body. The body paints its own paper for the full document. */
+  /* Home Screen apps can sample body rather than html for the system status bar.
+     Both stay dark; header/main/footer paint the reading surface independently. */
   background-color: var(--lb-bar);
+  --lb-safe-top: env(safe-area-inset-top, 0px);
+  --lb-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --lb-safe-left: env(safe-area-inset-left, 0px);
+  --lb-safe-right: env(safe-area-inset-right, 0px);
   --lb-bar-h: 88px;
   --lb-gutter: clamp(24px, 5vw, 72px);
   /* On very wide screens the bar's contents and the index share one centred measure. */
@@ -37,10 +41,40 @@ html[data-design="letterbox"] {
 
 /* ── The bar (every page) ─────────────────────────────────────────── */
 html[data-design="letterbox"] body {
+  display: flex;
+  flex-direction: column;
   height: auto;
   min-height: 100%;
-  padding-top: var(--lb-bar-h);
+  min-height: 100svh;
+  padding-top: calc(var(--lb-bar-h) + var(--lb-safe-top));
+  background: var(--lb-bar);
   overscroll-behavior: none;
+}
+
+/* Paint only the system safe area while scrolling, never a second navigation bar. */
+html[data-design="letterbox"] body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: var(--lb-safe-top);
+  background: var(--lb-bar);
+  z-index: 2000;
+  pointer-events: none;
+}
+
+html[data-design="letterbox"] .site-header,
+html[data-design="letterbox"] .page-body,
+html[data-design="letterbox"] .site-footer {
+  flex-shrink: 0;
+  background: var(--paper);
+}
+
+html[data-design="letterbox"] .page-body {
+  flex-grow: 1;
+  padding-left: var(--lb-safe-left);
+  padding-right: var(--lb-safe-right);
 }
 
 /* The bar is positioned against the document, not the header, so it sits in the space
@@ -54,8 +88,8 @@ html[data-design="letterbox"] .site-nav {
   top: 0;
   right: 0;
   left: 0;
-  height: var(--lb-bar-h);
-  padding: 0;
+  height: calc(var(--lb-bar-h) + var(--lb-safe-top));
+  padding: var(--lb-safe-top) 0 0;
   background: var(--lb-bar);
   box-shadow: none;
   font-family: var(--font-ui);
@@ -68,7 +102,7 @@ html[data-design="letterbox"] .site-nav__inner {
   height: 100%;
   max-width: calc(var(--lb-measure) + 2 * var(--lb-gutter));
   margin: 0 auto;
-  padding: 0 var(--lb-gutter);
+  padding: 0 max(var(--lb-gutter), var(--lb-safe-right)) 0 max(var(--lb-gutter), var(--lb-safe-left));
 }
 
 html[data-design="letterbox"] .site-nav__brand {
@@ -158,7 +192,10 @@ html[data-design="letterbox"] .home-page .site-menu {
   }
 
   html[data-design="letterbox"] .site-menu {
-    padding-top: calc(var(--lb-bar-h) + 0.5rem);
+    padding-top: calc(var(--lb-bar-h) + var(--lb-safe-top) + 0.5rem);
+    padding-bottom: max(2rem, var(--lb-safe-bottom));
+    padding-left: var(--lb-safe-left);
+    padding-right: var(--lb-safe-right);
   }
 
   html[data-design="letterbox"] .site-menu__item,
@@ -189,7 +226,7 @@ html[data-design="letterbox"] .masthead {
   display: block;
   height: auto;
   min-height: 0;
-  padding: 5rem var(--lb-gutter) 0;
+  padding: 5rem max(var(--lb-gutter), var(--lb-safe-right)) 0 max(var(--lb-gutter), var(--lb-safe-left));
   overflow: visible;
   background: transparent;
 }
@@ -384,6 +421,11 @@ html[data-design="letterbox"] .listing__excerpt {
 }
 
 /* The search panel is cut from the same paper as the page, by day and by night. */
+html[data-design="letterbox"] .site-search-overlay {
+  padding-left: max(1rem, var(--lb-safe-left));
+  padding-right: max(1rem, var(--lb-safe-right));
+}
+
 html[data-design="letterbox"] .site-search-dialog {
   color: var(--text);
   background: var(--paper);
@@ -414,10 +456,6 @@ html[data-design="letterbox"] .site-search-result:focus-visible {
 }
 
 /* ── Home: the frame between the two bars ─────────────────────────── */
-html[data-design="letterbox"] body.home-page {
-  background: var(--lb-index-bg);
-}
-
 html[data-design="letterbox"] .home-page .site-header {
   height: 0;
 }
@@ -430,8 +468,8 @@ html[data-design="letterbox"] .home-page .home-main {
 }
 
 .letterbox-frame {
-  height: calc(100vh - 2 * var(--lb-bar-h));
-  height: calc(100svh - 2 * var(--lb-bar-h));
+  height: calc(100vh - 2 * var(--lb-bar-h) - var(--lb-safe-top) - var(--lb-safe-bottom));
+  height: calc(100svh - 2 * var(--lb-bar-h) - var(--lb-safe-top) - var(--lb-safe-bottom));
   margin: 0;
   overflow: hidden;
   /* An optional placeholder (home.cover_placeholder) is painted here while the cover
@@ -457,8 +495,8 @@ html[data-design="letterbox"] .home-page .home-main {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: var(--lb-bar-h);
-  padding: 0 var(--lb-gutter);
+  height: calc(var(--lb-bar-h) + var(--lb-safe-bottom));
+  padding: 0 max(var(--lb-gutter), var(--lb-safe-right)) var(--lb-safe-bottom) max(var(--lb-gutter), var(--lb-safe-left));
   background: var(--lb-bar);
 }
 
@@ -502,7 +540,7 @@ html[data-design="letterbox"] .home-page .home-main {
    let dates sit to the left without displacing short or undated titles. */
 .letterbox-index {
   min-height: calc(100svh - var(--lb-bar-h));
-  padding: 4rem var(--lb-gutter);
+  padding: 4rem max(var(--lb-gutter), var(--lb-safe-right)) 4rem max(var(--lb-gutter), var(--lb-safe-left));
   background: var(--lb-index-bg);
   color: var(--lb-index-title);
   font-family: var(--font-ui);
@@ -614,7 +652,7 @@ html:not(.private-reading-unlocked) .letterbox-year[data-private-year] {
 
   .letterbox-index {
     min-height: 0;
-    padding: 3rem 24px 4rem;
+    padding: 3rem max(24px, var(--lb-safe-right)) 4rem max(24px, var(--lb-safe-left));
   }
 
   .letterbox-entry__link {

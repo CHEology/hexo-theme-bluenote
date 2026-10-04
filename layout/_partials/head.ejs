@@ -15,7 +15,12 @@ const portraitMedia = '(max-width: 767px) and (orientation: portrait)';
 -%>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no<%= theme.design === 'letterbox' ? ', viewport-fit=cover' : '' %>">
+<% if (theme.design === 'letterbox') { -%>
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<% } -%>
 <%# The viewport is declared first so phones evaluate the preload media queries at their real width. -%>
 <% if (cover && theme.home.preload_cover) { -%>
 <% if (portraitWidths.length) { -%>

@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.13.5
+
+- Complete Letterbox Home Screen support with Apple standalone status-bar metadata and `viewport-fit=cover`. Both body and html keep the bar colour; the reading surfaces paint their own paper so iOS cannot sample the light body background.
+- Respect top, bottom and landscape safe areas without fixing the navigation. The home cover subtracts the extra safe-area space, keeping its first screen at `100svh`; only the top system inset retains a fixed dark backing when scrolling.
+
 ## 1.13.4
 
 - Adjacent-post navigation follows chronological order: Previous on the left opens the older post, Next on the right opens the newer post. The oldest and newest posts retain their empty left and right cells respectively, keeping Back to top centred.
