@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.13.8
+
+- Replace the article-end up chevron with a small hollow diamond, retaining the centred 44px target, accessible name, stationary hover and keyboard feedback.
+- Account for the Letterbox bar and top safe area in native page-top navigation so the entire bar is visible after returning from an article footer, including without JavaScript. Cover both designs, browser engines, mobile/desktop, keyboard activation and fragment reloads.
+
 ## 1.13.7
 
 - Centre Letterbox subtitles within the entire lower bar, including Home Screen safe areas. Reserve symmetrical space for up to two lines and share the resulting height with the cover, preserving the first-screen fit across rotation and enlarged text.

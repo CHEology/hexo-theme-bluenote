@@ -88,6 +88,12 @@ html[data-design="letterbox"] .site-header {
   position: static;
 }
 
+/* The fragment starts below the body's bar padding. Include that reserved space
+   so native back-to-top navigation reveals the entire bar, including safe areas. */
+html[data-design="letterbox"] #page-top {
+  scroll-margin-top: calc(var(--lb-bar-h) + var(--lb-safe-top));
+}
+
 /* Paint across both sides of the fractional edge. An outer shadow alone can still
    leave a partially covered pixel in dark mode. This strip changes no geometry. */
 html[data-design="letterbox"] .site-header:has(.masthead) + .page-body::before {

@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
 import {chromium,webkit} from 'playwright';
 import support from './support.cjs';
-const site=await support.fixture({defaults:true});
+for (const design of ['classic','letterbox']) {
+const site=await support.fixture({defaults:true,theme:{design}});
 const server=await support.serve(site.publicDir,site.root);
 try {
   for(const engine of [chromium,webkit]) {
@@ -23,6 +24,7 @@ try {
         const previous=page.locator('.post-nav__prev');
         const previousUrl=await previous.evaluate(e=>e.href);
         assert.equal(previousUrl,server.url+'photo-study/');
+        await previous.scrollIntoViewIfNeeded();
         await Promise.all([page.waitForURL(previousUrl),previous.click()]);
         assert.equal(await page.locator('.post-nav__prev,.post-nav__next').count(),2);
         assert.equal(await page.locator('.post-nav__next').evaluate(e=>e.href),server.url+'reading/');
@@ -41,8 +43,9 @@ try {
           return [style.width,style.height,style.strokeWidth,style.strokeLinecap,style.strokeLinejoin,style.fill];
         }));
         assert.equal(icons.length,3);
-        assert.deepEqual(icons[0],icons[1],'Up chevron uses the same geometry and stroke style as left');
-        assert.deepEqual(icons[1],icons[2],'Up chevron uses the same geometry and stroke style as right');
+        assert.deepEqual(icons[0],icons[2],'Side arrows keep matching strokes');
+        assert.equal(icons[1][2],'1.5px','Diamond has a lighter stroke');
+        assert.equal(icons[1][5],'none','Diamond stays hollow');
         for(const link of await page.locator('.post-nav__prev,.post-nav__next').all()) {
           await link.scrollIntoViewIfNeeded();
           const before=await link.evaluate(e=>getComputedStyle(e).color);
@@ -73,9 +76,16 @@ try {
         assert.equal(await top.evaluate(e=>e.matches(':focus-visible')),true);
         assert.equal(await top.evaluate(e=>getComputedStyle(e,'::after').opacity),'1');
         assert.deepEqual(await top.boundingBox(),before);
+        // Nonzero safe areas previously hid even more of the Letterbox bar.
+        if(design==='letterbox') await page.addStyleTag({content:'html{--lb-safe-top:47px}'});
         await page.keyboard.press('Enter');
         await page.waitForFunction(()=>scrollY===0);
+        assert.equal((await page.locator('.site-nav').boundingBox()).y,0,'Entire bar is visible');
+        await top.click();
+        await page.waitForFunction(()=>scrollY===0);
         assert.equal(await page.evaluate(()=>document.activeElement.id),'page-top');
+        await page.reload();
+        await page.waitForFunction(()=>scrollY===0);
         assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
         await page.close();
       }
@@ -85,7 +95,9 @@ try {
       assert.equal(await noScript.evaluate(()=>scrollY),0,'Top works without JavaScript');
       assert.equal(await noScript.evaluate(()=>document.activeElement.id),'page-top');
       await noScript.close();
-      console.log(engine.name()+': adjacent-post colour/underline, stationary arrows and keyboard focus passed at three widths and two schemes');
+      console.log(design+' '+engine.name()+': adjacent-post colour/underline, stationary arrows and keyboard focus passed at three widths and two schemes');
     } finally {await browser.close()}
   }
 } finally {await server.close();site.cleanup()}
+
+}
