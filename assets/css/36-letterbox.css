@@ -3,8 +3,8 @@
    away with the document like any other content; it does not return on scroll-up. The
    home page frames the cover between that bar and a lower bar of the same height, which
    also scrolls with the page: the cover first, then a dated index. The lower bar shows
-   the slogan, or the excerpt of the entry under the pointer, on a single line that never
-   changes height. Content pages open with a centred title card on the same blue-black. */
+   the slogan, or the excerpt of the entry under the pointer, on up to two lines in a bar that never
+   changes height when its text changes. Content pages open with a centred title card on the same blue-black. */
 
 html[data-design="letterbox"] {
   --lb-bar: var(--home-bg);
@@ -17,6 +17,11 @@ html[data-design="letterbox"] {
   --lb-safe-left: env(safe-area-inset-left, 0px);
   --lb-safe-right: env(safe-area-inset-right, 0px);
   --lb-bar-h: 88px;
+  --lb-dock-font-size: 1.1875rem;
+  --lb-dock-line-height: calc(var(--lb-dock-font-size) * 1.45);
+  /* Centre against the whole bar, reserving equal safe space above and below
+     even a two-line subtitle. Share its height with the cover calculation. */
+  --lb-dock-h: max(calc(var(--lb-bar-h) + var(--lb-safe-bottom)), calc(2 * var(--lb-dock-line-height) + 2 * var(--lb-safe-bottom)));
   --lb-gutter: clamp(24px, 5vw, 72px);
   /* On very wide screens the bar's contents and the index share one centred measure. */
   --lb-measure: 1680px;
@@ -482,8 +487,8 @@ html[data-design="letterbox"] .home-page .home-main {
 
 .letterbox-frame {
   --lb-cover-position: 50% 52%;
-  height: calc(100vh - 2 * var(--lb-bar-h) - var(--lb-safe-top) - var(--lb-safe-bottom));
-  height: calc(100svh - 2 * var(--lb-bar-h) - var(--lb-safe-top) - var(--lb-safe-bottom));
+  height: calc(100vh - var(--lb-bar-h) - var(--lb-safe-top) - var(--lb-dock-h));
+  height: calc(100svh - var(--lb-bar-h) - var(--lb-safe-top) - var(--lb-dock-h));
   margin: 0;
   overflow: hidden;
   /* An optional placeholder (home.cover_placeholder) is painted here while the cover
@@ -509,8 +514,8 @@ html[data-design="letterbox"] .home-page .home-main {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: calc(var(--lb-bar-h) + var(--lb-safe-bottom));
-  padding: 0 max(var(--lb-gutter), var(--lb-safe-right)) var(--lb-safe-bottom) max(var(--lb-gutter), var(--lb-safe-left));
+  height: var(--lb-dock-h);
+  padding: var(--lb-safe-bottom) max(var(--lb-gutter), var(--lb-safe-right)) var(--lb-safe-bottom) max(var(--lb-gutter), var(--lb-safe-left));
   background: var(--lb-bar);
 }
 
@@ -520,8 +525,8 @@ html[data-design="letterbox"] .home-page .home-main {
   margin: 0;
   color: #e6e2d8;
   font-family: var(--font-ui);
-  font-size: 1.1875rem;
-  line-height: 1.45;
+  font-size: var(--lb-dock-font-size);
+  line-height: var(--lb-dock-line-height);
   letter-spacing: 0.015em;
   text-align: center;
 }
@@ -646,11 +651,11 @@ html:not(.private-reading-unlocked) .letterbox-year[data-private-year] {
   display: none;
 }
 
-/* On small screens the lower bar gives up its fixed height and simply carries the slogan
-   between the cover and the index. */
+/* Compact bars and type on phones and short windows. */
 @media (max-width: 767px), (max-height: 520px) {
   html[data-design="letterbox"] {
     --lb-bar-h: 64px;
+    --lb-dock-font-size: 1.0625rem;
     --lb-gutter: 24px;
   }
 
@@ -658,10 +663,6 @@ html:not(.private-reading-unlocked) .letterbox-year[data-private-year] {
      filling the smallest viewport exactly. Both bars keep the small-screen height. */
   .letterbox-frame {
     min-height: 160px;
-  }
-
-  .letterbox-dock__line {
-    font-size: 1.0625rem;
   }
 
   .letterbox-index {

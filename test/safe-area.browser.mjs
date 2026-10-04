@@ -13,6 +13,7 @@ try {
     try {
       for (const colorScheme of ['light', 'dark']) {
         for (const [width, height, top, bottom, side] of [
+          [320, 568, 0, 0, 0], [320, 568, 47, 34, 0],
           [390, 844, 0, 0, 0], [428, 926, 47, 34, 0],
           [768, 1024, 24, 20, 0], [926, 428, 0, 21, 47]
         ]) {
@@ -43,7 +44,27 @@ try {
             assert.equal(state.bandHeight, top + 'px');
             assert.ok(state.brandTop >= top && state.brandLeft >= side);
             assert.equal(state.overflow, false);
-            if (!path) assert.ok(Math.abs(state.dockBottom - height) < 0.1, 'Cover and both bars include safe areas within one screen');
+            if (!path) {
+              assert.ok(Math.abs(state.dockBottom - height) < 0.1, 'Cover and both bars include safe areas within one screen');
+              // Both a single line and a wrapped subtitle must stay centred in the
+              // entire visible bar, including after it scrolls away from the inset.
+              for (const text of ['A quiet spectator.', 'A quiet spectator.<br>A second quiet line.']) {
+                await page.locator('.letterbox-dock__line span').evaluate((e, text) => { e.innerHTML = text; }, text);
+                for (const scroll of [0, 200]) {
+                  await page.evaluate(y => scrollTo(0, y), scroll);
+                  const alignment = await page.locator('.letterbox-dock').evaluate(e => {
+                    const bar = e.getBoundingClientRect();
+                    const line = e.querySelector('.letterbox-dock__line').getBoundingClientRect();
+                    return {offset: (line.top + line.bottom - bar.top - bar.bottom) / 2,
+                      clearance: bar.bottom - line.bottom};
+                  });
+                  assert.ok(Math.abs(alignment.offset) < 0.1,
+                    `${engine.name()} ${width}×${height}: subtitle offset ${alignment.offset}px`);
+                  assert.ok(alignment.clearance >= bottom - 0.1, 'Two lines clear the bottom safe area');
+                }
+              }
+              await page.evaluate(() => scrollTo(0, 0));
+            }
             if (path) {
               assert.equal(await page.locator('.page-body').evaluate((e, paper) => {
                 const probe = document.createElement('span'); probe.style.color = paper; e.append(probe);
@@ -65,6 +86,42 @@ try {
           await page.close();
         }
       }
+      // Resize the same document across breakpoints and rotate with changing
+      // insets, also at 200% text size. No reload should be needed to recentre.
+      const resized = await browser.newPage();
+      await resized.goto(server.url);
+      await resized.locator('.letterbox-dock__line span').evaluate(e => {
+        e.innerHTML = 'A quiet line.<br>Another line.';
+      });
+      for (const fontSize of ['100%', '200%']) {
+        for (const [width, height, top, bottom, side] of [
+          [428, 926, 47, 34, 0], [926, 428, 0, 21, 47],
+          [320, 568, 47, 34, 0], [768, 1024, 24, 20, 0],
+          [1024, 768, 0, 0, 0], [390, 844, 0, 0, 0]
+        ]) {
+          await resized.setViewportSize({width, height});
+          await resized.evaluate(({fontSize, top, bottom, side}) => {
+            const style = document.documentElement.style;
+            style.fontSize = fontSize;
+            for (const [name, value] of Object.entries({top, bottom, left: side, right: side})) {
+              style.setProperty('--lb-safe-' + name, value + 'px');
+            }
+            scrollTo(0, 0);
+          }, {fontSize, top, bottom, side});
+          const layout = await resized.locator('.letterbox-dock').evaluate(e => {
+            const bar = e.getBoundingClientRect();
+            const line = e.querySelector('.letterbox-dock__line').getBoundingClientRect();
+            return {offset: (line.top + line.bottom - bar.top - bar.bottom) / 2,
+              clearance: bar.bottom - line.bottom, bottom: bar.bottom,
+              overflow: e.scrollWidth > e.clientWidth || bar.left < 0 || bar.right > innerWidth};
+          });
+          assert.ok(Math.abs(layout.offset) < 0.1, 'Resized subtitle stays centred');
+          assert.ok(layout.clearance >= bottom - 0.1, 'Enlarged text clears the safe area');
+          assert.ok(Math.abs(layout.bottom - height) < 0.1, 'Resized first screen still fits');
+          assert.equal(layout.overflow, false, `${engine.name()} ${width}×${height} ${fontSize}: subtitle bar overflows`);
+        }
+      }
+      await resized.close();
       // The dark body must not leak through touching paper surfaces at fractional DPR.
       for (const deviceScaleFactor of [1, 1.25, 1.5, 2]) for (const colorScheme of ['light', 'dark']) {
         const page = await browser.newPage({viewport: {width: 1024, height: 768}, deviceScaleFactor, colorScheme});

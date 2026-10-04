@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.13.7
+
+- Centre Letterbox subtitles within the entire lower bar, including Home Screen safe areas. Reserve symmetrical space for up to two lines and share the resulting height with the cover, preserving the first-screen fit across rotation and enlarged text.
+- Cover centring before and after scrolling, changing safe areas, responsive resizing, and 200% text in Chromium and WebKit regression checks.
+
 ## 1.13.6
 
 - Paint matching paper across both sides of the title-header seam, preventing the dark body from bleeding through at fractional display scales without changing layout or home navigation.
