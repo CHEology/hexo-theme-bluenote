@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.13.4
+
+- Adjacent-post navigation follows chronological order: Previous on the left opens the older post, Next on the right opens the newer post. The oldest and newest posts retain their empty left and right cells respectively, keeping Back to top centred.
+
 ## 1.13.3
 
 - Letterbox uses the navigation bar colour for the root canvas and browser theme colour on every page, including the light home index. The reading surface retains its own background over the full document height; navigation continues to scroll with the page.

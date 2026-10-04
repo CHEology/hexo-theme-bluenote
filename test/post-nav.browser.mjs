@@ -17,11 +17,24 @@ try {
           assert.ok(top.width>=44 && top.height>=44);
         };
         await centred();
+        assert.equal(await page.locator('.post-nav__next').count(),0,'Newest post leaves the right cell empty');
+        assert.equal(await page.locator('.post-nav__cell--next').innerText(),'');
         // Move from the newest entry to the middle one, which has both arrows.
-        const next=page.locator('.post-nav__next');
-        const nextUrl=await next.evaluate(e=>e.href);
-        await Promise.all([page.waitForURL(nextUrl),next.click()]);
+        const previous=page.locator('.post-nav__prev');
+        const previousUrl=await previous.evaluate(e=>e.href);
+        assert.equal(previousUrl,server.url+'photo-study/');
+        await Promise.all([page.waitForURL(previousUrl),previous.click()]);
         assert.equal(await page.locator('.post-nav__prev,.post-nav__next').count(),2);
+        assert.equal(await page.locator('.post-nav__next').evaluate(e=>e.href),server.url+'reading/');
+        const olderUrl=await page.locator('.post-nav__prev').evaluate(e=>e.href);
+        assert.equal(olderUrl,server.url+'note/');
+        await page.goto(olderUrl);
+        assert.equal(await page.locator('.post-nav__prev').count(),0,'Oldest post leaves the left cell empty');
+        assert.equal(await page.locator('.post-nav__cell--prev').innerText(),'');
+        assert.equal(await page.locator('.post-nav__next').evaluate(e=>e.href),previousUrl);
+        await centred();
+        await page.locator('.post-nav__next').click();
+        await page.waitForURL(previousUrl);
         await centred();
         const icons=await page.locator('.post-nav .icon').evaluateAll(elements=>elements.map(e=>{
           const style=getComputedStyle(e);
