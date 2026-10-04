@@ -196,3 +196,44 @@
   max-width: 100%;
   object-fit: cover;
 }
+
+/* The nonbreaking space keeps the end mark attached to the final text. The
+   square has no text glyph, so it does not enter copy/paste or search content. */
+.markdown-body a.post-end {
+  position: relative;
+  display: inline;
+  white-space: nowrap;
+  color: var(--text);
+  text-decoration: none;
+  border: 0;
+  padding: 0;
+}
+.post-end > span {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  background: currentColor;
+  vertical-align: 0.08em;
+}
+.post-end::after {
+  content: "";
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.markdown-body a.post-end:hover,
+.markdown-body a.post-end:focus-visible { color: var(--link-hover); }
+.markdown-body a.post-end:hover,
+.markdown-body a.post-end:focus-visible { border-bottom: 1px solid currentColor; }
+.markdown-body a.post-end:focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: 4px;
+}
+.post-end-line {
+  max-width: var(--reading-width);
+  margin: 1rem auto 0;
+  text-align: right;
+}

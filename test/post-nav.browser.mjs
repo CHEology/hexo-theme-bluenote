@@ -11,13 +11,16 @@ try {
       for(const width of [320,390,1280]) for(const colorScheme of ['light','dark']) {
         const page=await browser.newPage({viewport:{width,height:844},colorScheme});
         await page.goto(server.url+'reading/');
-        const centred=async()=>{
-          const nav=await page.locator('.post-nav').boundingBox();
-          const top=await page.locator('.post-nav__top').boundingBox();
-          assert.ok(Math.abs(top.x+top.width/2-nav.x-nav.width/2)<1,'Top stays centred with either one or two adjacent links');
-          assert.ok(top.width>=44 && top.height>=44);
+        await page.evaluate(()=>document.fonts.ready);
+        const checkEnding=async()=>{
+          assert.equal(await page.locator('.post-nav__top').count(),0);
+          assert.equal(await page.locator('.markdown-body .post-end').count(),1);
+          const top=page.locator('.post-end');
+          assert.equal(await top.evaluate(e=>getComputedStyle(e,'::after').width),'44px');
+          assert.equal(await top.evaluate(e=>getComputedStyle(e,'::after').height),'44px');
+          assert.equal(await top.locator('span').evaluate(e=>getComputedStyle(e).width),'7px');
         };
-        await centred();
+        await checkEnding();
         assert.equal(await page.locator('.post-nav__next').count(),0,'Newest post leaves the right cell empty');
         assert.equal(await page.locator('.post-nav__cell--next').innerText(),'');
         // Move from the newest entry to the middle one, which has both arrows.
@@ -34,18 +37,16 @@ try {
         assert.equal(await page.locator('.post-nav__prev').count(),0,'Oldest post leaves the left cell empty');
         assert.equal(await page.locator('.post-nav__cell--prev').innerText(),'');
         assert.equal(await page.locator('.post-nav__next').evaluate(e=>e.href),previousUrl);
-        await centred();
+        await checkEnding();
         await page.locator('.post-nav__next').click();
         await page.waitForURL(previousUrl);
-        await centred();
+        await checkEnding();
         const icons=await page.locator('.post-nav .icon').evaluateAll(elements=>elements.map(e=>{
           const style=getComputedStyle(e);
           return [style.width,style.height,style.strokeWidth,style.strokeLinecap,style.strokeLinejoin,style.fill];
         }));
-        assert.equal(icons.length,3);
-        assert.deepEqual(icons[0],icons[2],'Side arrows keep matching strokes');
-        assert.equal(icons[1][2],'1.5px','Diamond has a lighter stroke');
-        assert.equal(icons[1][5],'none','Diamond stays hollow');
+        assert.equal(icons.length,2);
+        assert.deepEqual(icons[0],icons[1],'Side arrows keep matching strokes');
         for(const link of await page.locator('.post-nav__prev,.post-nav__next').all()) {
           await link.scrollIntoViewIfNeeded();
           const before=await link.evaluate(e=>getComputedStyle(e).color);
@@ -68,13 +69,13 @@ try {
         }
         const top=page.getByRole('link',{name:'Back to top',exact:true});
         await top.hover();
-        assert.equal(await top.evaluate(e=>getComputedStyle(e,'::after').opacity),'1','Icon-only Top has the matching underline');
+        assert.equal(await top.evaluate(e=>getComputedStyle(e).borderBottomStyle),'solid','End mark has a hover underline');
         const before=await top.boundingBox();
         await page.mouse.move(0,0);
         await page.keyboard.press('Tab');
         await top.focus();
         assert.equal(await top.evaluate(e=>e.matches(':focus-visible')),true);
-        assert.equal(await top.evaluate(e=>getComputedStyle(e,'::after').opacity),'1');
+        assert.equal(await top.evaluate(e=>getComputedStyle(e).outlineStyle),'solid');
         assert.deepEqual(await top.boundingBox(),before);
         // Nonzero safe areas previously hid even more of the Letterbox bar.
         if(design==='letterbox') await page.addStyleTag({content:'html{--lb-safe-top:47px}'});

@@ -52,5 +52,8 @@
     "js-yaml": "4.3.2",
     "playwright": "1.62.1",
     "pngjs": "7.0.0"
+  },
+  "dependencies": {
+    "htmlparser2": "10.1.0"
   }
 }

@@ -2,8 +2,11 @@
 <div class="post-layout<%= tocHtml ? ' post-layout--toc' : '' %>">
   <article class="post-content">
     <div class="markdown-body">
-<%- page.content %>
+<%- post_content_with_end(page) %>
     </div>
+<% if (page.private_post) { -%>
+    <template data-post-end-template><%- post_end_link() %></template>
+<% } -%>
 <% if (theme.post.show_tags && page.tags && page.tags.length) { -%>
     <div class="post-tags"><% page.tags.each((tag) => { %><a class="post-tags__item" href="<%- url_for(tag.path) %>">#<%= tag.name %></a><% }); %></div>
 <% } -%>
