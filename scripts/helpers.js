@@ -87,6 +87,7 @@ hexo.extend.helper.register('page_title', function(page) {
 
 hexo.extend.helper.register('theme_color', function() {
   const colors = this.theme.colors || {};
+  if (this.theme.design === 'letterbox') return (colors.home && colors.home.bg) || '#061521';
   if (this.is_home()) return (colors.home && colors.home.nav) || '#2f4154';
   return (colors.light && colors.light.masthead) || '#53616b';
 });

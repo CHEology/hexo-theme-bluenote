@@ -8,6 +8,10 @@
 
 html[data-design="letterbox"] {
   --lb-bar: var(--home-bg);
+  --theme-color: var(--lb-bar);
+  /* Give browser chrome and the canvas the bar colour instead of propagating the
+     reading surface from body. The body paints its own paper for the full document. */
+  background-color: var(--lb-bar);
   --lb-bar-h: 88px;
   --lb-gutter: clamp(24px, 5vw, 72px);
   /* On very wide screens the bar's contents and the index share one centred measure. */
@@ -33,6 +37,8 @@ html[data-design="letterbox"] {
 
 /* ── The bar (every page) ─────────────────────────────────────────── */
 html[data-design="letterbox"] body {
+  height: auto;
+  min-height: 100%;
   padding-top: var(--lb-bar-h);
   overscroll-behavior: none;
 }
@@ -408,7 +414,6 @@ html[data-design="letterbox"] .site-search-result:focus-visible {
 }
 
 /* ── Home: the frame between the two bars ─────────────────────────── */
-html.home-root[data-design="letterbox"],
 html[data-design="letterbox"] body.home-page {
   background: var(--lb-index-bg);
 }

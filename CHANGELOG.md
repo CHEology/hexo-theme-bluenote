@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.13.3
+
+- Letterbox uses the navigation bar colour for the root canvas and browser theme colour on every page, including the light home index. The reading surface retains its own background over the full document height; navigation continues to scroll with the page.
+
 ## 1.13.2
 
 - Phones and short windows open on the same first screen as desktops: top bar, cover and a fixed-height lower bar fill `100svh` exactly, so nothing of the index shows before the first scroll.
