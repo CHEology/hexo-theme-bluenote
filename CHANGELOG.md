@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.13.9
+
+- Protect Letterbox title descenders with bottom padding before the following paper surface and seam strip. Keep title position and typography unchanged while increasing the title-to-content gap by 0.5rem on desktop, mobile and short windows.
+
 ## 1.13.8
 
 - Replace the article-end up chevron with a small hollow diamond, retaining the centred 44px target, accessible name, stationary hover and keyboard feedback.

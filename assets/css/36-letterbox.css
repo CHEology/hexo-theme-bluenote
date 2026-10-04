@@ -245,12 +245,13 @@ html[data-design="letterbox"] .home-page .site-menu {
 /* The same title block on articles, Archives, Gallery, About and other content pages.
    It sits on the page's own paper below the bar, with no band or rule of its own, and the
    text follows close beneath. A reserved date row keeps the title on one baseline even
-   when no date is present. */
+   when no date is present. Bottom padding protects descenders from the following
+   paper surface and its seam strip without moving the title itself. */
 html[data-design="letterbox"] .masthead {
   display: block;
   height: auto;
   min-height: 0;
-  padding: 5rem max(var(--lb-gutter), var(--lb-safe-right)) 0 max(var(--lb-gutter), var(--lb-safe-left));
+  padding: 5rem max(var(--lb-gutter), var(--lb-safe-right)) 1rem max(var(--lb-gutter), var(--lb-safe-left));
   overflow: visible;
   background: transparent;
 }
@@ -291,7 +292,7 @@ html[data-design="letterbox"] .masthead__inner::after {
 }
 
 html[data-design="letterbox"] .page-body {
-  padding-top: 3rem;
+  padding-top: 2.5rem;
 }
 
 html[data-design="letterbox"] .post-toc {
@@ -695,7 +696,7 @@ html:not(.private-reading-unlocked) .letterbox-year[data-private-year] {
   }
 
   html[data-design="letterbox"] .page-body {
-    padding-top: 2.25rem;
+    padding-top: 1.75rem;
   }
 }
 
