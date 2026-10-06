@@ -67,6 +67,8 @@ test('letterbox design: one bar everywhere, a dated index grouped by year, no co
     assert.ok(years.length>0);
     assert.deepEqual(years,[...years].sort((a,b)=>b-a));
     assert.match(home,/<a class="letterbox-entry__link" href="\/notes\/[^"]+" data-excerpt="[^"]*">\s*<time class="letterbox-entry__date" datetime="\d{4}-\d{2}-\d{2}">\d{2}\.\d{2}<\/time>/);
+    assert.match(home,/<header class="site-header" id="page-top" tabindex="-1">/);
+    assert.match(home,/<a class="letterbox-end" href="#page-top" aria-label="[^"]+" title="[^"]+"><span aria-hidden="true"><\/span><\/a>\s*<\/div>\s*<\/section>/);
     assert.match(post,/<time class="masthead__date" datetime="\d{4}-\d{2}-\d{2}">\d{4}\.\d{2}\.\d{2}<\/time>\s*<h1 class="masthead__title">/);
     assert.match(f.read('archives/index.html'),/<time class="listing__date" datetime="[^"]+">\d{2}\.\d{2}<\/time>/);
     const css=f.read('css/bluenote.css');
@@ -80,7 +82,7 @@ test('classic remains the default: no letterbox markup unless a site opts in',as
   const f=await fixture({defaults:true});
   try {
     const home=f.read('index.html');
-    assert.doesNotMatch(home,/data-design=|letterbox-frame/);
+    assert.doesNotMatch(home,/data-design=|letterbox-frame|letterbox-end|id="page-top"/);
     assert.match(home,/id="banner" class="home-cover"/);
     assert.doesNotMatch(f.read('reading/index.html'),/masthead__date/);
   } finally {f.cleanup();}

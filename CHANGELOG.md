@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.15.0
+
+- Close the Letterbox home index with the same 7px solid square that ends an article, centred on the title axis below the last entry and linking to the top of the page. Colour follows the index title and turns to the index-hover colour on hover and keyboard focus, with a 44px target, visible focus outline and the “Back to top” name.
+- Give the Letterbox home header the `page-top` anchor so the link works without JavaScript and returns to the full top bar. Classic home markup is unchanged.
+
 ## 1.14.2
 
 - Replace the article end mark’s underline with a colour change using the existing index-hover palette (falling back to the link colour). Preserve the square, touch target, stationary layout and visible keyboard focus outline.

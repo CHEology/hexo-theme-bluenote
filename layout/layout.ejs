@@ -10,7 +10,7 @@ const schemeDefault = theme.dark_mode && theme.dark_mode.enable ? (theme.dark_mo
 <%- partial('_partials/head') %>
 <body class="<%= bodyClasses %>">
 <%- partial('_partials/icons') %>
-<header class="site-header"<%- is_post() ? ' id="page-top" tabindex="-1"' : '' %>>
+<header class="site-header"<%- is_post() || (home && letterbox) ? ' id="page-top" tabindex="-1"' : '' %>>
 <%- partial('_partials/nav') %>
 <% if (home && !letterbox) { -%>
 <%- partial('_partials/cover') %>
