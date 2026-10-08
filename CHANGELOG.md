@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.15.1
+
+- Centre the article end square on its own final line when no reliable ending paragraph is available. Suppress the prose separator's width on standalone marks so the square itself is centred, including after private content is unlocked.
+
 ## 1.15.0
 
 - Close the Letterbox home index with the same 7px solid square that ends an article, centred on the title axis below the last entry and linking to the top of the page. Colour follows the index title and turns to the index-hover colour on hover and keyboard focus, with a 44px target, visible focus outline and the “Back to top” name.

@@ -236,5 +236,12 @@
 .post-end-line {
   max-width: var(--reading-width);
   margin: 1rem auto 0;
-  text-align: right;
+  text-align: center;
+}
+.post-end-line > a.post-end {
+  display: inline-block;
+  /* The prose separator must not offset a standalone square's centre. */
+  font-size: 0;
+  line-height: 1;
+  letter-spacing: 0;
 }
