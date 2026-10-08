@@ -1,0 +1,21 @@
+/* One dark-mode feedback colour for live links and controls. Keep resting
+   colours, light-mode palettes, photographs and existing focus outlines. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-scheme="light"]) :is(a[href], button:not(:disabled), summary):not([aria-disabled="true"]):is(:hover, :focus-visible),
+  :root:not([data-scheme="light"]) a[href]:not([aria-disabled="true"]):is(:hover, :focus-visible) :is(.listing__title, .letterbox-entry__title, .home-folio-title span) {
+    color: var(--interaction-hover, var(--accent));
+  }
+
+  :root:not([data-scheme="light"]) .site-nav__toggle:is(:hover, :focus-visible) .site-nav__burger span {
+    background-color: var(--interaction-hover, var(--accent));
+  }
+}
+
+:root[data-scheme="dark"] :is(a[href], button:not(:disabled), summary):not([aria-disabled="true"]):is(:hover, :focus-visible),
+:root[data-scheme="dark"] a[href]:not([aria-disabled="true"]):is(:hover, :focus-visible) :is(.listing__title, .letterbox-entry__title, .home-folio-title span) {
+  color: var(--interaction-hover, var(--accent));
+}
+
+:root[data-scheme="dark"] .site-nav__toggle:is(:hover, :focus-visible) .site-nav__burger span {
+  background-color: var(--interaction-hover, var(--accent));
+}

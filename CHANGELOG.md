@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.15.2
+
+- Unify dark-mode hover and keyboard focus for live links and controls under `interaction-hover` (the existing gold accent by default), including inherited link titles and the mobile menu icon. Cover automatic and explicit dark mode while preserving resting colours, light-mode palettes, images and focus outlines.
+
 ## 1.15.1
 
 - Centre the article end square on its own final line when no reliable ending paragraph is available. Suppress the prose separator's width on standalone marks so the square itself is centred, including after private content is unlocked.

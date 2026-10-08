@@ -67,6 +67,7 @@ colors:
     muted: "#aaa59d"
     link: "#b8c0c5"
     link-hover: "#d0d5d8"
+    interaction-hover: "var(--accent)"
     link-hover-bg: "rgba(184, 192, 197, 0.08)"
     line: "rgba(222, 218, 210, 0.16)"
     masthead: "#282a2b"
