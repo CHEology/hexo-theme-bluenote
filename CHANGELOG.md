@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.15.3
+
+- Use one mirrored chevron path for adjacent-post links at 16px with a lighter stroke and equal text spacing; shorten the English mobile label to Prev. Companion links are unchanged.
+
 ## 1.15.2
 
 - Unify dark-mode hover and keyboard focus for live links and controls under `interaction-hover` (the existing gold accent by default), including inherited link titles and the mobile menu icon. Cover automatic and explicit dark mode while preserving resting colours, light-mode palettes, images and focus outlines.
