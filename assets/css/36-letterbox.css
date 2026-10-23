@@ -295,6 +295,24 @@ html[data-design="letterbox"] .page-body {
   padding-top: 2.5rem;
 }
 
+/* The error cover fills the space below the bar, without the prose-page gutter.
+   Keep safe-area padding inside the image so landscape phones have no paper strips. */
+html[data-design="letterbox"] .error-page .page-body {
+  padding: 0;
+}
+
+html[data-design="letterbox"] .error-cover {
+  min-height: calc(100vh - var(--lb-bar-h) - var(--lb-safe-top));
+  min-height: calc(100svh - var(--lb-bar-h) - var(--lb-safe-top));
+}
+
+html[data-design="letterbox"] .error-cover__mask {
+  min-width: 0;
+  padding-right: max(1rem, var(--lb-safe-right));
+  padding-bottom: max(6rem, var(--lb-safe-bottom));
+  padding-left: max(1rem, var(--lb-safe-left));
+}
+
 html[data-design="letterbox"] .post-toc {
   top: 1rem;
 }

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.15.4
+
+- Fit the Letterbox 404 cover below the navigation bar, removing inherited content padding and excess viewport height. Keep safe-area gutters inside the background and allow enlarged text to grow naturally.
+
 ## 1.15.3
 
 - Use one mirrored chevron path for adjacent-post links at 16px with a lighter stroke and equal text spacing; shorten the English mobile label to Prev. Companion links are unchanged.
