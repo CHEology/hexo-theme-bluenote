@@ -180,6 +180,10 @@ archive:
 
 about:
   avatar:
+  # Optional quiet link on the avatar (site-relative). It has no visible affordance;
+  # `avatar_label` names it for screen readers.
+  avatar_link:
+  avatar_label:
   name:
   intro:
   # Optional links under the intro: - { name: GitHub, link: https://github.com/you }
@@ -226,6 +230,28 @@ gallery:
   # Empty follows the site's language. Built in: en, zh-CN.
   language:
   labels: {}
+# Optional Notes: short timestamped texts from source/<dir>/<id>.md, kept apart from
+# posts (not on the home page, in archives, search.xml, RSS or post navigation).
+notes:
+  enable: false
+  path: notes
+  dir: _notes
+  title: Notes
+  # Notes per timeline page; 0 keeps every note on one page.
+  per_page: 30
+  date_format: YYYY.MM.DD HH:mm
+  # Asks search engines not to index the notes pages.
+  noindex: true
+  # The notes pages' own search box, separate from the site search.
+  search: true
+  # Empty follows the site's language. Built in: en, zh-CN.
+  language:
+  labels: {}
+  # Set `repo: owner/name` to emit an empty, hidden mount (data-notes-composer) on the
+  # first timeline page for a site-provided composer. The theme ships no composer.
+  compose:
+    repo:
+    branch: main
 # Show a warning bar when JavaScript is disabled.
 noscript_warning: false
 

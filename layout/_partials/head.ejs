@@ -40,6 +40,9 @@ const portraitMedia = '(max-width: 767px) and (orientation: portrait)';
 <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 <% } -%>
 <meta name="theme-color" content="<%= theme_color(page) %>">
+<% if (page.noindex) { -%>
+<meta name="robots" content="noindex">
+<% } -%>
 <meta name="author" content="<%= page.author || config.author %>">
 <% if (keywords) { -%>
 <meta name="keywords" content="<%= keywords %>">

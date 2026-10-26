@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.16.0
+
+- Add optional Notes: short timestamped texts from `source/_notes/<id>.md`, kept off the home page, archives, tag pages, site search, RSS and post navigation. Builds a newest-first timeline with paging, a page per note and per tag, `notes/search.json` and `notes/tags.json`, and a separate notes search that loads its index on first use. Notes pages are `noindex` and load their CSS and JavaScript alone. Invalid notes fail the build with their filename.
+- `notes.compose.repo` emits an empty, hidden composer mount on the first timeline page for a site-provided composer; the theme ships no posting code.
+- Add `about.avatar_link` and `about.avatar_label`: an optional link on the About avatar with no visible change, only an accessible name and the keyboard focus outline.
+- Pages may set `noindex: true` to emit `<meta name="robots" content="noindex">`.
+
 ## 1.15.4
 
 - Fit the Letterbox 404 cover below the navigation bar, removing inherited content padding and excess viewport height. Keep safe-area gutters inside the background and allow enlarged text to grow naturally.

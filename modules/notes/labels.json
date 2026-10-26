@@ -1,0 +1,30 @@
+{
+  "en": {
+    "search": "Search notes",
+    "results": "{count} notes",
+    "no_results": "No notes match.",
+    "loading": "Loading…",
+    "error": "Search is unavailable. Please try again.",
+    "empty": "No notes yet.",
+    "tags": "Tags",
+    "all": "All",
+    "back": "All notes",
+    "pages": "More notes",
+    "newer": "Newer",
+    "older": "Older"
+  },
+  "zh-CN": {
+    "search": "搜索短文",
+    "results": "{count} 条",
+    "no_results": "没有匹配的短文。",
+    "loading": "载入中…",
+    "error": "暂时无法搜索，请重试。",
+    "empty": "还没有短文。",
+    "tags": "标签",
+    "all": "全部",
+    "back": "全部短文",
+    "pages": "更多短文",
+    "newer": "较新",
+    "older": "较早"
+  }
+}

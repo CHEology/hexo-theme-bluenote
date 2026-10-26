@@ -2,7 +2,11 @@
 <div class="content-column">
   <div class="about-header">
 <% if (about.avatar) { -%>
+<% if (about.avatar_link) { -%>
+    <a class="about-avatar about-avatar--link" href="<%= url_for(about.avatar_link) %>"<%- about.avatar_label ? ` aria-label="${escape_html(about.avatar_label)}"` : '' %>><img src="<%= url_for(about.avatar) %>" alt="" width="128" height="128"></a>
+<% } else { -%>
     <div class="about-avatar"><img src="<%= url_for(about.avatar) %>" alt="" width="128" height="128"></div>
+<% } -%>
 <% } -%>
     <div class="about-info">
 <% if (about.name) { -%>

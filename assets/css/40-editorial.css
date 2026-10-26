@@ -190,6 +190,17 @@
   margin: 0 auto 1.6rem;
 }
 
+/* An optional quiet link: no hover change, only the keyboard focus outline. */
+a.about-avatar--link {
+  display: block;
+  border-radius: 50%;
+}
+
+a.about-avatar--link:focus-visible {
+  outline: 1px solid var(--link);
+  outline-offset: 4px;
+}
+
 .about-avatar img {
   width: 100%;
   height: 100%;

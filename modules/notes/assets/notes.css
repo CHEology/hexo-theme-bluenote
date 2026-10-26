@@ -1,0 +1,181 @@
+/* Optional Notes: a reading-width stream of short texts on the editorial paper.
+   Loaded only on notes pages. */
+.notes {
+  max-width: var(--reading-width);
+  margin: 0 auto;
+}
+
+.notes-search {
+  margin: 0 0 1.25rem;
+}
+
+.notes-search input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0.5rem 0;
+  color: var(--text);
+  font-family: var(--font-prose);
+  font-size: 1rem;
+  line-height: 1.5;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  appearance: none;
+  transition: border-bottom-color 0.2s ease-in-out;
+}
+
+.notes-search input::placeholder {
+  color: var(--muted);
+  opacity: 1;
+}
+
+.notes-search input:focus {
+  border-bottom-color: var(--link);
+  outline: none;
+}
+
+.notes-search input:focus-visible {
+  outline: 1px solid var(--link);
+  outline-offset: 4px;
+}
+
+.notes-search input::-webkit-search-cancel-button {
+  cursor: pointer;
+}
+
+.notes-search__status {
+  min-height: 1.25rem;
+  margin: 0.375rem 0 0;
+  color: var(--muted);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.notes-search__status:empty {
+  min-height: 0;
+  margin: 0;
+}
+
+.notes-tags ul,
+.note__tags {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.notes-tags ul {
+  gap: 0.25rem 1rem;
+}
+
+.notes-tags a,
+.note__tags a {
+  display: inline-block;
+  color: var(--muted);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+
+.notes-tags a:hover,
+.notes-tags a:focus-visible,
+.note__tags a:hover,
+.note__tags a:focus-visible,
+.note__date:hover,
+.note__date:focus-visible,
+.notes-back a:hover,
+.notes-back a:focus-visible,
+.notes-pagination a:hover,
+.notes-pagination a:focus-visible {
+  color: var(--link-hover);
+}
+
+.notes-tags a[aria-current="page"] {
+  color: var(--heading);
+}
+
+.notes-tags__count {
+  margin-left: 0.2em;
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.notes-list {
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.notes-list > li + li > .note {
+  border-top: 1px solid var(--line);
+}
+
+.note {
+  padding: 1.75rem 0;
+}
+
+.notes--single .note {
+  padding-top: 0;
+}
+
+.note__date {
+  color: var(--muted);
+  font-size: 0.875rem;
+  font-style: italic;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+
+.editorial-page .note__body.markdown-body {
+  margin: 0.5rem 0 0;
+}
+
+.note__body > :last-child {
+  margin-bottom: 0;
+}
+
+.note__tags {
+  gap: 0.25rem 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.note__tags a {
+  font-size: 0.8125rem;
+}
+
+.notes-empty {
+  margin: 2rem 0 0;
+  color: var(--muted);
+}
+
+.notes-back {
+  margin: 0 0 1.5rem;
+  font-size: 0.9rem;
+}
+
+.notes-back a,
+.notes-pagination a {
+  color: var(--link-hover);
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+
+.notes-pagination {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+  font-size: 0.9rem;
+}
+
+.notes-results .notes-list {
+  margin-top: 0.5rem;
+}
+
+.notes [hidden] {
+  display: none;
+}

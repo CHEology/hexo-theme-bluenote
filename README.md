@@ -95,6 +95,36 @@ Add `source/_data/gallery.json` containing `{"version":1,"photos":[]}`, then sup
 
 [Gallery setup and manifest reference](modules/gallery/README.md) explains previews, paired images, sequences, custom paths, translation and accessibility. CSS and JavaScript load only on the Gallery pages.
 
+## Optional Notes
+
+Notes is a separate stream of short, timestamped texts. It is disabled by default and adds no pages or assets while disabled. Notes never appear on the home page, in archives, tag pages, `search.xml`, RSS or post navigation, and every notes page is marked `noindex`.
+
+```yaml
+# _config.bluenote.yml
+notes:
+  enable: true
+  title: Notes
+  per_page: 30
+about:
+  avatar_link: /notes/   # optional: a quiet entrance on the About avatar
+  avatar_label: Notes
+```
+
+Each note is one Markdown file, `source/_notes/<id>.md`, whose filename is its permanent URL (`/notes/<id>/`):
+
+```yaml
+---
+date: 2026-01-05 21:15:00
+tags:
+  - walking
+---
+Evening walk along the river.
+```
+
+The module builds a newest-first timeline with paging, one page per note and per tag, and `notes/search.json` / `notes/tags.json`. Notes pages have their own search box, separate from the site search. Notes are rendered with Hexo's post pipeline, and site-root links such as `/2026/01/01/post/` follow the site root. A note without a valid date, with an empty body, or with a filename or tag that is not URL-safe fails the build with its filename.
+
+With `notes.compose.repo: owner/name`, the first timeline page includes an empty, hidden `data-notes-composer` mount for a composer the site provides. The theme ships no posting code. [Notes reference](modules/notes/README.md) lists every option and the markup a composer can rely on.
+
 ## Article layout
 
 Normal articles retain their reading column, headings and captions regardless of how many images they contain. Select a wide photography layout explicitly:
@@ -140,12 +170,14 @@ The commented [_config.yml](_config.yml) is the full reference. Site overrides m
 | `post.photo_layout.enable` | true | Allow explicit `photo_layout: true` posts |
 | `archive.show_total/extra_entries` | false / [] | Counts and additional rows |
 | `about.avatar/name/intro/links` | empty | About header |
+| `about.avatar_link/avatar_label` | empty | Optional quiet link on the avatar, with an accessible name |
 | `tags.enable/categories.enable` | true / false | Tag/category index pages |
 | `page404.enable/cover` | true / empty | 404 page |
 | `dark_mode.enable/default/storage_key` | true / auto / bluenote.color-scheme | Colour preference |
 | `search.enable/path` | true / site search.path | Local XML search with loading, empty and retry states |
 | `search.private_manifest` | empty | Optional private archive integration; no request when empty |
 | `gallery.*` | disabled | Optional photo collection |
+| `notes.*` | disabled | Optional short-text stream with its own search; `compose.repo` adds a composer mount |
 | `open_graph.enable/twitter_card` | true / summary_large_image | Social metadata |
 | `asset_version` | true | Content hashes for local CSS/JS |
 | `footer.content`, `custom_css`, `custom_js` | empty | Site extensions |
