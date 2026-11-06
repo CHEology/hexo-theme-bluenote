@@ -141,6 +141,10 @@ html[data-design="letterbox"] .site-nav__brand {
   letter-spacing: 0.07em;
 }
 
+html[data-design="letterbox"] .site-nav__brand:is(:hover, :focus-visible) {
+  color: var(--accent);
+}
+
 html[data-design="letterbox"] .site-menu {
   margin-right: -11px;
 }

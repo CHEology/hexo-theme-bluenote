@@ -56,7 +56,7 @@
 
 .site-nav__brand:hover,
 .site-nav__brand:focus-visible {
-  color: var(--nav-text);
+  color: var(--accent);
 }
 
 .site-nav__toggle {

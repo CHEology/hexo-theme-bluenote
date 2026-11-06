@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.16.1
+
+- Use the gold accent for site-brand hover and keyboard focus in both light and dark schemes, including Letterbox navigation. Keep resting colours and focus outlines.
+
 ## 1.16.0
 
 - Add optional Notes: short timestamped texts from `source/_notes/<id>.md`, kept off the home page, archives, tag pages, site search, RSS and post navigation. Builds a newest-first timeline with paging, a page per note and per tag, `notes/search.json` and `notes/tags.json`, and a separate notes search that loads its index on first use. Notes pages are `noindex` and load their CSS and JavaScript alone. Invalid notes fail the build with their filename.
